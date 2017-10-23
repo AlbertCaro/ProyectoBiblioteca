@@ -16,7 +16,7 @@ import javax.swing.*;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-public class GenericMethods {
+public abstract class GenericMethods {
     //Se agregó sólo esta constante ya que es la única que se repite
     private final static int COMPONENTS_HEIGHT = 30;
 	public static void addTitleLabel(JLabel label, JInternalFrame Frame) {
