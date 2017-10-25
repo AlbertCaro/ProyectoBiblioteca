@@ -9,7 +9,7 @@ import javax.swing.*;
  *
  * @author Jonny
  */
-public class PanelImagen extends JPanel{
+public class PanelImagen extends JPanel {
     ImageIcon ImagenFondo; // sin el new hacemos que la imagen que le mandemos (sea cualquiera) la tome
     public PanelImagen(ImageIcon ImagenFondo){
         this.ImagenFondo = ImagenFondo;

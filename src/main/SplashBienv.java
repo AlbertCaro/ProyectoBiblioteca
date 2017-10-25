@@ -11,6 +11,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author Jonny
  */
 public class SplashBienv extends JFrame implements KeyListener{
+    Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
     ImageIcon ImaBiblio = new ImageIcon(getClass().getResource("/images/Bienvenido.jpg"));
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     JLabel LblImagen = new JLabel(ImaBiblio);
@@ -31,7 +32,7 @@ public class SplashBienv extends JFrame implements KeyListener{
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane,"Error: "+ e);
         }finally{
-            WindowMain VentPrin = new WindowMain();
+            WindowMain VentPrin = new WindowMain(conexion);
             //Login Login = new Login();
             this.dispose();
         }
@@ -45,7 +46,7 @@ public class SplashBienv extends JFrame implements KeyListener{
     @Override
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyChar() == ke.VK_ENTER){
-            WindowMain VentPrin = new WindowMain();
+            WindowMain VentPrin = new WindowMain(conexion);
             this.dispose();
         }
     }

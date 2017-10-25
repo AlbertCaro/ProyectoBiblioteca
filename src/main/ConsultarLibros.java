@@ -1,13 +1,12 @@
 package main;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import static main.GenericMethods.*;
+import static main.InternalWindow.*;
 
 /**
  * @author Jonny
@@ -35,7 +34,7 @@ public class ConsultarLibros extends JInternalFrame implements ActionListener, K
         addButton(JBBuscar, 100, 30, this);
         JBBuscar.setBounds(631,40,25,25);
         //textfield
-        addTextField(JTxTBuscar, 120, 30, 20, this);
+        addTextField(JTxTBuscar, 120, 30, 20, "Buscar",this);
         JTxTBuscar.setBounds(510,40,120,25);
         //tabla
         JtResultados = new JTable(DTMResultados);

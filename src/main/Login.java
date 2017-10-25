@@ -1,25 +1,25 @@
 package main;
 
 import java.awt.Color;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Font;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.*;
+
+import static main.InternalWindow.*;
 
 /**
  * ventana de login
  * @author Jonny
  */
 public class Login extends JFrame implements ActionListener, MouseListener, KeyListener{
-    //datos de la conexion 
-    // usuario y contraseña
-    private String UserPass = new String("satan");
+    Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
     //Label e icono
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     ImageIcon IconBiblioM = new ImageIcon(getClass().getResource("/images/logoBiblio143.png"));
@@ -94,13 +94,23 @@ public class Login extends JFrame implements ActionListener, MouseListener, KeyL
         if (me.getSource()== JBOk) {
             if (JTFUser.getText().isEmpty() || JPFPass.getPassword().length==0) {
                 JOptionPane.showMessageDialog(rootPane, "Los campos no deben de estar vacios");
-            }else if (JTFUser.getText().equals(UserPass) && new String(JPFPass.getPassword()).equals(UserPass)) {
-                //JOptionPane.showMessageDialog(rootPane, "Bienvenido");
-                //WindowMain VentPrin = new WindowMain();
-                SplashBienv Bienve = new SplashBienv();
-                this.dispose();
-            }else
-                JOptionPane.showMessageDialog(rootPane, "Error: Usuario y contraseña incorrectos");  
+            } else {
+                try {
+                    PreparedStatement BuscaUsuarioStm = conexion.getConexion().prepareCall("SELECT * FROM Usuarios WHERE Usuario = ? AND Pass = ?");
+                    BuscaUsuarioStm.setString(1, JTFUser.getText());
+                    BuscaUsuarioStm.setString(2, md5(new String(JPFPass.getPassword())));
+                    ResultSet RsBuscar = BuscaUsuarioStm.executeQuery();
+                    if (RsBuscar.next()) {
+                        JOptionPane.showMessageDialog(rootPane,"Bienvenido: "+RsBuscar.getObject("Usuario"),"Tipo: "+RsBuscar.getObject("Tipo"),1);
+                        WindowMain main = new WindowMain(conexion);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Las credenciales no coinciden.");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(rootPane, "ERROR: "+e);
+                }
+            }
         }else if (me.getSource() == JBCancelar) {
             System.exit(0);
         }

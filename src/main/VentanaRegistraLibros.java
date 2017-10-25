@@ -5,10 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-import static main.GenericMethods.*;
-
-public class VentanaRegistraLibros extends JInternalFrame implements ActionListener, KeyListener {
+public class VentanaRegistraLibros extends InternalWindow implements ActionListener, KeyListener {
     private JLabel LblTituloVent = new JLabel("Registrar libro");
     private JLabel LblISBN = new JLabel("ISBN");
     private JLabel LblTitulo = new JLabel("Titulo");
@@ -31,25 +34,23 @@ public class VentanaRegistraLibros extends JInternalFrame implements ActionListe
     public VentanaRegistraLibros() {
         this.setSize(380, 600);
         addTitleLabel(LblTituloVent, this);
-        addLabel(LblISBN, 40, TxtISBN, this);
-        addTextField(TxtISBN, 110, 40, 230, this);
-        addLabel(LblTitulo, 80, TxtTitulo, this);
-        addTextField(TxtTitulo, 110, 80, 230, this);
-        addLabel(LblAutor, 120, TxtAutor, this);
-        addTextField(TxtAutor, 110, 120, 230, this);
-        addLabel(LblDescripcion, 160, TxtDescripcion, this);
-        addTextField(TxtDescripcion, 110, 160, 230, this);
-        addLabel(LblDescripcion, 200, TxtDescripcion, this);
-        addTextField(TxtDescripcion, 110, 200, 230, this);
-        addLabel(LblPaginas, 240, TxtPaginas, this);
-        addTextField(TxtPaginas, 110, 240, 230, this);
-        addLabel(LblEditorial, 280, TxtEditorial, this);
-        addTextField(TxtEditorial, 110, 280, 230, this);
-        addLabel(LblEdicion, 320, TxtEdicion, this);
-        addTextField(TxtEdicion, 110, 320, 230, this);
-        addLabel(LblCosto, 360, TxtCosto, this);
-        addTextField(TxtCosto, 110, 360, 230, this);
-        addButton(BtnRegistrar,130, 400, this);
+        addLabel(LblISBN, 40,90, TxtISBN, this);
+        addTextField(TxtISBN, 110, 40, 230, "ISBN",this);
+        addLabel(LblTitulo, 80,90,TxtTitulo, this);
+        addTextField(TxtTitulo, 110, 80, 230, "Titulo",this);
+        addLabel(LblAutor, 120,90, TxtAutor, this);
+        addTextField(TxtAutor, 110, 120, 230, "Autor",this);
+        addLabel(LblDescripcion, 160,90, TxtDescripcion, this);
+        addTextField(TxtDescripcion, 110, 160, 230, "Descripcion",this);
+        addLabel(LblPaginas, 200,90, TxtPaginas, this);
+        addTextField(TxtPaginas, 110, 200, 230, "Paginas",this);
+        addLabel(LblEditorial, 240,90, TxtEditorial, this);
+        addTextField(TxtEditorial, 110, 240, 230, "Editorial",this);
+        addLabel(LblEdicion, 280,90, TxtEdicion, this);
+        addTextField(TxtEdicion, 110, 280, 230, "Edicion",this);
+        addLabel(LblCosto, 320,90, TxtCosto, this);
+        addTextField(TxtCosto, 110, 320, 230, "Costo",this);
+        addButton(BtnRegistrar,130, 360, this);
         addWindowProperties(this, "Registrar libros");
     }
 
@@ -70,6 +71,26 @@ public class VentanaRegistraLibros extends JInternalFrame implements ActionListe
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<JComponent> fillListTexts() {
+        return null;
+    }
+
+    @Override
+    public void returnQueryResults(ResultSet resultSet) throws SQLException {
+
+    }
+
+    @Override
+    public void cleanForm() {
 
     }
 }

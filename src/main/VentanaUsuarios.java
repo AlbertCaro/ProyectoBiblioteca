@@ -4,12 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
-import static main.GenericMethods.*;
-
-public class VentanaUsuarios extends JInternalFrame implements KeyListener, ActionListener {
+public class VentanaUsuarios extends InternalWindow implements KeyListener, ActionListener {
 	private JTextField TxtCodigo = new JTextField();
 	private JTextField TxtNombre = new JTextField();
 	private JTextField TxtApPaterno = new JTextField();
@@ -42,33 +45,32 @@ public class VentanaUsuarios extends JInternalFrame implements KeyListener, Acti
 
 	public VentanaUsuarios() {
 		this.setSize(380, 600);
-                this.getContentPane().setBackground(new java.awt.Color(254,223,168));
 		addTitleLabel(LblTitulo, this);
-		addLabel(LblCodigo, 40, TxtCodigo, this);
-		addTextField(TxtCodigo, 110, 40, 230, this);
-		addLabel(LblNombre, 80, TxtNombre, this);
-		addTextField(TxtNombre, 110, 80, 230, this);
-		addTextField(TxtApPaterno, 20, 120, 155, this);
-		addTextField(TxtApMaterno, 185, 120, 155, this);
-		addLabel(LblSexo, 160, CbSexo, this);
+		addLabel(LblCodigo, 40,90, TxtCodigo, this);
+		addTextField(TxtCodigo, 110, 40, 230, "Codigo",this);
+		addLabel(LblNombre, 80,90, TxtNombre, this);
+		addTextField(TxtNombre, 110, 80, 230, "Nombre",this);
+		addTextField(TxtApPaterno, 20, 120, 155, "Apellido paterno",this);
+		addTextField(TxtApMaterno, 185, 120, 155, "Apellido materno",this);
+		addLabel(LblSexo, 160,90, CbSexo, this);
 		addComboBox(CbSexo, 110, 160, 230, this);
-		addLabel(LblCorreo, 200, TxtCorreo, this);
-		addTextField(TxtCorreo, 110, 200, 230, this);
-		addLabel(LblTelefono, 240, TxtCorreo, this);
-		addTextField(TxtTelefono, 110, 240, 230, this);
-		addLabel(LblUsuario, 280, TxtUsuario, this);
-		addTextField(TxtUsuario, 110, 280, 230, this);
-		addLabel(LblPass, 320, TxtPass, this);
-		addTextField(TxtPass, 110, 320, 230, this);
-		addTextField(TxtPassConf, 110, 360, 230, this);
-		addLabel(LblTipo, 400, null, this);
+		addLabel(LblCorreo, 200,90, TxtCorreo, this);
+		addTextField(TxtCorreo, 110, 200, 230, "Correo",this);
+		addLabel(LblTelefono, 240,90,TxtCorreo, this);
+		addTextField(TxtTelefono, 110, 240, 230, "Telefono",this);
+		addLabel(LblUsuario, 280,90,TxtUsuario, this);
+		addTextField(TxtUsuario, 110, 280, 230, "Usuario",this);
+		addLabel(LblPass, 320,90,TxtPass, this);
+		addTextField(TxtPass, 110, 320, 230, "Contraseña",this);
+		addTextField(TxtPassConf, 110, 360, 230, "Confirma contraseña",this);
+		addLabel(LblTipo,10,400,90,this);
 		addRadioButton(RbNormalTipo, 110, 400, BgTipo, this);
 		addRadioButton(RbAdminTipo, 220, 400, BgTipo, this);
-		addLabel(LblEmpleado, 440, null, this);
+		addLabel(LblEmpleado,10,90,440,this);
 		addRadioButton(RbEmpleadoSi, 110, 440, BgEmpleado, this);
 		addRadioButton(RbEmpreadoNo, 220, 440, BgEmpleado, this);
-		addLabel(LblCargo, 480, TxtCargo, this);
-		addTextField(TxtCargo, 110, 480, 230, this);
+		addLabel(LblCargo, 480,90,TxtCargo, this);
+		addTextField(TxtCargo, 110, 480, 230, "Cargo",this);
 		addButton(BtnRegistrar, 120, 520, this);
 		addWindowProperties(this, "Agregar usuario");
 	}
@@ -91,5 +93,25 @@ public class VentanaUsuarios extends JInternalFrame implements KeyListener, Acti
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Agregar los eventos correspondientes
+	}
+
+	@Override
+	public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
+		return null;
+	}
+
+	@Override
+	public ArrayList<JComponent> fillListTexts() {
+		return null;
+	}
+
+	@Override
+	public void returnQueryResults(ResultSet resultSet) throws SQLException {
+
+	}
+
+	@Override
+	public void cleanForm() {
+
 	}
 }

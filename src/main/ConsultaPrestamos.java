@@ -1,13 +1,16 @@
 package main;
 
-import javafx.scene.paint.Color;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class ConsultaPrestamos extends JInternalFrame implements ActionListener {
+public class ConsultaPrestamos extends InternalWindow implements ActionListener {
     JButton BDevueltos = new JButton("Devueltos");
     JButton BPendientes = new JButton("Pendientes");
     JButton BTodos = new JButton("Todos");
@@ -71,5 +74,25 @@ public class ConsultaPrestamos extends JInternalFrame implements ActionListener 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==BSalir)
             dispose();
+    }
+
+    @Override
+    public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<JComponent> fillListTexts() {
+        return null;
+    }
+
+    @Override
+    public void returnQueryResults(ResultSet resultSet) throws SQLException {
+
+    }
+
+    @Override
+    public void cleanForm() {
+
     }
 }

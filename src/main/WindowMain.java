@@ -15,6 +15,7 @@ import javax.swing.*;
  */
 public class WindowMain extends JFrame implements ActionListener{
     //Conexion
+    Conexion conexion;
     //Imagenes
     ImageIcon ImagenFondo = new ImageIcon(getClass().getResource("/images/background.png"));
     ImageIcon IconoBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
@@ -34,7 +35,8 @@ public class WindowMain extends JFrame implements ActionListener{
     JMenuItem MenuConsultarPrestamo = new JMenuItem("Prestamos");
     JMenuItem MenuConsultarLibro = new JMenuItem("Libros");
     /////////////////////Constructor/////////////////
-    public WindowMain(){
+    public WindowMain(Conexion conexion){
+        this.conexion = conexion;
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setIconImage(IconoBiblio.getImage());//icono de la ventana
         this.setSize(500, 500);// espara que al momento de restaurar la ventana no quede en el tamaño (0,0)

@@ -5,10 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-import static main.GenericMethods.*;
-
-public class VentanaRegistraEjemplar extends JInternalFrame implements ActionListener, KeyListener {
+public class VentanaRegistraEjemplar extends InternalWindow implements ActionListener, KeyListener {
     private JLabel LblTitulo = new JLabel("Registrar ejemplar");
     private JLabel LblISBN = new JLabel("ISBN");
     private JLabel LblNumero = new JLabel("Numero");
@@ -19,10 +22,10 @@ public class VentanaRegistraEjemplar extends JInternalFrame implements ActionLis
     public VentanaRegistraEjemplar() {
         this.setSize(380, 160);
         addTitleLabel(LblTitulo, this);
-        addLabel(LblISBN, 40, TxtISBN, this);
-        addTextField(TxtISBN, 110, 40, 230, this);
-        addLabel(LblNumero, 80, TxtNumero, this);
-        addTextField(TxtNumero, 110, 80, 230, this);
+        addLabel(LblISBN, 40,90, TxtISBN, this);
+        addTextField(TxtISBN, 110, 40, 230, "ISBN",this);
+        addLabel(LblNumero, 80,90, TxtNumero, this);
+        addTextField(TxtNumero, 110, 80, 230, "Numero de ejemplar",this);
         addButton(BtnRegistrar, 120, 120, this);
         addWindowProperties(this, "Registrar ejemplar");
     }
@@ -44,6 +47,26 @@ public class VentanaRegistraEjemplar extends JInternalFrame implements ActionLis
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<JComponent> fillListTexts() {
+        return null;
+    }
+
+    @Override
+    public void returnQueryResults(ResultSet resultSet) throws SQLException {
+
+    }
+
+    @Override
+    public void cleanForm() {
 
     }
 }

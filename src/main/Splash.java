@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  *Splash
  * @author Jonny
  */
-public class Splash extends JFrame{
+public class Splash extends JFrame {
     ImageIcon ImaBiblio = new ImageIcon(getClass().getResource("/images/logoBiblio531.png"));
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     JLabel LblImagen = new JLabel(ImaBiblio);
