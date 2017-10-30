@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import static main.InternalWindow.*;
@@ -11,7 +16,7 @@ import static main.InternalWindow.*;
 /**
  * @author Jonny
  */
-public class ConsultarLibros extends JInternalFrame implements ActionListener, KeyListener {
+public class ConsultarLibros extends InternalWindow implements ActionListener, KeyListener {
     JButton JBBuscar = new JButton("Consultar");
     JTextField JTxTBuscar = new JTextField();
     //tabla
@@ -65,5 +70,24 @@ public class ConsultarLibros extends JInternalFrame implements ActionListener, K
     public void keyReleased(KeyEvent ke) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<JComponent> fillListTexts() {
+        return null;
+    }
+
+    @Override
+    public void returnQueryResults(ResultSet resultSet) throws SQLException {
+
+    }
+
+    @Override
+    public void cleanForm() {
+
+    }
 }

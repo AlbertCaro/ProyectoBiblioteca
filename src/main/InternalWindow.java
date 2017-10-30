@@ -1,5 +1,5 @@
 package main;
-/*
+/**
 * Métodos génericos para el ahorro de líneas y tiempo.
 * Creado por Alberto Caro Navarro el 21 de Octubre de 2017 a las 12:16 pm
 * En constante actualización
@@ -20,65 +20,122 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-abstract class InternalWindow extends JInternalFrame {
+abstract class InternalWindow extends JInternalFrame implements WindowInterface {
     //Se agregó sólo esta constante ya que es la única que se repite
     private final static int COMPONENTS_HEIGHT = 30;
     private final static Color BACKGROUND_COLOR = new java.awt.Color(254,223,168);
 
-	static void addTitleLabel(JLabel label, JInternalFrame Frame) {
+    /**
+     * Método para añadir un título a la ventana con su formato correspondiente.
+     * @param label Es el componente que será establecido como título
+     * @param Frame El JInternalFrame en el que será añadido el label.
+     */
+    static void addTitleLabel(JLabel label, JInternalFrame Frame) {
         label.setFont(new Font("Arial", Font.BOLD,18));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setBounds(10, 10, 360, 20);
         Frame.add(label);
-	}
-	
-	static void addLabel(JLabel label, int y, int width, JComponent component, JInternalFrame Frame) {
-        label.setLabelFor(component);
-        addLabel(label, 10, y, width, Frame);
     }
 
-    static void addLabel(JLabel label, int x, int y, int width, JComponent component, JInternalFrame Frame) {
-        label.setLabelFor(component);
-        addLabel(label, x, y, width, Frame);
-    }
-
-    static void addLabel(JLabel label, int x, int y, int width, JInternalFrame Frame) {
+    /**
+     * Método sobrecargado que permite añadir los labels a la ventana.
+     * @param label El componente a ser añadido
+     * @param x Posición en el eje x
+     * @param y Posición en el eje y
+     * @param width Tamaño del largo del componente
+     * @param component Componente al que pertenecerá el label
+     * @param Frame Ventana en la que será añadido el label
+     */
+    void addLabel(JLabel label, int x, int y, int width, JComponent component, JInternalFrame Frame) {
         label.setBounds(x, y, width, COMPONENTS_HEIGHT);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setLabelFor(component);
         Frame.add(label);
     }
-	
-	static void addTextField(JTextField textField, int x, int y, int width, String prompt, JInternalFrame Frame) {
+
+    /**
+     * Método sobrecargado el cual asume la posición del Label y su tamaño para centrarlo y ubicarlo al lado izquierdo
+     * del componente.
+     */
+    void addLabel(JLabel label, int y, JComponent component, JInternalFrame Frame) {
+        addLabel(label, 20, y, 150, component, Frame);
+    }
+
+    /**
+     * Método sobrecargado que sólo asume el largo del label.
+     */
+    void addLabel(JLabel label, int x, int y, JComponent component, JInternalFrame Frame) {
+        addLabel(label, x, y, 150, component, Frame);
+    }
+
+    /**
+     * Método que añade el Textfield a la ventana
+     * @param textField Es el componente a añadir
+     * @param prompt El hint o placeholder que se pone dentro de cada textField (se usó la clase de Rob Camick para
+     *               llevar a cabo esto. (https://tips4java.wordpress.com/2009/11/29/text-prompt/)
+     * @param Frame Ventana a la que se añadirá el textField.
+     */
+    void addTextField(JTextField textField, int x, int y, int width, String prompt, JInternalFrame Frame) {
         TextPrompt textPrompt = new TextPrompt(prompt, textField);
         textPrompt.changeAlpha((float) 0.7);
         textField.setBounds(x, y, width, COMPONENTS_HEIGHT);
-        textField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         textField.addKeyListener((KeyListener) Frame);
+        colorComponent(textField, Color.WHITE, Color.BLACK, Color.BLACK);
         Frame.add(textField);
     }
-	
-	static void addButton(JButton button, int x, int y, JInternalFrame Frame) {
+
+    /**
+     * Este método recibe un boton para posteriormente añadir sus características
+     * @param button Boton
+     * @param x Posición en el eje x
+     * @param y Posición en el eje y
+     * @param Frame Ventana en dónde será añadido
+     */
+    void addButton(JButton button, int x, int y, JInternalFrame Frame) {
         button.setBounds(x, y, 100, COMPONENTS_HEIGHT);
         button.addActionListener((ActionListener) Frame);
         button.addKeyListener((KeyListener) Frame);
         Frame.add(button);
     }
-	
-	static void addRadioButton(JRadioButton radio, int x, int y, ButtonGroup group, JInternalFrame Frame) {
-	    radio.setBounds(x, y, 110, COMPONENTS_HEIGHT);
-		group.add(radio);
-        Frame.add(radio);
-	}
 
-	static void addComboBox(JComboBox comboBox, int x, int y, int width, JInternalFrame Frame) {
-	    comboBox.setBounds(x, y, width, COMPONENTS_HEIGHT);
+    /**
+     * Este método recibe un radio button para añadirle sus características y colocarlo en el frame
+     * @param radio Radio button a ser añadido
+     * @param x Posición en el eje x
+     * @param y Posición en el eje y
+     * @param group ButtonGroup al cual pertenece el radio button
+     * @param Frame Ventana
+     */
+    void addRadioButton(JRadioButton radio, int x, int y, ButtonGroup group, JInternalFrame Frame) {
+        radio.setBounds(x, y, 110, COMPONENTS_HEIGHT);
+        group.add(radio);
+        Frame.add(radio);
+    }
+
+    /**
+     * Método que añade los combo box a la ventana.
+     * @param comboBox El componente que se va a añadir
+     * @param x Posición en el eje x
+     * @param y Posición en el eje y
+     * @param width Ancho del componente
+     * @param Frame Ventana
+     */
+    void addComboBox(JComboBox comboBox, int x, int y, int width, JInternalFrame Frame) {
+        comboBox.setBounds(x, y, width, COMPONENTS_HEIGHT);
+        colorComponent(comboBox, Color.WHITE, Color.BLACK, Color.BLACK);
+        comboBox.addActionListener((ActionListener) Frame);
+        comboBox.addKeyListener((KeyListener) Frame);
         Frame.add(comboBox);
     }
 
-    static void addWindowProperties(JInternalFrame Frame, String Title) {
+    /**
+     * Método que toma la ventana y le asigna sus características
+     * @param Frame Ventana
+     * @param Title Título de la ventana
+     */
+    void addWindowProperties(JInternalFrame Frame, String Title) {
         Frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        Frame.setBackground(BACKGROUND_COLOR);
         Frame.setTitle(Title);
-        Frame.getContentPane().setBackground(BACKGROUND_COLOR);
         Frame.setLayout(null);
         Frame.setResizable(true);
         Frame.setMaximizable(true);
@@ -86,10 +143,15 @@ abstract class InternalWindow extends JInternalFrame {
         Frame.setVisible(true);
     }
 
-    static String md5(String Password) throws NoSuchAlgorithmException {
-        MessageDigest Md = MessageDigest.getInstance("MD5");
-        Md.update(Password.getBytes(),0, Password.length());
-        return new BigInteger(1, Md.digest()).toString(16);
+    /**
+     * Método que encripta una cadena a md5.
+     * @param string Cadena a encriptar.
+     * @return La cadena convertida a md5.
+     */
+    String md5(String string) throws NoSuchAlgorithmException {
+        MessageDigest MD = MessageDigest.getInstance("MD5");
+        MD.update(string.getBytes(),0, string.length());
+        return new BigInteger(1, MD.digest()).toString(16);
     }
 
     /**
@@ -206,8 +268,8 @@ abstract class InternalWindow extends JInternalFrame {
     boolean validateForm(JRootPane rootPane) {
         ArrayList<JComponent> arrayList = fillListTexts();
         boolean result = true;
-        for (JComponent anArrayList : arrayList) {
-            result = validateForm(anArrayList);
+        for (JComponent component : arrayList) {
+            result = validateForm(component);
         }
         if (!result)
             JOptionPane.showMessageDialog(rootPane, "Ha dejado campo(s) vacío(s)");
@@ -246,38 +308,4 @@ abstract class InternalWindow extends JInternalFrame {
         }
         return result;
     }
-
-    /**
-     * Dentro de éste método se setean los valores de la consulta, es sobreescribible porque cada tabla y ventana tiene
-     * valores distintos.
-     * @param statement El PreparedStatement en el cual se setean los datos.
-     * @param type El tipo de la consulta, aquí es dónde por medio de un if else se determinan los seteos para cada consulta
-     * @return Se retorna el statement ya con los datos correspondientes para usarse en {@link #doQuery(Conexion, String, int, JRootPane)}
-     *         y en todas las funciones relacionadas.
-     * @throws NoSuchAlgorithmException Se lanza esta excepción que es catchada en el try catch, corresponde al método
-     *                                  {@link #md5(String)}
-     * @throws SQLException Otra excepción que es arrojada, esta corresponde al statement
-     */
-    public abstract PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException;
-
-    /**
-     * En este método sobreescribible se define nuestro ArrayList para las validaciones, además que se agregan los componentes
-     * pertenecientes al mismo.
-     * @return Retona el ArrayList llenado para ser usado en {@link #validateForm(JComponent)}
-     */
-    public abstract ArrayList<JComponent> fillListTexts();
-
-    /**
-     * En esta función se llenan los componentes dependiendo de los resultados obtenidos en la consulta SELECT al buscar
-     * los datos.
-     * @param resultSet Se usa el result ser para llenar los componentes haciendo uso del getObject.
-     * @throws SQLException Exepción arrojada por el resultSet.
-     */
-    public abstract void returnQueryResults(ResultSet resultSet) throws SQLException;
-
-    /**
-     * Método sobreescribible para vaciar los campos del formulario en caso de una inserción o modificación exitosa en
-     * {@link #doQuery(Conexion, String, int, boolean, JRootPane)}
-     */
-    public abstract void cleanForm();
 }

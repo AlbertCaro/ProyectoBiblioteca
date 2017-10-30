@@ -63,10 +63,10 @@ public class VentanaUsuarios extends InternalWindow implements KeyListener, Acti
 		addLabel(LblPass, 320,90,TxtPass, this);
 		addTextField(TxtPass, 110, 320, 230, "Contraseña",this);
 		addTextField(TxtPassConf, 110, 360, 230, "Confirma contraseña",this);
-		addLabel(LblTipo,10,400,90,this);
+		addLabel(LblTipo,10,400,null,this);
 		addRadioButton(RbNormalTipo, 110, 400, BgTipo, this);
 		addRadioButton(RbAdminTipo, 220, 400, BgTipo, this);
-		addLabel(LblEmpleado,10,90,440,this);
+		addLabel(LblEmpleado,10,90,null,this);
 		addRadioButton(RbEmpleadoSi, 110, 440, BgEmpleado, this);
 		addRadioButton(RbEmpreadoNo, 220, 440, BgEmpleado, this);
 		addLabel(LblCargo, 480,90,TxtCargo, this);
