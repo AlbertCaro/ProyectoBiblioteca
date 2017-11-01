@@ -99,8 +99,9 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         MenuConsultarLibro.setForeground(new Color(255,255,255));
         MenuConsultarLibro.setToolTipText("Consultar libros");
         //Poner shorcuts(accesos directos)
-        MenuArchivoSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
+        MenuArchivoSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.CTRL_MASK));
         MenuConsultarLibro.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_MASK));
+        //JLSesion.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));//enproceso
         //label
         JLSesion.setFont(new Font("arial", 1, 16));
         JLSesion.setToolTipText("Cerrar Sesión");

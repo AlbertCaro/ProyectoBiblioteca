@@ -34,6 +34,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     JPasswordField JPFPass = new JPasswordField();// se utiliza para password
     JButton JBLogin = new JButton("Iniciar Sesión");
     JButton JBInvitado = new JButton("Invitado");
+    private InputMap Enter = new InputMap(); //Enter
     public Login(Conexion conexion){
             this.conexion = conexion;
             this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -70,7 +71,9 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
             JBInvitado.setBackground(new Color (215,88,21));
             JBInvitado.setFont(new Font("arial", 1, 16));
             JBInvitado.setForeground(new Color(255,255,255));
-
+            Enter.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "pressed");
+            Enter.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "released");
+            JBLogin.setInputMap(0, Enter);
             Oyentes();
             this.setLayout(null);
             this.setVisible(true);
