@@ -1,12 +1,6 @@
 package main;
-/**
-* Métodos génericos para el ahorro de líneas y tiempo.
-* Creado por Alberto Caro Navarro el 21 de Octubre de 2017 a las 12:16 pm
-* En constante actualización
-*
-* Propiedad de Dynamite Developers (DynaDevs)
-*/
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -18,9 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
-abstract class InternalWindow extends JInternalFrame implements WindowInterface {
+public abstract class Window extends JFrame implements WindowInterface {
     //Se agregó sólo esta constante ya que es la única que se repite
     private final static int COMPONENTS_HEIGHT = 30;
     private final static Color BACKGROUND_COLOR = new java.awt.Color(254,223,168);
@@ -30,7 +22,7 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * @param label Es el componente que será establecido como título
      * @param Frame El JInternalFrame en el que será añadido el label.
      */
-    void addTitleLabel(JLabel label, JInternalFrame Frame) {
+    static void addTitleLabel(JLabel label, JFrame Frame) {
         label.setFont(new Font("Arial", Font.BOLD,18));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setBounds(10, 10, 360, 20);
@@ -46,7 +38,7 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * @param component Componente al que pertenecerá el label
      * @param Frame Ventana en la que será añadido el label
      */
-    void addLabel(JLabel label, int x, int y, int width, JComponent component, JInternalFrame Frame) {
+    void addLabel(JLabel label, int x, int y, int width, JComponent component, JFrame Frame) {
         label.setBounds(x, y, width, COMPONENTS_HEIGHT);
         label.setLabelFor(component);
         Frame.add(label);
@@ -56,14 +48,14 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * Método sobrecargado el cual asume la posición del Label y su tamaño para centrarlo y ubicarlo al lado izquierdo
      * del componente.
      */
-    void addLabel(JLabel label, int y, JComponent component, JInternalFrame Frame) {
+    void addLabel(JLabel label, int y, JComponent component, JFrame Frame) {
         addLabel(label, 20, y, 150, component, Frame);
     }
 
     /**
      * Método sobrecargado que sólo asume el largo del label.
      */
-    void addLabel(JLabel label, int x, int y, JComponent component, JInternalFrame Frame) {
+    void addLabel(JLabel label, int x, int y, JComponent component, JFrame Frame) {
         addLabel(label, x, y, 150, component, Frame);
     }
 
@@ -74,7 +66,7 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      *               llevar a cabo esto. (https://tips4java.wordpress.com/2009/11/29/text-prompt/)
      * @param Frame Ventana a la que se añadirá el textField.
      */
-    void addTextField(JTextField textField, int x, int y, int width, String prompt, JInternalFrame Frame) {
+    void addTextField(JTextField textField, int x, int y, int width, String prompt, JFrame Frame) {
         TextPrompt textPrompt = new TextPrompt(prompt, textField);
         textPrompt.changeAlpha((float) 0.7);
         textField.setBounds(x, y, width, COMPONENTS_HEIGHT);
@@ -105,7 +97,7 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * @param group ButtonGroup al cual pertenece el radio button
      * @param Frame Ventana
      */
-    void addRadioButton(JRadioButton radio, int x, int y, ButtonGroup group, JInternalFrame Frame) {
+    void addRadioButton(JRadioButton radio, int x, int y, ButtonGroup group, JFrame Frame) {
         radio.setBounds(x, y, 110, COMPONENTS_HEIGHT);
         group.add(radio);
         Frame.add(radio);
@@ -119,7 +111,7 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * @param width Ancho del componente
      * @param Frame Ventana
      */
-    void addComboBox(JComboBox comboBox, int x, int y, int width, JInternalFrame Frame) {
+    void addComboBox(JComboBox comboBox, int x, int y, int width, JFrame Frame) {
         comboBox.setBounds(x, y, width, COMPONENTS_HEIGHT);
         colorComponent(comboBox, Color.WHITE, Color.BLACK, Color.BLACK);
         comboBox.addActionListener((ActionListener) Frame);
@@ -132,14 +124,12 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * @param Frame Ventana
      * @param Title Título de la ventana
      */
-    void addWindowProperties(JInternalFrame Frame, String Title) {
+    void addWindowProperties(JFrame Frame, String Title) {
         Frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Frame.setBackground(BACKGROUND_COLOR);
         Frame.setTitle(Title);
         Frame.setLayout(null);
         Frame.setResizable(true);
-        Frame.setMaximizable(true);
-        Frame.setClosable(true);
         Frame.setVisible(true);
     }
 

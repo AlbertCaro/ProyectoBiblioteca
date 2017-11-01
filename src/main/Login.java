@@ -8,17 +8,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
-
-import static main.InternalWindow.*;
 
 /**
  * ventana de login
  * @author Jonny
  */
-public class Login extends JFrame implements ActionListener, MouseListener, KeyListener{
+public class Login extends Window implements ActionListener, MouseListener, KeyListener{
     Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
     //Label e icono
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
@@ -160,5 +161,25 @@ public class Login extends JFrame implements ActionListener, MouseListener, KeyL
     @Override
     public void keyReleased(KeyEvent ke) {
         
+    }
+
+    @Override
+    public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<JComponent> fillListTexts() {
+        return null;
+    }
+
+    @Override
+    public void returnQueryResults(ResultSet resultSet) throws SQLException {
+
+    }
+
+    @Override
+    public void cleanForm() {
+
     }
 }
