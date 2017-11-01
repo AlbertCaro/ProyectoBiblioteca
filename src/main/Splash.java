@@ -15,6 +15,7 @@ public class Splash extends JFrame {
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     JLabel LblImagen = new JLabel(ImaBiblio);
     public Splash(){
+        Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(531,531);
         this.setLocationRelativeTo(null);
@@ -31,7 +32,7 @@ public class Splash extends JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane,"Error: "+ e);
         }finally{
-            Login Login = new Login();
+            Login Login = new Login(conexion);
             this.dispose();
         }
     }

@@ -4,21 +4,19 @@ Ventana principal del software
 package main;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
  * @author Jonny
  */
-public class WindowMain extends JFrame implements ActionListener{
+public class WindowMain extends JFrame implements ActionListener, MouseListener{
     //Conexion
     Conexion conexion;
     //Imagenes
     ImageIcon ImagenFondo = new ImageIcon(getClass().getResource("/images/background.png"));
     ImageIcon IconoBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
+    JLabel JLSesion = new JLabel("Usuario");
     // Crear un escritorio para JFrame
     JDesktopPane Escritorio = new JDesktopPane();
     //Se usa la clase PanelImagen para dimensionar la imagen de parametro
@@ -103,7 +101,11 @@ public class WindowMain extends JFrame implements ActionListener{
         //Poner shorcuts(accesos directos)
         MenuArchivoSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
         MenuConsultarLibro.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_MASK));
-        
+        //label
+        JLSesion.setFont(new Font("arial", 1, 16));
+        JLSesion.setToolTipText("Cerrar Sesión");
+        JLSesion.setBounds(5,5,100,30);
+        Panel.add(JLSesion);
         Listeners();      
         this.setVisible(true);
     }
@@ -136,7 +138,41 @@ public class WindowMain extends JFrame implements ActionListener{
         MenuConsultarPrestamo.addActionListener(this);
         MenuRegistrarBiblioteca.addActionListener(this);
         MenuRegistrarPrestamo.addActionListener(this);
-        MenuRegistrarUsuarios.addActionListener(this);   
+        MenuRegistrarUsuarios.addActionListener(this);
+        JLSesion.addMouseListener(this);
     }
-    
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource()==JLSesion){
+            Login vlogin = new Login(conexion);
+            this.dispose();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource()==JLSesion){
+            JLSesion.setFont(new Font("arial", 3, 16));
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource()==JLSesion){
+            JLSesion.setFont(new Font("arial", 1, 16));
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
+    }
 }
