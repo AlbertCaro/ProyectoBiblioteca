@@ -20,7 +20,7 @@ import javax.swing.*;
  * @author Jonny
  */
 public class Login extends Window implements ActionListener, MouseListener, KeyListener{
-    Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
+    Conexion conexion;
     //Label e icono
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     ImageIcon IconBiblioM = new ImageIcon(getClass().getResource("/images/logoBiblio143.png"));
@@ -34,47 +34,48 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     JPasswordField JPFPass = new JPasswordField();// se utiliza para password
     JButton JBLogin = new JButton("Iniciar Sesión");
     JButton JBInvitado = new JButton("Invitado");
-    public Login(){
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(400,300);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setIconImage(IconBiblio.getImage());
-        this.getContentPane().setBackground(new java.awt.Color(254,223,168));
-        this.setTitle("Iniciar sesión");
-        //JLabel
-        JLTitulo.setBounds(125, 10, 150, 40);
-        JLTitulo.setFont(new Font("forte",1,20));
-        JLTitulo.setForeground(new Color(215, 92, 30));
-        JLTitulo.setHorizontalAlignment((int)CENTER_ALIGNMENT);
-        JLInstruc.setBounds(10, 55, 250, 30);
-        JLUser.setBounds(10, 100, 100, 30);
-        JLContraseña.setBounds(10, 140, 100, 30);
-        //TextField
-        JTFUser.setBounds(115, 100, 200, 30);
-        //TFContraseña.setBounds(115, 140, 200, 30);
-        //TFContraseña.setEchoChar('*');
-        JPFPass.setBounds(115, 140, 200, 30);
-        //JImage
-        JBiblio.setBounds(130, 55, 143, 143);
-        //JButton
-        JBLogin.setBounds(190, 220, 150, 30);
-        JBLogin.setToolTipText("Iniciar sesión");
-        JBLogin.setBackground(new Color (215,88,21));
-        JBLogin.setFont(new Font("arial", 1, 16));
-        JBLogin.setForeground(new Color(255,255,255));
+    public Login(Conexion conexion){
+            this.conexion = conexion;
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            this.setSize(400,300);
+            this.setLocationRelativeTo(null);
+            this.setResizable(false);
+            this.setIconImage(IconBiblio.getImage());
+            this.getContentPane().setBackground(new java.awt.Color(254,223,168));
+            this.setTitle("Iniciar sesión");
+            //JLabel
+            JLTitulo.setBounds(125, 10, 150, 40);
+            JLTitulo.setFont(new Font("forte",1,20));
+            JLTitulo.setForeground(new Color(215, 92, 30));
+            JLTitulo.setHorizontalAlignment((int)CENTER_ALIGNMENT);
+            JLInstruc.setBounds(10, 55, 250, 30);
+            JLUser.setBounds(10, 100, 100, 30);
+            JLContraseña.setBounds(10, 140, 100, 30);
+            //TextField
+            JTFUser.setBounds(115, 100, 200, 30);
+            //TFContraseña.setBounds(115, 140, 200, 30);
+            //TFContraseña.setEchoChar('*');
+            JPFPass.setBounds(115, 140, 200, 30);
+            //JImage
+            JBiblio.setBounds(130, 55, 143, 143);
+            //JButton
+            JBLogin.setBounds(190, 220, 150, 30);
+            JBLogin.setToolTipText("Iniciar sesión");
+            JBLogin.setBackground(new Color (215,88,21));
+            JBLogin.setFont(new Font("arial", 1, 16));
+            JBLogin.setForeground(new Color(255,255,255));
 
-        JBInvitado.setBounds(50, 220, 100, 30);
-        JBInvitado.setToolTipText("Iniciar sesión en modo Invitado");
-        JBInvitado.setBackground(new Color (215,88,21));
-        JBInvitado.setFont(new Font("arial", 1, 16));
-        JBInvitado.setForeground(new Color(255,255,255));
-        
-        Oyentes();
-        this.setLayout(null);
-        this.setVisible(true);
-        
-    }
+            JBInvitado.setBounds(50, 220, 100, 30);
+            JBInvitado.setToolTipText("Iniciar sesión en modo Invitado");
+            JBInvitado.setBackground(new Color (215,88,21));
+            JBInvitado.setFont(new Font("arial", 1, 16));
+            JBInvitado.setForeground(new Color(255,255,255));
+
+            Oyentes();
+            this.setLayout(null);
+            this.setVisible(true);
+
+        }
     private void Oyentes() {
         this.add(JLTitulo);
         this.add(JLInstruc);
@@ -152,7 +153,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
 
     @Override
     public void keyTyped(KeyEvent ke) {
-        
+
     }
 
     @Override
@@ -171,7 +172,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        
+
     }
 
     @Override
