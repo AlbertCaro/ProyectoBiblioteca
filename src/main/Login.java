@@ -32,18 +32,18 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     JTextField JTFUser = new JTextField();
     //TextField TFContraseña = new TextField();// hay un metodo para poner * y cubrir las letras
     JPasswordField JPFPass = new JPasswordField();// se utiliza para password
-    JButton JBOk = new JButton("Ingresar");
-    JButton JBCancelar = new JButton("Cancelar");
+    JButton JBLogin = new JButton("Iniciar Sesión");
+    JButton JBInvitado = new JButton("Invitado");
     public Login(){
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(500,300);
+        this.setSize(400,300);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setIconImage(IconBiblio.getImage());
         this.getContentPane().setBackground(new java.awt.Color(254,223,168));
         this.setTitle("Iniciar sesión");
         //JLabel
-        JLTitulo.setBounds(175, 10, 150, 40);
+        JLTitulo.setBounds(125, 10, 150, 40);
         JLTitulo.setFont(new Font("forte",1,20));
         JLTitulo.setForeground(new Color(215, 92, 30));
         JLTitulo.setHorizontalAlignment((int)CENTER_ALIGNMENT);
@@ -58,15 +58,17 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         //JImage
         JBiblio.setBounds(130, 55, 143, 143);
         //JButton
-        JBOk.setBounds(350, 220, 120, 30);
-        JBOk.setBackground(new Color (215,88,21));
-        JBOk.setFont(new Font("arial", 1, 16));
-        JBOk.setForeground(new Color(255,255,255));
-        //JBCancelar.setBounds(220, 220, 120, 30);
-        //JBCancelar.setToolTipText("Salir del sistema");
-        //JBCancelar.setBackground(new Color (215,88,21));
-        //JBCancelar.setFont(new Font("arial", 1, 16));
-        //JBCancelar.setForeground(new Color(255,255,255));
+        JBLogin.setBounds(190, 220, 150, 30);
+        JBLogin.setToolTipText("Iniciar sesión");
+        JBLogin.setBackground(new Color (215,88,21));
+        JBLogin.setFont(new Font("arial", 1, 16));
+        JBLogin.setForeground(new Color(255,255,255));
+
+        JBInvitado.setBounds(50, 220, 100, 30);
+        JBInvitado.setToolTipText("Iniciar sesión en modo Invitado");
+        JBInvitado.setBackground(new Color (215,88,21));
+        JBInvitado.setFont(new Font("arial", 1, 16));
+        JBInvitado.setForeground(new Color(255,255,255));
         
         Oyentes();
         this.setLayout(null);
@@ -80,19 +82,19 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         this.add(JLContraseña);
         this.add(JTFUser);
         this.add(JPFPass);
-        this.add(JBOk);
-        this.add(JBCancelar);
+        this.add(JBLogin);
+        this.add(JBInvitado);
         //listeners
-        JBOk.addActionListener(this);
-        JBCancelar.addActionListener(this);
+        JBLogin.addActionListener(this);
+        JBInvitado.addActionListener(this);
         JTFUser.addKeyListener(this);
         JPFPass.addKeyListener(this);
-        JBOk.addKeyListener(this);
+        JBLogin.addKeyListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent me) {
-        if (me.getSource()== JBOk) {
+        if (me.getSource()== JBLogin) {
             if (JTFUser.getText().isEmpty() || JPFPass.getPassword().length==0) {
                 JOptionPane.showMessageDialog(rootPane, "Los campos no deben de estar vacios");
             } else {
@@ -106,15 +108,21 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
                         WindowMain main = new WindowMain(conexion);
                         dispose();
                     } else {
-                        JOptionPane.showMessageDialog(rootPane, "Las credenciales no coinciden.");
+                        JOptionPane.showMessageDialog(rootPane, "Acceso denegado: \nUsuario o Contraseña incorrecto.", "Error de Autentificación", 0);
+                        limpiarCampos();
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(rootPane, "ERROR: "+e);
                 }
             }
-        }else if (me.getSource() == JBCancelar) {
-            System.exit(0);
+        }else if (me.getSource() == JBInvitado) {
+            //WindowMain Principal = new WindowMain(Conexion,"Invitado");
         }
+    }
+    private void limpiarCampos(){
+        JTFUser.setText("");
+        JPFPass.setText("");
+        JTFUser.requestFocus();
     }
 
     @Override
@@ -154,8 +162,11 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
                 JPFPass.requestFocus();
         }else if (ke.getSource()==JPFPass){
             if (ke.getKeyChar()==ke.VK_ENTER)
-                JBOk.requestFocus();
-        }
+                JBLogin.requestFocus();
+        }/*else if{
+            if (ke.getKeyChar()==JBInvitado){
+
+            }*/
     }
 
     @Override
