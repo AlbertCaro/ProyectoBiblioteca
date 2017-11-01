@@ -20,7 +20,7 @@ import javax.swing.*;
  * @author Jonny
  */
 public class Login extends Window implements ActionListener, MouseListener, KeyListener{
-    Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
+    Conexion conexion;
     //Label e icono
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     ImageIcon IconBiblioM = new ImageIcon(getClass().getResource("/images/logoBiblio143.png"));
@@ -34,7 +34,8 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     JPasswordField JPFPass = new JPasswordField();// se utiliza para password
     JButton JBOk = new JButton("Ingresar");
     JButton JBCancelar = new JButton("Cancelar");
-    public Login(){
+    public Login(Conexion conexion){
+        this.conexion = conexion;
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(500,300);
         this.setLocationRelativeTo(null);
