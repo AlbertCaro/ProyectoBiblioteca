@@ -17,8 +17,9 @@ import static main.InternalWindow.*;
  * @author Jonny
  */
 public class ConsultarLibros extends InternalWindow implements ActionListener, KeyListener {
-    JButton JBBuscar = new JButton("Consultar");
+    JButton JBBuscar = new JButton();
     JTextField JTxTBuscar = new JTextField();
+    ImageIcon ImgBuscar = new ImageIcon(getClass().getResource("/images/searchico.png"));
     //tabla
     JScrollPane JSCTabla = new JScrollPane();
     JTable JtResultados = null;
@@ -37,10 +38,11 @@ public class ConsultarLibros extends InternalWindow implements ActionListener, K
         this.getContentPane().setBackground(new java.awt.Color(254,223,168));
         //boton
         addButton(JBBuscar, 100, 30, this);
-        JBBuscar.setBounds(631,40,25,25);
+        JBBuscar.setBounds(643,40,25,25);
+        JBBuscar.setIcon(ImgBuscar);
         //textfield
         addTextField(JTxTBuscar, 120, 30, 20, "Buscar",this);
-        JTxTBuscar.setBounds(510,40,120,25);
+        JTxTBuscar.setBounds(522,40,120,25);
         //tabla
         JtResultados = new JTable(DTMResultados);
         this.add(JtResultados);
