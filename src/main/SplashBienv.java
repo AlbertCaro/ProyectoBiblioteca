@@ -15,7 +15,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class SplashBienv extends JFrame implements KeyListener{
     Conexion conexion;
     String Tipo, Usuario;
-    ImageIcon ImaBiblio = new ImageIcon(getClass().getResource("/images/fondobienvenida.png"));
+    ImageIcon ImaBiblio = new ImageIcon(getClass().getResource("/images/fondobienvenida2.png"));
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     JLabel LblImagenf = new JLabel(ImaBiblio);
     JLabel LblImagen = new JLabel();
@@ -28,10 +28,13 @@ public class SplashBienv extends JFrame implements KeyListener{
         this.setLocationRelativeTo(null);
         LblImagenf.setBounds(0,0,1000,200);
         LblImagen.setBounds(0, 0, 1000, 200);
-        LblImagen.setText("¡Bienvenido "+Usuario+"!");
+        if (Usuario == "Invitado")
+            LblImagen.setText("¡Bienvenido!");
+        else
+            LblImagen.setText("¡Bienvenido "+Usuario+"!");
         LblImagen.setBackground(new Color(215,88,21));
         LblImagen.setForeground(new Color(255,255,255));
-        LblImagen.setFont(new Font("forte", 1, 55));
+        LblImagen.setFont(new Font("Aldrich", 1, 55));
         LblImagen.setHorizontalAlignment(JLabel.CENTER);
         LblImagen.setVerticalAlignment(JLabel.CENTER);
         this.setIconImage(IconBiblio.getImage());

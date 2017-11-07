@@ -11,15 +11,15 @@ import javax.swing.JOptionPane;
  * @author Jonny
  */
 public class Splash extends JFrame {
-    ImageIcon ImaBiblio = new ImageIcon(getClass().getResource("/images/logoBiblio531.png"));
+    ImageIcon ImaBiblio = new ImageIcon(getClass().getResource("/images/LogoFinal.png"));
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     JLabel LblImagen = new JLabel(ImaBiblio);
     public Splash(){
         Conexion conexion = new Conexion("130.211.214.19","BibliotecaDB","root","dynadev123");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(531,531);
+        this.setSize(600,256);
         this.setLocationRelativeTo(null);
-        LblImagen.setBounds(0, 0, 531, 531);
+        LblImagen.setBounds(0, 0, 600, 256);
         this.setIconImage(IconBiblio.getImage());
         this.setUndecorated(true);
         AWTUtilities.setWindowOpaque(this, false);

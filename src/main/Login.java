@@ -43,32 +43,35 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setIconImage(IconBiblio.getImage());
-        this.getContentPane().setBackground(new java.awt.Color(254,223,168));
+        this.getContentPane().setBackground(new java.awt.Color(168, 220, 255));
         this.setTitle("Iniciar sesión");
         //JLabel
         JLTitulo.setBounds(75, 10, 250, 40);
-        JLTitulo.setFont(new Font("forte",1,20));
-        JLTitulo.setForeground(new Color(215, 92, 30));
+        JLTitulo.setFont(new Font("arial",1,20));
+        JLTitulo.setForeground(new Color(55, 73, 187));
         JLTitulo.setHorizontalAlignment((int)CENTER_ALIGNMENT);
-        JLInstruc.setBounds(10, 55, 250, 30);
+        JLInstruc.setBounds(10, 55, 300, 30);
+        JLInstruc.setFont(new Font("Arial",1,14));
         JLUser.setBounds(10, 100, 100, 30);
+        JLUser.setFont(new Font("Arial",1,13));
         JLContraseña.setBounds(10, 140, 100, 30);
+        JLContraseña.setFont(new Font("Arial",1,13));
         //TextField
-        JTFUser.setBounds(115, 100, 200, 30);
-        //TFContraseña.setBounds(115, 140, 200, 30);
-        //TFContraseña.setEchoChar('*');
+        addTextField(JTFUser,115,100,200,"Usuario",this);
+        addTextField(JPFPass,115,100,200,"Contraseña",this);
+        //JTFUser.setBounds(115, 100, 200, 30);
         JPFPass.setBounds(115, 140, 200, 30);
         //JImage
         JBiblio.setBounds(130, 55, 143, 143);
         //JButton
         JBLogin.setBounds(190, 220, 150, 30);
         JBLogin.setToolTipText("Iniciar sesión");
-        JBLogin.setBackground(new Color (215,88,21));
+        JBLogin.setBackground(new Color (87, 157, 210));
         JBLogin.setFont(new Font("arial", 1, 16));
         JBLogin.setForeground(new Color(255,255,255));
         JBInvitado.setBounds(50, 220, 100, 30);
         JBInvitado.setToolTipText("Iniciar sesión en modo Invitado");
-        JBInvitado.setBackground(new Color (215,88,21));
+        JBInvitado.setBackground(new Color (87, 157, 210));
         JBInvitado.setFont(new Font("arial", 1, 16));
         JBInvitado.setForeground(new Color(255,255,255));
         Enter.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "pressed");
@@ -102,7 +105,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
                 JOptionPane.showMessageDialog(rootPane, "Los campos no deben de estar vacios");
             } else {
                 try {
-                    PreparedStatement BuscaUsuarioStm = conexion.getConexion().prepareCall("SELECT * FROM Usuarios WHERE Usuario = ? AND Pass = ?");
+                    PreparedStatement BuscaUsuarioStm = conexion.getConexion().prepareCall("SELECT * FROM Usuarios INNER JOIN Tipos ON Tipos.idTipos = Usuarios.idTipos WHERE Usuario = ? AND Pass = ?");
                     BuscaUsuarioStm.setString(1, JTFUser.getText());
                     BuscaUsuarioStm.setString(2, md5(new String(JPFPass.getPassword())));
                     ResultSet RsBuscar = BuscaUsuarioStm.executeQuery();

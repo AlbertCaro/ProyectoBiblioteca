@@ -10,27 +10,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RegistroPrestamos extends InternalWindow implements ActionListener {
-    TextField TxtNombre = new TextField();
-    TextField TxtAMaterno = new TextField();
-    TextField TxtAPaterno = new TextField();
+public class VenRegistroPrestamos extends InternalWindow implements ActionListener {
     TextField TxtCodigo = new TextField();
     TextField TxtISBN = new TextField();
     JLabel JDesUsuario = new JLabel("Datos del usuario");
     JLabel JDesPres = new JLabel("Datos del ejemplar");
     JLabel JCodigo = new JLabel("Código");
-    JLabel JNombre = new JLabel("Nombre(s)");
-    JLabel JAPaterno = new JLabel("Apellido Paterno");
-    JLabel JAMaterno = new JLabel("Apellido Materno");
     JLabel JISBN = new JLabel("ISBN");
     JButton BRegistro = new JButton("Guardar");
     JButton BSalir = new JButton("Salir");
     ImageIcon SalirIma = new ImageIcon(getClass().getResource("/images/exitico.png"));
     ImageIcon GuardarIma = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
     
-    public RegistroPrestamos(){
+    public VenRegistroPrestamos(){
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(700,500);
+        this.setSize(250,300);
         this.setTitle("Registrar prestamo");
         this.setLayout(null);
         this.setResizable(false);
@@ -39,44 +33,29 @@ public class RegistroPrestamos extends InternalWindow implements ActionListener 
         //this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(new java.awt.Color(254,223,168));
 
-        JDesUsuario.setBounds(10,10,200,25);
-        JDesUsuario.setFont(new Font("Arial",3,14));
+        //JDesUsuario.setBounds(10,10,200,25);
+        //JDesUsuario.setFont(new Font("Arial",3,14));
 
         JCodigo.setBounds(30,30,100,25);
         TxtCodigo.setBounds(30,50,100,25);
 
-        JNombre.setBounds(30,80,100,25);
-        TxtNombre.setBounds(30,100,150,25);
+        //JDesPres.setBounds(10,140,200,25);
+        //JDesPres.setFont(new Font("Arial",3,14));
 
-        JAPaterno.setBounds(190,80,100,25);
-        TxtAPaterno.setBounds(190,100,150,25);
+        JISBN.setBounds(30,80,100,25);
+        TxtISBN.setBounds(30,100,150,25);
 
-        JAMaterno.setBounds(350,80,100,25);
-        TxtAMaterno.setBounds(350,100,150,25);
-
-        JDesPres.setBounds(10,140,200,25);
-        JDesPres.setFont(new Font("Arial",3,14));
-
-        JISBN.setBounds(30,160,100,25);
-        TxtISBN.setBounds(30,180,150,25);
-
-        BRegistro.setBounds(30,410,100,25);
+        BRegistro.setBounds(20,200,100,25);
         BRegistro.setIcon(GuardarIma);
-        BSalir.setBounds(550,410,100,25);
+        BSalir.setBounds(150,200,100,25);
         BSalir.addActionListener(this);
         BSalir.setIcon(SalirIma);
         //TxtNombre.setBounds();
         this.add(JDesUsuario);
         this.add(JDesPres);
         this.add(TxtCodigo);
-        this.add(TxtNombre);
-        this.add(TxtAPaterno);
-        this.add(TxtAMaterno);
         this.add(TxtISBN);
         this.add(JCodigo);
-        this.add(JNombre);
-        this.add(JAPaterno);
-        this.add(JAMaterno);
         this.add(JISBN);
         this.add(BRegistro);
         this.add(BSalir);

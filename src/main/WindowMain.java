@@ -32,7 +32,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     JMenu MenuRegistrar = new JMenu("Registrar");
     JMenu MenuConsultar = new JMenu("Consultar");
     JMenuItem MenuArchivoSalir = new JMenuItem("Salir");
-    JMenuItem MenuArchioLogOut = new JMenuItem("Cerrar sesión");
+    JMenuItem MenuArchioLogOut = new JMenuItem("Cerrar Sesión");
     JMenuItem MenuRegistrarUsuarios = new JMenuItem("Usuario");
     JMenuItem MenuRegistrarBiblioteca = new JMenuItem("Biblioteca");
     JMenuItem MenuRegistrarPrestamo = new JMenuItem("Prestamo");
@@ -50,7 +50,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);//MAXIMIZED_BOTH se maximiza a ambos lados
-        this.setTitle("AdmiBook Sesion iniciada por el usuario: "+Usuario);
+        this.setTitle("AdmyBook Sesión iniciada como: "+Usuario);
         //Agregamos el escritorio
         this.add(Escritorio);
         //decirle que el nuevo contenedor va ser el Escritorio
@@ -78,6 +78,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         MenuArchioLogOut.setForeground(new Color(255,255,255));
         MenuArchioLogOut.setToolTipText("Cerrar sesión o cambiar de usuario");
         MenuArchioLogOut.setIcon(ImgSesion);
+        MenuArchioLogOut.setText("Cerrar Sesión");
         MenuArchivoSalir.setBackground(new Color (215,88,21));
         MenuArchivoSalir.setFont(new Font("arial", 1, 16));
         MenuArchivoSalir.setForeground(new Color(255,255,255));
@@ -107,7 +108,6 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         MenuRegistrarUsuarios.setIcon(ImgSesion);//mas adelante cambio el icono
         //menu consultar
         MenuConsultar.add(MenuConsultarLibro);
-        MenuConsultar.add(MenuConsultarPrestamo);
         MenuConsultar.setFont(new Font("arial", 1, 16));
         MenuConsultar.setForeground(new Color(255,255,255));
         MenuConsultarPrestamo.setBackground(new Color (215,88,21));
@@ -130,8 +130,9 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     }
 
     private void restriccionesUsuarios() {
-        if (Tipo.equals("Super Administrador")) {//Super Administrador
+        if (Tipo.equals("SuperAdministrador")) {//Super Administrador
             BarraMenu.add(MenuRegistrar);
+            MenuConsultar.add(MenuConsultarPrestamo);
             /*JMenuItem MenuRegistrarUsuarios = new JMenuItem("Usuario");
             JMenuItem MenuRegistrarBiblioteca = new JMenuItem("Biblioteca");
             JMenuItem MenuRegistrarPrestamo = new JMenuItem("Prestamo");*/
@@ -149,13 +150,13 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             ConsultarLibros VCLibros =  new ConsultarLibros();
             Panel.add(VCLibros);
         }else if (me.getSource() == MenuConsultarPrestamo) {
-            ConsultaPrestamos VCPrestamos = new ConsultaPrestamos();
+            VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos(conexion, Tipo, Usuario);
             Panel.add(VCPrestamos);
         }else if (me.getSource() == MenuRegistrarBiblioteca) {
             VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
             Panel.add(VRBiblioteca);
         }else if (me.getSource() == MenuRegistrarPrestamo) {
-            RegistroPrestamos VRPrestamos = new RegistroPrestamos();
+            VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
             Panel.add(VRPrestamos);
         }else if (me.getSource() == MenuRegistrarUsuarios) {
             VentanaUsuarios VRUsuario = new VentanaUsuarios();
@@ -174,6 +175,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         MenuRegistrarPrestamo.addActionListener(this);
         MenuRegistrarUsuarios.addActionListener(this);
         MenuArchioLogOut.addActionListener(this);
+        MenuArchioLogOut.addMouseListener(this);
     }
 
     @Override
@@ -193,10 +195,14 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        if (mouseEvent.getSource()==MenuArchioLogOut) {
+            MenuArchioLogOut.setText("Cerrar Sesión");
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource()==MenuArchioLogOut)
+            MenuArchioLogOut.setText(Usuario);
     }
 }

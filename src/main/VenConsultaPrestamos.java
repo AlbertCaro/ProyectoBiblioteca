@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ConsultaPrestamos extends InternalWindow implements ActionListener {
+public class VenConsultaPrestamos extends InternalWindow implements ActionListener {
     JButton BDevueltos = new JButton("Devueltos");
     JButton BPendientes = new JButton("Pendientes");
     JButton BTodos = new JButton("Todos");
@@ -27,7 +27,13 @@ public class ConsultaPrestamos extends InternalWindow implements ActionListener 
     ImageIcon EntregadoIma = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
     ImageIcon TodoIma = new ImageIcon(getClass().getResource("/images/allico.png"));
     TextField TxtBuscar = new TextField();
-    public ConsultaPrestamos(){
+    Conexion conexion;
+    String Tipo, Usuario;
+
+    public VenConsultaPrestamos(Conexion conexion, String Tipo, String Usuario){
+        this.Tipo = Tipo;
+        this.conexion = conexion;
+        this.Usuario = Usuario;
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setSize(700,500);
         this.setTitle("Consultar Prestamos");
@@ -40,19 +46,26 @@ public class ConsultaPrestamos extends InternalWindow implements ActionListener 
 
         BDevueltos.setBounds(40,40,120,25);
         BDevueltos.setIcon(EntregadoIma);
+        BDevueltos.setToolTipText("Consulta los datos de los libros devueltos");
         BPendientes.setBounds(170,40,120,25);
         BPendientes.setIcon(PendienteIma);
+        BPendientes.setToolTipText("Consulta los libros pendientes de entrega");
         BTodos.setBounds(300,40,120,25);
         BTodos.setIcon(TodoIma);
+        BTodos.setToolTipText("Consulta todos los prestamos");
         BConUsuario.setBounds(631,40,25,25);
         BConUsuario.setIcon(SearchIma);
+        BConUsuario.setToolTipText("Consultar prestamos");
         //BAmpliarPrestamo.setBounds(100,415,150,25);
         BSalir.setBounds(555,415,100,25);
         BSalir.setIcon(SalirIma);
         BSalir.addActionListener(this);
-        BRegistrar.setBounds(270,415,150,25);
+        if (Tipo.equals("Super Administrador") || Tipo.equals("SuperAdministrador")) {
+            BRegistrar.setBounds(270, 415, 150, 25);
+            BRegistrar.setToolTipText("Registrar un nuevo prestamo");
+            TxtBuscar.setBounds(510,40,120,25);
+        }
 
-        TxtBuscar.setBounds(510,40,120,25);
         JPrestamos.setBounds(10,10,100,20);
         JResultados.setBounds(10,70,150,20);
         JUsuario.setBounds(510,10,150,20);
