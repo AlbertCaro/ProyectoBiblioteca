@@ -48,7 +48,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         //JLabel
         JLTitulo.setBounds(75, 10, 250, 40);
         JLTitulo.setFont(new Font("arial",1,20));
-        JLTitulo.setForeground(new Color(55, 73, 187));
+        JLTitulo.setForeground(new Color(53, 81, 181));
         JLTitulo.setHorizontalAlignment((int)CENTER_ALIGNMENT);
         JLInstruc.setBounds(10, 55, 300, 30);
         JLInstruc.setFont(new Font("Arial",1,14));

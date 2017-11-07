@@ -32,7 +32,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     JMenu MenuRegistrar = new JMenu("Registrar");
     JMenu MenuConsultar = new JMenu("Consultar");
     JMenuItem MenuArchivoSalir = new JMenuItem("Salir");
-    JMenuItem MenuArchioLogOut = new JMenuItem("Cerrar Sesión");
+    JMenuItem MenuArchioLogOut = new JMenuItem();
     JMenuItem MenuRegistrarUsuarios = new JMenuItem("Usuario");
     JMenuItem MenuRegistrarBiblioteca = new JMenuItem("Biblioteca");
     JMenuItem MenuRegistrarPrestamo = new JMenuItem("Prestamo");
@@ -50,7 +50,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);//MAXIMIZED_BOTH se maximiza a ambos lados
-        this.setTitle("AdmyBook Sesión iniciada como: "+Usuario);
+        this.setTitle("AdmyBook - Sesión iniciada como: "+Usuario);
         //Agregamos el escritorio
         this.add(Escritorio);
         //decirle que el nuevo contenedor va ser el Escritorio
@@ -64,22 +64,22 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         BarraMenu.add(MenuArchivo);
         //BarraMenu.add(MenuRegistrar);
         BarraMenu.add(MenuConsultar);
-        BarraMenu.setBackground(new Color (215,88,21));
+        BarraMenu.setBackground(new Color (53, 81, 181));
         BarraMenu.setFont(new Font("arial", 1, 16));
         BarraMenu.setForeground(new Color(255,255,255));
         //menu archivo
         MenuArchivo.add(MenuArchioLogOut);
         MenuArchivo.add(MenuArchivoSalir);
-        MenuArchivo.setBackground(new Color (215,88,21));
+        MenuArchivo.setBackground(new Color (53, 81, 181));
         MenuArchivo.setFont(new Font("arial", 1, 16));
         MenuArchivo.setForeground(new Color(255,255,255));
-        MenuArchioLogOut.setBackground(new Color (215,88,21));
+        MenuArchioLogOut.setBackground(new Color (53, 81, 181));
         MenuArchioLogOut.setFont(new Font("arial",1,16));
         MenuArchioLogOut.setForeground(new Color(255,255,255));
-        MenuArchioLogOut.setToolTipText("Cerrar sesión o cambiar de usuario");
+        MenuArchioLogOut.setToolTipText("Iniciar o cerrar sesión");
         MenuArchioLogOut.setIcon(ImgSesion);
-        MenuArchioLogOut.setText("Cerrar Sesión");
-        MenuArchivoSalir.setBackground(new Color (215,88,21));
+        //MenuArchioLogOut.setText("Cerrar Sesión");
+        MenuArchivoSalir.setBackground(new Color (53, 81, 181));
         MenuArchivoSalir.setFont(new Font("arial", 1, 16));
         MenuArchivoSalir.setForeground(new Color(255,255,255));
         MenuArchivoSalir.setToolTipText("Salir del sistema");
@@ -91,17 +91,17 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         //MenuRegistrar.setBackground(new Color (215,88,21));
         MenuRegistrar.setFont(new Font("arial", 1, 16));
         MenuRegistrar.setForeground(new Color(255,255,255));
-        MenuRegistrarBiblioteca.setBackground(new Color (215,88,21));
+        MenuRegistrarBiblioteca.setBackground(new Color (53, 81, 181));
         MenuRegistrarBiblioteca.setFont(new Font("arial", 1, 16));
         MenuRegistrarBiblioteca.setForeground(new Color(255,255,255));
         MenuRegistrarBiblioteca.setToolTipText("Registrar biblioteca");
         MenuRegistrarBiblioteca.setIcon(ImgBiblio);
-        MenuRegistrarPrestamo.setBackground(new Color (215,88,21));
+        MenuRegistrarPrestamo.setBackground(new Color (53, 81, 181));
         MenuRegistrarPrestamo.setFont(new Font("arial", 1, 16));
         MenuRegistrarPrestamo.setForeground(new Color(255,255,255));
         MenuRegistrarPrestamo.setToolTipText("Registrar prestamo");
         MenuRegistrarPrestamo.setIcon(ImgPrest);
-        MenuRegistrarUsuarios.setBackground(new Color (215,88,21));
+        MenuRegistrarUsuarios.setBackground(new Color (53, 81, 181));
         MenuRegistrarUsuarios.setFont(new Font("arial", 1, 16));
         MenuRegistrarUsuarios.setForeground(new Color(255,255,255));
         MenuRegistrarUsuarios.setToolTipText("Registrar usuario");
@@ -110,12 +110,12 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         MenuConsultar.add(MenuConsultarLibro);
         MenuConsultar.setFont(new Font("arial", 1, 16));
         MenuConsultar.setForeground(new Color(255,255,255));
-        MenuConsultarPrestamo.setBackground(new Color (215,88,21));
+        MenuConsultarPrestamo.setBackground(new Color (53, 81, 181));
         MenuConsultarPrestamo.setFont(new Font("arial", 1, 16));
         MenuConsultarPrestamo.setForeground(new Color(255,255,255));
         MenuConsultarPrestamo.setToolTipText("Consultar prestamos");
         MenuConsultarPrestamo.setIcon(ImgPrest);
-        MenuConsultarLibro.setBackground(new Color (215,88,21));
+        MenuConsultarLibro.setBackground(new Color (53, 81, 181));
         MenuConsultarLibro.setFont(new Font("arial", 1, 16));
         MenuConsultarLibro.setForeground(new Color(255,255,255));
         MenuConsultarLibro.setToolTipText("Consultar libros");
@@ -132,12 +132,14 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     private void restriccionesUsuarios() {
         if (Tipo.equals("SuperAdministrador")) {//Super Administrador
             BarraMenu.add(MenuRegistrar);
+            MenuArchioLogOut.setText("Cerrar Sesión");
             MenuConsultar.add(MenuConsultarPrestamo);
             /*JMenuItem MenuRegistrarUsuarios = new JMenuItem("Usuario");
             JMenuItem MenuRegistrarBiblioteca = new JMenuItem("Biblioteca");
             JMenuItem MenuRegistrarPrestamo = new JMenuItem("Prestamo");*/
             //MenuRegistrarUsuarios.setEnabled(true);
         }else if(Tipo.equals("Invitado")) {
+            MenuArchioLogOut.setText("Iniciar Sesión");
             //MenuUsuarioAdministrar.setEnabled(false);
         }
     }
@@ -175,7 +177,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         MenuRegistrarPrestamo.addActionListener(this);
         MenuRegistrarUsuarios.addActionListener(this);
         MenuArchioLogOut.addActionListener(this);
-        MenuArchioLogOut.addMouseListener(this);
+        //MenuArchioLogOut.addMouseListener(this);
     }
 
     @Override
@@ -195,14 +197,11 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if (mouseEvent.getSource()==MenuArchioLogOut) {
-            MenuArchioLogOut.setText("Cerrar Sesión");
-        }
+
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if (mouseEvent.getSource()==MenuArchioLogOut)
-            MenuArchioLogOut.setText(Usuario);
+
     }
 }

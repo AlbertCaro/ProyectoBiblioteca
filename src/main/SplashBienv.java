@@ -32,7 +32,7 @@ public class SplashBienv extends JFrame implements KeyListener{
             LblImagen.setText("¡Bienvenido!");
         else
             LblImagen.setText("¡Bienvenido "+Usuario+"!");
-        LblImagen.setBackground(new Color(215,88,21));
+        //LblImagen.setBackground(new Color(215,88,21));
         LblImagen.setForeground(new Color(255,255,255));
         LblImagen.setFont(new Font("Aldrich", 1, 55));
         LblImagen.setHorizontalAlignment(JLabel.CENTER);
