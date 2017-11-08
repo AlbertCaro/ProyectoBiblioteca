@@ -35,7 +35,7 @@ public class ConsultarLibros extends InternalWindow implements ActionListener, K
         this.setMaximizable(true);
         this.setClosable(true);
         //this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new java.awt.Color(254,223,168));
+        this.getContentPane().setBackground(new java.awt.Color(168, 220, 255));
         //boton
         addButton(JBBuscar, 100, 30, this);
         JBBuscar.setBounds(643,40,25,25);

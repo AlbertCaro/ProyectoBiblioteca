@@ -18,10 +18,11 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     ImageIcon ImagenFondo = new ImageIcon(getClass().getResource("/images/background.png"));
     ImageIcon IconoBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     ImageIcon ImgSesion = new ImageIcon(getClass().getResource("/images/sesion1.png"));
-    ImageIcon ImgBook = new ImageIcon(getClass().getResource("/images/book1.png"));
     ImageIcon ImgExit = new ImageIcon(getClass().getResource("/images/exit1.png"));
-    ImageIcon ImgPrest = new ImageIcon(getClass().getResource("/images/prestbook.png"));
-    ImageIcon ImgBiblio = new ImageIcon(getClass().getResource("/images/biblioIco.png"));
+    ImageIcon ImgAdd = new ImageIcon(getClass().getResource("/images/add.png"));
+    ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/search.png"));
+    ImageIcon ImgDelete = new ImageIcon(getClass().getResource("/images/delete.png"));
+    ImageIcon ImgEdit = new ImageIcon(getClass().getResource("/images/edit.png"));
     // Crear un escritorio para JFrame
     JDesktopPane Escritorio = new JDesktopPane();
     //Se usa la clase PanelImagen para dimensionar la imagen de parametro
@@ -29,15 +30,32 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     //botones de la barra menu
     JMenuBar BarraMenu = new JMenuBar();
     JMenu MenuArchivo = new JMenu("Archivo");
-    JMenu MenuRegistrar = new JMenu("Registrar");
-    JMenu MenuConsultar = new JMenu("Consultar");
+    JMenu MenuLibros = new JMenu("Libros");
+    JMenu MenuPrestamos = new JMenu("Prestamos");
+    JMenu MenuUsuarios = new JMenu("Usuarios");
+    JMenu MenuBibliotecas = new JMenu("Bibliotecas");
     JMenuItem MenuArchivoSalir = new JMenuItem("Salir");
     JMenuItem MenuArchioLogOut = new JMenuItem();
-    JMenuItem MenuRegistrarUsuarios = new JMenuItem("Usuario");
-    JMenuItem MenuRegistrarBiblioteca = new JMenuItem("Biblioteca");
-    JMenuItem MenuRegistrarPrestamo = new JMenuItem("Prestamo");
-    JMenuItem MenuConsultarPrestamo = new JMenuItem("Prestamos");
-    JMenuItem MenuConsultarLibro = new JMenuItem("Libros");
+
+    JMenuItem MenuUsuarioRegistrar = new JMenuItem("Registrar");
+    JMenuItem MenuBibliotecaRegistrar = new JMenuItem("Registrar");
+    JMenuItem MenuLibroRegistrar = new JMenuItem("Registrar");
+    JMenuItem MenuPrestamoRegistrar = new JMenuItem("Registrar");
+
+    JMenuItem MenuPrestamoConsultar = new JMenuItem("Consultar");
+    JMenuItem MenuLibroConsultar = new JMenuItem("Consultar");
+    JMenuItem MenuUsuarioConsultar = new JMenuItem("Consultar");
+    JMenuItem MenuBibliotecaConsultar = new JMenuItem("Consultar");
+
+    JMenuItem MenuPrestamoEliminar = new JMenuItem("Liquidar");
+    JMenuItem MenuLibroEliminar = new JMenuItem("Eliminar");
+    JMenuItem MenuUsuarioEliminar= new JMenuItem("Eliminar");
+    JMenuItem MenuBibliotecaEliminar = new JMenuItem("Eliminar");
+
+    JMenuItem MenuPrestamoModificar = new JMenuItem("Modificar");
+    JMenuItem MenuLibroModificar = new JMenuItem("Modificar");
+    JMenuItem MenuUsuarioModificar= new JMenuItem("Modificar");
+    JMenuItem MenuBibliotecaModificar = new JMenuItem("Modificar");
     /////////////////////Constructor/////////////////
     public WindowMain(Conexion conexion, String Tipo, String Usuario){
         this.Tipo = Tipo;
@@ -59,88 +77,101 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         this.Escritorio.add(Panel);
         this.setContentPane(Panel);
         this.setLayout(null);
+        //this.setUndecorated(true);
         //Agregar la barra Menu al frame
         this.setJMenuBar(BarraMenu);
-        BarraMenu.add(MenuArchivo);
-        //BarraMenu.add(MenuRegistrar);
-        BarraMenu.add(MenuConsultar);
         BarraMenu.setBackground(new Color (53, 81, 181));
         BarraMenu.setFont(new Font("arial", 1, 16));
         BarraMenu.setForeground(new Color(255,255,255));
         //menu archivo
+        BarraMenu.add(MenuArchivo);
         MenuArchivo.add(MenuArchioLogOut);
         MenuArchivo.add(MenuArchivoSalir);
-        MenuArchivo.setBackground(new Color (53, 81, 181));
-        MenuArchivo.setFont(new Font("arial", 1, 16));
-        MenuArchivo.setForeground(new Color(255,255,255));
-        MenuArchioLogOut.setBackground(new Color (53, 81, 181));
-        MenuArchioLogOut.setFont(new Font("arial",1,16));
-        MenuArchioLogOut.setForeground(new Color(255,255,255));
-        MenuArchioLogOut.setToolTipText("Iniciar o cerrar sesión");
-        MenuArchioLogOut.setIcon(ImgSesion);
-        //MenuArchioLogOut.setText("Cerrar Sesión");
-        MenuArchivoSalir.setBackground(new Color (53, 81, 181));
-        MenuArchivoSalir.setFont(new Font("arial", 1, 16));
-        MenuArchivoSalir.setForeground(new Color(255,255,255));
-        MenuArchivoSalir.setToolTipText("Salir del sistema");
-        MenuArchivoSalir.setIcon(ImgExit);
-        //menu Registrar
-        MenuRegistrar.add(MenuRegistrarPrestamo);
-        MenuRegistrar.add(MenuRegistrarUsuarios);
-        MenuRegistrar.add(MenuRegistrarBiblioteca);
-        //MenuRegistrar.setBackground(new Color (215,88,21));
-        MenuRegistrar.setFont(new Font("arial", 1, 16));
-        MenuRegistrar.setForeground(new Color(255,255,255));
-        MenuRegistrarBiblioteca.setBackground(new Color (53, 81, 181));
-        MenuRegistrarBiblioteca.setFont(new Font("arial", 1, 16));
-        MenuRegistrarBiblioteca.setForeground(new Color(255,255,255));
-        MenuRegistrarBiblioteca.setToolTipText("Registrar biblioteca");
-        MenuRegistrarBiblioteca.setIcon(ImgBiblio);
-        MenuRegistrarPrestamo.setBackground(new Color (53, 81, 181));
-        MenuRegistrarPrestamo.setFont(new Font("arial", 1, 16));
-        MenuRegistrarPrestamo.setForeground(new Color(255,255,255));
-        MenuRegistrarPrestamo.setToolTipText("Registrar prestamo");
-        MenuRegistrarPrestamo.setIcon(ImgPrest);
-        MenuRegistrarUsuarios.setBackground(new Color (53, 81, 181));
-        MenuRegistrarUsuarios.setFont(new Font("arial", 1, 16));
-        MenuRegistrarUsuarios.setForeground(new Color(255,255,255));
-        MenuRegistrarUsuarios.setToolTipText("Registrar usuario");
-        MenuRegistrarUsuarios.setIcon(ImgSesion);//mas adelante cambio el icono
-        //menu consultar
-        MenuConsultar.add(MenuConsultarLibro);
-        MenuConsultar.setFont(new Font("arial", 1, 16));
-        MenuConsultar.setForeground(new Color(255,255,255));
-        MenuConsultarPrestamo.setBackground(new Color (53, 81, 181));
-        MenuConsultarPrestamo.setFont(new Font("arial", 1, 16));
-        MenuConsultarPrestamo.setForeground(new Color(255,255,255));
-        MenuConsultarPrestamo.setToolTipText("Consultar prestamos");
-        MenuConsultarPrestamo.setIcon(ImgPrest);
-        MenuConsultarLibro.setBackground(new Color (53, 81, 181));
-        MenuConsultarLibro.setFont(new Font("arial", 1, 16));
-        MenuConsultarLibro.setForeground(new Color(255,255,255));
-        MenuConsultarLibro.setToolTipText("Consultar libros");
-        MenuConsultarLibro.setIcon(ImgBook);
+        JMenuColorAndFont(MenuArchivo);
+        addJMenuItem(MenuArchioLogOut,"Iniciar o cerrar sesión", ImgSesion);
+        addJMenuItem(MenuArchivoSalir,"Salir del sistema",ImgExit);
+        //menu Libros
+        BarraMenu.add(MenuLibros);
+        MenuLibros.add(MenuLibroConsultar);
+        JMenuColorAndFont(MenuLibros);
+        addJMenuItem(MenuLibroConsultar,"Consultar libros",ImgSearch);
+        addJMenuItem(MenuLibroRegistrar,"Registrar libros",ImgAdd);
+        addJMenuItem(MenuLibroEliminar,"Eliminar libros", ImgDelete);
+        addJMenuItem(MenuLibroModificar,"Modificar libros",ImgEdit);
+        //menu Prestamos
+        MenuPrestamos.add(MenuPrestamoConsultar);
+        JMenuColorAndFont(MenuPrestamos);
+        addJMenuItem(MenuPrestamoConsultar,"Consultar prestamos",ImgSearch);
+        addJMenuItem(MenuPrestamoRegistrar,"Registrar prestamos",ImgAdd);
+        addJMenuItem(MenuPrestamoEliminar,"Eliminar prestamos", ImgDelete);
+        addJMenuItem(MenuPrestamoModificar,"Modificar prestamos",ImgEdit);
+        //menu Usuarios
+        JMenuColorAndFont(MenuUsuarios);
+        addJMenuItem(MenuUsuarioConsultar,"Consultar usuarios",ImgSearch);
+        addJMenuItem(MenuUsuarioRegistrar,"Registrar usuarios",ImgAdd);
+        addJMenuItem(MenuUsuarioEliminar,"Eliminar usuarios", ImgDelete);
+        addJMenuItem(MenuUsuarioModificar,"Modificar usuarios",ImgEdit);
+        //menu biblioteca
+        MenuBibliotecas.add(MenuBibliotecaConsultar);
+        JMenuColorAndFont(MenuBibliotecas);
+        addJMenuItem(MenuBibliotecaConsultar,"Consultar bibliotecas",ImgSearch);
+        addJMenuItem(MenuBibliotecaRegistrar,"Registrar bibliotecas",ImgAdd);
+        addJMenuItem(MenuBibliotecaEliminar,"Eliminar bibliotecas", ImgDelete);
+        addJMenuItem(MenuBibliotecaModificar,"Modificar bibliotecas",ImgEdit);
         //Poner shorcuts(accesos directos)
         MenuArchivoSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.CTRL_MASK));
-        MenuConsultarLibro.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_MASK));
+        MenuLibroConsultar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_MASK));
         MenuArchioLogOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
         restriccionesUsuarios();
-        Listeners();
         this.setVisible(true);
+    }
+    private void addJMenuItem(JMenuItem MenuItem, String TipText, ImageIcon Icon){
+        MenuItem.setBackground(new Color (53, 81, 181));
+        MenuItem.setFont(new Font("arial", 1, 16));
+        MenuItem.setForeground(new Color(255,255,255));
+        MenuItem.setToolTipText(TipText);
+        MenuItem.setIcon(Icon);
+        MenuItem.addActionListener(this);
+    }
+    private void JMenuColorAndFont(JMenu JMenu){
+        JMenu.setBackground(new Color (53, 81, 181));
+        JMenu.setFont(new Font("arial", 1, 16));
+        JMenu.setForeground(new Color(255,255,255));
     }
 
     private void restriccionesUsuarios() {
         if (Tipo.equals("SuperAdministrador")) {//Super Administrador
-            BarraMenu.add(MenuRegistrar);
             MenuArchioLogOut.setText("Cerrar Sesión");
-            MenuConsultar.add(MenuConsultarPrestamo);
-            /*JMenuItem MenuRegistrarUsuarios = new JMenuItem("Usuario");
-            JMenuItem MenuRegistrarBiblioteca = new JMenuItem("Biblioteca");
-            JMenuItem MenuRegistrarPrestamo = new JMenuItem("Prestamo");*/
-            //MenuRegistrarUsuarios.setEnabled(true);
-        }else if(Tipo.equals("Invitado")) {
+            //accesos libros
+            MenuLibros.add(MenuLibroRegistrar);
+            MenuLibros.add(MenuLibroEliminar);
+            MenuLibros.add(MenuLibroModificar);
+            //accesos prestamos
+            BarraMenu.add(MenuPrestamos);
+            MenuPrestamos.add(MenuPrestamoRegistrar);
+            MenuPrestamos.add(MenuPrestamoEliminar);
+            MenuPrestamos.add(MenuPrestamoModificar);
+            //accesos usuarios
+            BarraMenu.add(MenuUsuarios);
+            MenuUsuarios.add(MenuUsuarioConsultar);
+            MenuUsuarios.add(MenuUsuarioRegistrar);
+            MenuUsuarios.add(MenuUsuarioEliminar);
+            MenuUsuarios.add(MenuUsuarioModificar);
+            //accesos bibliotecas
+            BarraMenu.add(MenuBibliotecas);
+            MenuBibliotecas.add(MenuBibliotecaRegistrar);
+            MenuBibliotecas.add(MenuBibliotecaEliminar);
+            MenuBibliotecas.add(MenuBibliotecaModificar);
+        }else if(Tipo.equals("Normal")){
+            MenuArchioLogOut.setText("Cerrar Sesión");
+            //libros
+            MenuLibros.add(MenuLibroConsultar);
+            //accesos prestamos
+            BarraMenu.add(MenuPrestamos);
+            //accesos bibliotecas
+            BarraMenu.add(MenuBibliotecas);
+        }else if(Tipo.equals("Invitado")) {//Invitado
             MenuArchioLogOut.setText("Iniciar Sesión");
-            //MenuUsuarioAdministrar.setEnabled(false);
         }
     }
 
@@ -148,36 +179,25 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     public void actionPerformed(ActionEvent me) {
         if (me.getSource() == MenuArchivoSalir) {
             System.exit(0);
-        }else if (me.getSource() == MenuConsultarLibro) {
+        }else if (me.getSource() == MenuLibroConsultar) {
             ConsultarLibros VCLibros =  new ConsultarLibros();
             Panel.add(VCLibros);
-        }else if (me.getSource() == MenuConsultarPrestamo) {
+        }else if (me.getSource() == MenuPrestamoConsultar) {
             VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos(conexion, Tipo, Usuario);
             Panel.add(VCPrestamos);
-        }else if (me.getSource() == MenuRegistrarBiblioteca) {
+        }else if (me.getSource() == MenuBibliotecaRegistrar) {
             VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
             Panel.add(VRBiblioteca);
-        }else if (me.getSource() == MenuRegistrarPrestamo) {
+        }else if (me.getSource() == MenuPrestamoRegistrar) {
             VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
             Panel.add(VRPrestamos);
-        }else if (me.getSource() == MenuRegistrarUsuarios) {
+        }else if (me.getSource() == MenuUsuarioRegistrar) {
             VentanaUsuarios VRUsuario = new VentanaUsuarios();
             Panel.add(VRUsuario);
         }else if (me.getSource()==MenuArchioLogOut){
             Login vlogin = new Login(conexion);
             this.dispose();
         }
-    }
-
-    private void Listeners() {
-        MenuArchivoSalir.addActionListener(this);
-        MenuConsultarLibro.addActionListener(this);
-        MenuConsultarPrestamo.addActionListener(this);
-        MenuRegistrarBiblioteca.addActionListener(this);
-        MenuRegistrarPrestamo.addActionListener(this);
-        MenuRegistrarUsuarios.addActionListener(this);
-        MenuArchioLogOut.addActionListener(this);
-        //MenuArchioLogOut.addMouseListener(this);
     }
 
     @Override

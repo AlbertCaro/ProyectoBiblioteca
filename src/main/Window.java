@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public abstract class Window extends JFrame implements WindowInterface {
     //Se agregó sólo esta constante ya que es la única que se repite
     private final static int COMPONENTS_HEIGHT = 30;
-    private final static Color BACKGROUND_COLOR = new java.awt.Color(254,223,168);
+    private final static Color BACKGROUND_COLOR = new java.awt.Color(168, 220, 255);
 
     /**
      * Método para añadir un título a la ventana con su formato correspondiente.

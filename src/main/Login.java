@@ -24,8 +24,6 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     String Tipo, Usuario;
     //Label e icono
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
-    ImageIcon IconBiblioM = new ImageIcon(getClass().getResource("/images/logoBiblio143.png"));
-    JLabel JBiblio = new JLabel(IconBiblioM);
     JLabel JLUser = new JLabel("Usuario: ");
     JLabel JLContraseña = new JLabel("Contraseña: ");
     JLabel JLTitulo = new JLabel("¡Bienvenido a AdmyBook!");
@@ -61,8 +59,6 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         addTextField(JPFPass,115,100,200,"Contraseña",this);
         //JTFUser.setBounds(115, 100, 200, 30);
         JPFPass.setBounds(115, 140, 200, 30);
-        //JImage
-        JBiblio.setBounds(130, 55, 143, 143);
         //JButton
         JBLogin.setBounds(190, 220, 150, 30);
         JBLogin.setToolTipText("Iniciar sesión");
