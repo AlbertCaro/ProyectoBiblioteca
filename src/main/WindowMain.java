@@ -168,26 +168,29 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         }else if (me.getSource() == MenuLibroConsultar) {///////////////seccion libros
             ConsultarLibros VCLibros =  new ConsultarLibros();
             Panel.add(VCLibros);
-        }else if (me.getSource()== MenuBibliotecaEditar){
-
+        }else if (me.getSource()== MenuLibroEditar){
+            VentanaEditarLibros VELibros = new VentanaEditarLibros();
+            Panel.add(VELibros);
+            //VentanaRegistraLibros VRLibros = new VentanaRegistraLibros();
+            //Panel.add(VRLibros);
         }else if (me.getSource() == MenuPrestamoConsultar) {//////////////seccion prestamos
             VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos(conexion, Tipo, Usuario);
             Panel.add(VCPrestamos);
         }else if (me.getSource() == MenuPrestamoRegistrar) {
-            //VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
-            //Panel.add(VRPrestamos);
+            VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
+            Panel.add(VRPrestamos);
         }else if (me.getSource() == MenuPrestamoLiquidar) {
-            //VentanaUsuarios VRUsuario = new VentanaUsuarios();
-            //Panel.add(VRUsuario);
+
         }else if (me.getSource() == MenuUsuarioConsultar){///////////seccion usuarios
 
         }else if (me.getSource() == MenuUsuarioEditar){
-
+            VentanaUsuarios VRUsuario = new VentanaUsuarios();
+            Panel.add(VRUsuario);
         } else if (me.getSource() == MenuBibliotecaConsultar) {/////////////seccion bibliotecas
-            //VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
-            //Panel.add(VRBiblioteca);
-        }else if (me.getSource() == MenuBibliotecaEditar){
 
+        }else if (me.getSource() == MenuBibliotecaEditar){
+            VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
+            Panel.add(VRBiblioteca);
         } else if (me.getSource()==MenuArchioLogOut){
             Login vlogin = new Login(conexion);
             this.dispose();

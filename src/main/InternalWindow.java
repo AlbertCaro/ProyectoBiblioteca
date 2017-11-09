@@ -19,11 +19,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 abstract class InternalWindow extends JInternalFrame implements WindowInterface {
     //Se agregó sólo esta constante ya que es la única que se repite
     private final static int COMPONENTS_HEIGHT = 30;
-    private final static Color BACKGROUND_COLOR = new java.awt.Color(254,223,168);
+    private final static Color BACKGROUND_COLOR = new java.awt.Color(168, 220, 255);
 
     /**
      * Método para añadir un título a la ventana con su formato correspondiente.
@@ -92,6 +93,9 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      */
     void addButton(JButton button, int x, int y, JInternalFrame Frame) {
         button.setBounds(x, y, 100, COMPONENTS_HEIGHT);
+        button.setBackground(new Color (53, 81, 181));
+        button.setFont(new Font("arial", 1, 14));
+        button.setForeground(new Color(255,255,255));
         button.addActionListener((ActionListener) Frame);
         button.addKeyListener((KeyListener) Frame);
         Frame.add(button);
@@ -137,8 +141,8 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
         Frame.setBackground(BACKGROUND_COLOR);
         Frame.setTitle(Title);
         Frame.setLayout(null);
-        Frame.setResizable(true);
-        Frame.setMaximizable(true);
+        Frame.setResizable(false);
+        Frame.setMaximizable(false);
         Frame.setClosable(true);
         Frame.setVisible(true);
     }
