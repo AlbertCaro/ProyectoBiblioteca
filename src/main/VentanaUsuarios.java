@@ -71,7 +71,7 @@ public class VentanaUsuarios extends InternalWindow implements KeyListener, Acti
 		addRadioButton(RbEmpreadoNo, 220, 440, BgEmpleado, this);
 		addLabel(LblCargo, 480,90,TxtCargo, this);
 		addTextField(TxtCargo, 110, 480, 230, "Cargo",this);
-		addButton(BtnRegistrar, 120, 520, this);
+		addButton(BtnRegistrar, 120, 520,"Registrar Usuario", this);
 		addWindowProperties(this, "Agregar usuario");
 	}
 	

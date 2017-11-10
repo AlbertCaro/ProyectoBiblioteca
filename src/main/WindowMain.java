@@ -5,6 +5,7 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import javax.swing.*;
 
 /**
@@ -166,7 +167,12 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         if (me.getSource() == MenuArchivoSalir) {
             System.exit(0);
         }else if (me.getSource() == MenuLibroConsultar) {///////////////seccion libros
-            ConsultarLibros VCLibros =  new ConsultarLibros();
+            VenConsultarLibros VCLibros = null;
+            try {
+                VCLibros = new VenConsultarLibros(conexion);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(Panel, "Error: "+e);
+            }
             Panel.add(VCLibros);
         }else if (me.getSource()== MenuLibroEditar){
             VentanaEditarLibros VELibros = new VentanaEditarLibros();
@@ -182,12 +188,14 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         }else if (me.getSource() == MenuPrestamoLiquidar) {
 
         }else if (me.getSource() == MenuUsuarioConsultar){///////////seccion usuarios
-
+            VenConsultarUsuario VCUsuarios = new VenConsultarUsuario(conexion);
+            Panel.add(VCUsuarios);
         }else if (me.getSource() == MenuUsuarioEditar){
             VentanaUsuarios VRUsuario = new VentanaUsuarios();
             Panel.add(VRUsuario);
         } else if (me.getSource() == MenuBibliotecaConsultar) {/////////////seccion bibliotecas
-
+            VenConsultarBiblio VCBiblioteca = new VenConsultarBiblio(conexion);
+            Panel.add(VCBiblioteca);
         }else if (me.getSource() == MenuBibliotecaEditar){
             VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
             Panel.add(VRBiblioteca);
