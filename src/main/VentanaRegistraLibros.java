@@ -34,13 +34,13 @@ public class VentanaRegistraLibros extends InternalWindow implements ActionListe
     public VentanaRegistraLibros() {
         this.setSize(380, 600);
         addTitleLabel(LblTituloVent, this);
-        addLabel(LblISBN, 40,90, TxtISBN, this);
+        addLabel(LblISBN, 40,40, TxtISBN, this);
         addTextField(TxtISBN, 110, 40, 230, "ISBN",this);
-        addLabel(LblTitulo, 80,90,TxtTitulo, this);
+        addLabel(LblTitulo, 40,80,TxtTitulo, this);
         addTextField(TxtTitulo, 110, 80, 230, "Titulo",this);
-        addLabel(LblAutor, 120,90, TxtAutor, this);
+        addLabel(LblAutor, 40,120, TxtAutor, this);
         addTextField(TxtAutor, 110, 120, 230, "Autor",this);
-        addLabel(LblDescripcion, 160,90, TxtDescripcion, this);
+        addLabel(LblDescripcion, 40,120, TxtDescripcion, this);
         addTextField(TxtDescripcion, 110, 160, 230, "Descripcion",this);
         addLabel(LblPaginas, 200,90, TxtPaginas, this);
         addTextField(TxtPaginas, 110, 200, 230, "Paginas",this);

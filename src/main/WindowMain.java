@@ -15,14 +15,19 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     Conexion conexion;
     String Tipo, Usuario;
     //Imagenes
-    ImageIcon ImagenFondo = new ImageIcon(getClass().getResource("/images/background.png"));
+    ImageIcon ImagenFondo = new ImageIcon(getClass().getResource("/images/windowMainIcons/background.png"));
     ImageIcon IconoBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
-    ImageIcon ImgSesion = new ImageIcon(getClass().getResource("/images/sesion1.png"));
-    ImageIcon ImgExit = new ImageIcon(getClass().getResource("/images/exit1.png"));
-    ImageIcon ImgAdd = new ImageIcon(getClass().getResource("/images/add.png"));
-    ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/search.png"));
-    ImageIcon ImgDelete = new ImageIcon(getClass().getResource("/images/delete.png"));
-    ImageIcon ImgEdit = new ImageIcon(getClass().getResource("/images/edit.png"));
+    ImageIcon ImgSesion = new ImageIcon(getClass().getResource("/images/windowMainIcons/sesion1.png"));///iconos archivo
+    ImageIcon ImgExit = new ImageIcon(getClass().getResource("/images/windowMainIcons/exit1.png"));
+    ImageIcon ImgAdd = new ImageIcon(getClass().getResource("/images/windowMainIcons/add.png"));////iconos prestamos
+    ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/windowMainIcons/search.png"));
+    ImageIcon ImgDelete = new ImageIcon(getClass().getResource("/images/windowMainIcons/delete.png"));
+    ImageIcon ImgSearchBook = new ImageIcon(getClass().getResource("/images/windowMainIcons/searchBook.png"));////iconos libros
+    ImageIcon ImgEditBook = new ImageIcon(getClass().getResource("/images/windowMainIcons/editBook.png"));
+    ImageIcon ImgSearchUser = new ImageIcon(getClass().getResource("/images/windowMainIcons/searchUser.png"));////iconos user
+    ImageIcon ImgEditUser = new ImageIcon(getClass().getResource("/images/windowMainIcons/editUser.png"));
+    ImageIcon ImgSearchLibrary = new ImageIcon(getClass().getResource("/images/windowMainIcons/library.png"));////iconos biblioteca
+    ImageIcon ImgEditLibrary = new ImageIcon(getClass().getResource("/images/windowMainIcons/editLibrary.png"));
     // Crear un escritorio para JFrame
     JDesktopPane Escritorio = new JDesktopPane();
     //Se usa la clase PanelImagen para dimensionar la imagen de parametro
@@ -37,25 +42,17 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     JMenuItem MenuArchivoSalir = new JMenuItem("Salir");
     JMenuItem MenuArchioLogOut = new JMenuItem();
 
-    JMenuItem MenuUsuarioRegistrar = new JMenuItem("Registrar");
-    JMenuItem MenuBibliotecaRegistrar = new JMenuItem("Registrar");
-    JMenuItem MenuLibroRegistrar = new JMenuItem("Registrar");
-    JMenuItem MenuPrestamoRegistrar = new JMenuItem("Registrar");
-
     JMenuItem MenuPrestamoConsultar = new JMenuItem("Consultar");
+    JMenuItem MenuPrestamoRegistrar = new JMenuItem("Registrar");
+    JMenuItem MenuPrestamoLiquidar = new JMenuItem("Liquidar");
+
     JMenuItem MenuLibroConsultar = new JMenuItem("Consultar");
     JMenuItem MenuUsuarioConsultar = new JMenuItem("Consultar");
     JMenuItem MenuBibliotecaConsultar = new JMenuItem("Consultar");
 
-    JMenuItem MenuPrestamoEliminar = new JMenuItem("Liquidar");
-    JMenuItem MenuLibroEliminar = new JMenuItem("Eliminar");
-    JMenuItem MenuUsuarioEliminar= new JMenuItem("Eliminar");
-    JMenuItem MenuBibliotecaEliminar = new JMenuItem("Eliminar");
-
-    JMenuItem MenuPrestamoModificar = new JMenuItem("Modificar");
-    JMenuItem MenuLibroModificar = new JMenuItem("Modificar");
-    JMenuItem MenuUsuarioModificar= new JMenuItem("Modificar");
-    JMenuItem MenuBibliotecaModificar = new JMenuItem("Modificar");
+    JMenuItem MenuLibroEditar = new JMenuItem("Editar");
+    JMenuItem MenuUsuarioEditar= new JMenuItem("Editar");
+    JMenuItem MenuBibliotecaEditar= new JMenuItem("Editar");
     /////////////////////Constructor/////////////////
     public WindowMain(Conexion conexion, String Tipo, String Usuario){
         this.Tipo = Tipo;
@@ -78,6 +75,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         this.setContentPane(Panel);
         this.setLayout(null);
         //this.setUndecorated(true);
+        //this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.blue, 2));
         //Agregar la barra Menu al frame
         this.setJMenuBar(BarraMenu);
         BarraMenu.setBackground(new Color (53, 81, 181));
@@ -94,30 +92,23 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         BarraMenu.add(MenuLibros);
         MenuLibros.add(MenuLibroConsultar);
         JMenuColorAndFont(MenuLibros);
-        addJMenuItem(MenuLibroConsultar,"Consultar libros",ImgSearch);
-        addJMenuItem(MenuLibroRegistrar,"Registrar libros",ImgAdd);
-        addJMenuItem(MenuLibroEliminar,"Eliminar libros", ImgDelete);
-        addJMenuItem(MenuLibroModificar,"Modificar libros",ImgEdit);
+        addJMenuItem(MenuLibroConsultar,"Consultar libros",ImgSearchBook);
+        addJMenuItem(MenuLibroEditar,"Editar libros",ImgEditBook);
         //menu Prestamos
         MenuPrestamos.add(MenuPrestamoConsultar);
         JMenuColorAndFont(MenuPrestamos);
         addJMenuItem(MenuPrestamoConsultar,"Consultar prestamos",ImgSearch);
         addJMenuItem(MenuPrestamoRegistrar,"Registrar prestamos",ImgAdd);
-        addJMenuItem(MenuPrestamoEliminar,"Eliminar prestamos", ImgDelete);
-        addJMenuItem(MenuPrestamoModificar,"Modificar prestamos",ImgEdit);
+        addJMenuItem(MenuPrestamoLiquidar,"Eliminar prestamos", ImgDelete);
         //menu Usuarios
         JMenuColorAndFont(MenuUsuarios);
-        addJMenuItem(MenuUsuarioConsultar,"Consultar usuarios",ImgSearch);
-        addJMenuItem(MenuUsuarioRegistrar,"Registrar usuarios",ImgAdd);
-        addJMenuItem(MenuUsuarioEliminar,"Eliminar usuarios", ImgDelete);
-        addJMenuItem(MenuUsuarioModificar,"Modificar usuarios",ImgEdit);
+        addJMenuItem(MenuUsuarioConsultar,"Consultar usuarios",ImgSearchUser);
+        addJMenuItem(MenuUsuarioEditar,"Registrar usuarios",ImgEditUser);
         //menu biblioteca
         MenuBibliotecas.add(MenuBibliotecaConsultar);
         JMenuColorAndFont(MenuBibliotecas);
-        addJMenuItem(MenuBibliotecaConsultar,"Consultar bibliotecas",ImgSearch);
-        addJMenuItem(MenuBibliotecaRegistrar,"Registrar bibliotecas",ImgAdd);
-        addJMenuItem(MenuBibliotecaEliminar,"Eliminar bibliotecas", ImgDelete);
-        addJMenuItem(MenuBibliotecaModificar,"Modificar bibliotecas",ImgEdit);
+        addJMenuItem(MenuBibliotecaConsultar,"Consultar bibliotecas",ImgSearchLibrary);
+        addJMenuItem(MenuBibliotecaEditar,"Registrar bibliotecas",ImgEditLibrary);
         //Poner shorcuts(accesos directos)
         MenuArchivoSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.CTRL_MASK));
         MenuLibroConsultar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_MASK));
@@ -143,25 +134,20 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         if (Tipo.equals("SuperAdministrador")) {//Super Administrador
             MenuArchioLogOut.setText("Cerrar Sesión");
             //accesos libros
-            MenuLibros.add(MenuLibroRegistrar);
-            MenuLibros.add(MenuLibroEliminar);
-            MenuLibros.add(MenuLibroModificar);
+            MenuLibros.add(MenuLibroEditar);
             //accesos prestamos
             BarraMenu.add(MenuPrestamos);
+            MenuPrestamos.add(MenuPrestamoConsultar);
             MenuPrestamos.add(MenuPrestamoRegistrar);
-            MenuPrestamos.add(MenuPrestamoEliminar);
-            MenuPrestamos.add(MenuPrestamoModificar);
+            MenuPrestamos.add(MenuPrestamoLiquidar);
             //accesos usuarios
             BarraMenu.add(MenuUsuarios);
             MenuUsuarios.add(MenuUsuarioConsultar);
-            MenuUsuarios.add(MenuUsuarioRegistrar);
-            MenuUsuarios.add(MenuUsuarioEliminar);
-            MenuUsuarios.add(MenuUsuarioModificar);
+            MenuUsuarios.add(MenuUsuarioEditar);
             //accesos bibliotecas
             BarraMenu.add(MenuBibliotecas);
-            MenuBibliotecas.add(MenuBibliotecaRegistrar);
-            MenuBibliotecas.add(MenuBibliotecaEliminar);
-            MenuBibliotecas.add(MenuBibliotecaModificar);
+            MenuBibliotecas.add(MenuBibliotecaConsultar);
+            MenuBibliotecas.add(MenuBibliotecaEditar);
         }else if(Tipo.equals("Normal")){
             MenuArchioLogOut.setText("Cerrar Sesión");
             //libros
@@ -179,22 +165,33 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     public void actionPerformed(ActionEvent me) {
         if (me.getSource() == MenuArchivoSalir) {
             System.exit(0);
-        }else if (me.getSource() == MenuLibroConsultar) {
+        }else if (me.getSource() == MenuLibroConsultar) {///////////////seccion libros
             ConsultarLibros VCLibros =  new ConsultarLibros();
             Panel.add(VCLibros);
-        }else if (me.getSource() == MenuPrestamoConsultar) {
+        }else if (me.getSource()== MenuLibroEditar){
+            VentanaEditarLibros VELibros = new VentanaEditarLibros();
+            Panel.add(VELibros);
+            //VentanaRegistraLibros VRLibros = new VentanaRegistraLibros();
+            //Panel.add(VRLibros);
+        }else if (me.getSource() == MenuPrestamoConsultar) {//////////////seccion prestamos
             VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos(conexion, Tipo, Usuario);
             Panel.add(VCPrestamos);
-        }else if (me.getSource() == MenuBibliotecaRegistrar) {
-            VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
-            Panel.add(VRBiblioteca);
         }else if (me.getSource() == MenuPrestamoRegistrar) {
             VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
             Panel.add(VRPrestamos);
-        }else if (me.getSource() == MenuUsuarioRegistrar) {
+        }else if (me.getSource() == MenuPrestamoLiquidar) {
+
+        }else if (me.getSource() == MenuUsuarioConsultar){///////////seccion usuarios
+
+        }else if (me.getSource() == MenuUsuarioEditar){
             VentanaUsuarios VRUsuario = new VentanaUsuarios();
             Panel.add(VRUsuario);
-        }else if (me.getSource()==MenuArchioLogOut){
+        } else if (me.getSource() == MenuBibliotecaConsultar) {/////////////seccion bibliotecas
+
+        }else if (me.getSource() == MenuBibliotecaEditar){
+            VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
+            Panel.add(VRBiblioteca);
+        } else if (me.getSource()==MenuArchioLogOut){
             Login vlogin = new Login(conexion);
             this.dispose();
         }
