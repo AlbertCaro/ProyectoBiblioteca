@@ -26,13 +26,13 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     ImageIcon IconBiblio = new ImageIcon(getClass().getResource("/images/iconBook.png"));
     JLabel JLUser = new JLabel("Usuario: ");
     JLabel JLContraseña = new JLabel("Contraseña: ");
-    JLabel JLTitulo = new JLabel("¡Bienvenido a AdmyBook!");
+    JLabel JLTitulo = new JLabel("AdmyBook");
     JLabel JLInstruc = new JLabel("Por favor ingresa usuario y contraseña");
     JTextField JTFUser = new JTextField();
     //TextField TFContraseña = new TextField();// hay un metodo para poner * y cubrir las letras
     JPasswordField JPFPass = new JPasswordField();// se utiliza para password
     JButton JBLogin = new JButton("Iniciar Sesión");
-    JButton JBInvitado = new JButton("Invitado");
+    JButton JBInvitado = new JButton("Modo Invitado");
     private InputMap Enter = new InputMap(); //Enter
     public Login(Conexion conexion){
         this.conexion = conexion;
@@ -45,7 +45,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         this.setTitle("Iniciar sesión");
         //JLabel
         JLTitulo.setBounds(75, 10, 250, 40);
-        JLTitulo.setFont(new Font("arial",1,20));
+        JLTitulo.setFont(new Font("arial",1,26));
         JLTitulo.setForeground(new Color(53, 81, 181));
         JLTitulo.setHorizontalAlignment((int)CENTER_ALIGNMENT);
         JLInstruc.setBounds(10, 55, 300, 30);
@@ -60,14 +60,14 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         //JTFUser.setBounds(115, 100, 200, 30);
         JPFPass.setBounds(115, 140, 200, 30);
         //JButton
-        JBLogin.setBounds(190, 220, 150, 30);
+        JBLogin.setBounds(215, 220, 150, 30);
         JBLogin.setToolTipText("Iniciar sesión");
-        JBLogin.setBackground(new Color (87, 157, 210));
+        JBLogin.setBackground(new Color(53, 81, 181));
         JBLogin.setFont(new Font("arial", 1, 16));
         JBLogin.setForeground(new Color(255,255,255));
-        JBInvitado.setBounds(50, 220, 100, 30);
+        JBInvitado.setBounds(30, 220, 150, 30);
         JBInvitado.setToolTipText("Iniciar sesión en modo Invitado");
-        JBInvitado.setBackground(new Color (87, 157, 210));
+        JBInvitado.setBackground(new Color(53, 81, 181));
         JBInvitado.setFont(new Font("arial", 1, 16));
         JBInvitado.setForeground(new Color(255,255,255));
         Enter.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "pressed");
@@ -76,7 +76,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
         Oyentes();
         this.setLayout(null);
         this.setVisible(true);
-        }
+    }
     private void Oyentes() {
         this.add(JLTitulo);
         this.add(JLInstruc);

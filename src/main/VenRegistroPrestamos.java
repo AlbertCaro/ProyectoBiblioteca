@@ -17,21 +17,21 @@ public class VenRegistroPrestamos extends InternalWindow implements ActionListen
     JLabel JDesPres = new JLabel("Datos del ejemplar");
     JLabel JCodigo = new JLabel("Código");
     JLabel JISBN = new JLabel("ISBN");
-    JButton BRegistro = new JButton("Guardar");
+    JButton BRegistro = new JButton("Guardar prestamo");
     JButton BSalir = new JButton("Salir");
     ImageIcon SalirIma = new ImageIcon(getClass().getResource("/images/exitico.png"));
     ImageIcon GuardarIma = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
     
     public VenRegistroPrestamos(){
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(250,300);
+        this.setSize(270,300);
         this.setTitle("Registrar prestamo");
         this.setLayout(null);
         this.setResizable(false);
         this.setMaximizable(true);
         this.setClosable(true);
         //this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new java.awt.Color(254,223,168));
+        this.getContentPane().setBackground(new java.awt.Color(168, 220, 255));
 
         //JDesUsuario.setBounds(10,10,200,25);
         //JDesUsuario.setFont(new Font("Arial",3,14));
@@ -45,9 +45,9 @@ public class VenRegistroPrestamos extends InternalWindow implements ActionListen
         JISBN.setBounds(30,80,100,25);
         TxtISBN.setBounds(30,100,150,25);
 
-        BRegistro.setBounds(20,200,100,25);
+        BRegistro.setBounds(20,200,200,25);
         BRegistro.setIcon(GuardarIma);
-        BSalir.setBounds(150,200,100,25);
+        BSalir.setBounds(140,250,100,25);
         BSalir.addActionListener(this);
         BSalir.setIcon(SalirIma);
         //TxtNombre.setBounds();

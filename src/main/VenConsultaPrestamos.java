@@ -42,7 +42,7 @@ public class VenConsultaPrestamos extends InternalWindow implements ActionListen
         this.setMaximizable(true);
         this.setClosable(true);
         //this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new java.awt.Color(254,223,168));
+        this.getContentPane().setBackground(new java.awt.Color(168, 220, 255));
 
         BDevueltos.setBounds(40,40,120,25);
         BDevueltos.setIcon(EntregadoIma);
