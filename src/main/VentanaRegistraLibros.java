@@ -50,7 +50,7 @@ public class VentanaRegistraLibros extends InternalWindow implements ActionListe
         addTextField(TxtEdicion, 110, 280, 230, "Edicion",this);
         addLabel(LblCosto, 320,90, TxtCosto, this);
         addTextField(TxtCosto, 110, 320, 230, "Costo",this);
-        addButton(BtnRegistrar,130, 360, this);
+        addButton(BtnRegistrar,130, 360,"Registrar Libro", this);
         addWindowProperties(this, "Registrar libros");
     }
 

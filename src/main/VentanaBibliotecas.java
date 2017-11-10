@@ -37,7 +37,7 @@ public class VentanaBibliotecas extends InternalWindow implements KeyListener, A
         addComboBox(CbMunicipio, 108, 120, 78, this);
         addTextField(TxtColonia, 196, 120, 77, "Colonia",this);
         addTextField(TxtCodigoPostal, 283, 120, 77, "Codigo postal",this);
-        addButton(BtnRegistrar, 120, 160, this);
+        addButton(BtnRegistrar, 120, 160,"Registar Biblioteca", this);
         addWindowProperties(this, "Agregar biblioteca");
     }
 

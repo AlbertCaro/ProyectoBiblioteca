@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -22,9 +23,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 abstract class InternalWindow extends JInternalFrame implements WindowInterface {
-    //Se agregó sólo esta constante ya que es la única que se repite
+    //Se agregaron sólo estas constantes ya que son las únicas que se repiten
     private final static int COMPONENTS_HEIGHT = 30;
     private final static Color BACKGROUND_COLOR = new java.awt.Color(168, 220, 255);
+    private final static Color BACKGROUND_COLOR_BUTTON = new java.awt.Color(53, 81, 181);
+    private final static Color FOREGROUND_COLOR_BUTTON = new java.awt.Color(255,255,255);
 
     /**
      * Método para añadir un título a la ventana con su formato correspondiente.
@@ -91,13 +94,14 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
      * @param y Posición en el eje y
      * @param Frame Ventana en dónde será añadido
      */
-    void addButton(JButton button, int x, int y, JInternalFrame Frame) {
+    void addButton(JButton button, int x, int y, String TipText, JInternalFrame Frame) {
         button.setBounds(x, y, 100, COMPONENTS_HEIGHT);
-        button.setBackground(new Color (53, 81, 181));
+        button.setBackground(BACKGROUND_COLOR_BUTTON);
         button.setFont(new Font("arial", 1, 14));
-        button.setForeground(new Color(255,255,255));
+        button.setForeground(FOREGROUND_COLOR_BUTTON);
         button.addActionListener((ActionListener) Frame);
         button.addKeyListener((KeyListener) Frame);
+        button.setToolTipText(TipText);
         Frame.add(button);
     }
 
@@ -311,5 +315,31 @@ abstract class InternalWindow extends JInternalFrame implements WindowInterface 
             }
         }
         return result;
+    }
+    /**
+     * Este metodo es para llenar una tabla con una consulta ResultSet, y despues ser vizualizada
+     *@param MiConexion la conexion que se necesita para la consulta
+     *@param //BuscarStm consulta que se va a reealizar para vizualisar en la tabla
+     *@param CadenaSQL String con la consulta
+     *@param Modelo DefaultTableModel para el modelo de la tabla
+     *@param rootPane panel donde se agregara el mensaje de error en caso que exista un error
+     */
+    void llenarTabla(Conexion MiConexion,String CadenaSQL, DefaultTableModel Modelo, JRootPane rootPane){
+        try{
+            PreparedStatement BuscarStm = MiConexion.getConexion().prepareCall(CadenaSQL);
+            ResultSet RSBuscar = BuscarStm.executeQuery();
+            //metadatos sirve para obtener informacion de la consulta como nombre de las columnas y de la tabla
+            ResultSetMetaData RsMd = RSBuscar.getMetaData();
+            int numeroDeColumnas = RsMd.getColumnCount();
+            while (RSBuscar.next()){
+                Object Fila[] = new Object[numeroDeColumnas];
+                for (int i= 0; i < Fila.length; i++){
+                    Fila[i] = RSBuscar.getObject(i+1);
+                }
+                Modelo.addRow(Fila);
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Error: "+e);
+        }
     }
 }

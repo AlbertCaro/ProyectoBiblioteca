@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,9 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
     private ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/windowMainIcons/search.png"));
     private ImageIcon ImgCancel = new ImageIcon(getClass().getResource("/images/cancel-32.png"));
     private ImageIcon ImgSave = new ImageIcon(getClass().getResource("/images/save-32.png"));
+    //Combobox
+    private JLabel LblCombo = new JLabel("Buscar por:");
+    private JComboBox Combo = new JComboBox();
     //tabla
     private JTable Tabla = new JTable();
     private JScrollPane ScrollP = new JScrollPane(Tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -24,7 +28,6 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
     private Object ColumName[] = new Object[]{"ISBN","Nombre","Editorial"};
     private DefaultTableModel Modelo = new DefaultTableModel(FilaInicial,ColumName);
     //JLabel
-    JLabel TituloV = new JLabel("Edición de libros");
     private JLabel LblISBN = new JLabel("ISBN");
     private JLabel LblTitulo = new JLabel("Titulo");
     private JLabel LblAutor = new JLabel("Autor");
@@ -53,16 +56,20 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
 
     public VentanaEditarLibros(){
         this.setSize(1100,600);
-        addTitleLabel(TituloV,this);
+        addLabel(LblCombo,30,10,150,Combo,this);
+        addComboBox(Combo,30,40,150,this);
+        //textfield
+        addTextField(TxtBuscar, 190, 40, 120, "Buscar",this);
         Tabla.setModel(Modelo);
         this.add(Tabla);
         ScrollP.setBounds(30, 100, 600, 310);
         ScrollP.setViewportView(Tabla);
         this.add(ScrollP);
         ///////////////////labels & textFields///////////////////
-        addTextField(TxtBuscar,30,40,120,"Buscar",this);
         addLabel(LblISBN, 680,100, TxtISBN, this);
         addTextField(TxtISBN, 790, 100, 230, "ISBN",this);
+        //TxtISBN.setEnabled(false);
+        //TxtISBN.setBackground(new Color(194, 192, 193));
         addLabel(LblTitulo, 680,140,TxtTitulo, this);
         addTextField(TxtTitulo, 790, 140, 230, "Titulo",this);
         addLabel(LblAutor, 680,180, TxtAutor, this);
@@ -78,18 +85,18 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
         addLabel(LblCosto, 680,380, TxtCosto, this);
         addTextField(TxtCosto, 790, 380, 230, "Costo",this);
         /////////////////////Buttons///////////////
-        addButton(BtBuscar,160,40,this);
+        addButton(BtBuscar, 320, 40,"Buscar Libro",this);
         BtBuscar.setSize(30,30);
         BtBuscar.setIcon(ImgSearch);
-        addButton(BtAgregar,685,40,this);
-        addButton(BtModificar,795,40,this);
-        addButton(BtEliminar,905,40,this);
-        addButton(BtGuardar,685,450,this);
+        addButton(BtAgregar,685,40,"Agregar Ejemplar",this);
+        addButton(BtModificar,795,40,"Editar Ejemplar",this);
+        addButton(BtEliminar,905,40,"",this);
+        addButton(BtGuardar,685,450,"Guardar Cambios",this);
         BtGuardar.setSize(100,80);
         BtGuardar.setIcon(ImgSave);
         BtGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BtGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        addButton(BtCancelar,905,450,this);
+        addButton(BtCancelar,905,450,"Cancelar cambios",this);
         BtCancelar.setSize(100,80);
         BtCancelar.setIcon(ImgCancel);
         BtCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

@@ -26,7 +26,7 @@ public class VentanaRegistraEjemplar extends InternalWindow implements ActionLis
         addTextField(TxtISBN, 110, 40, 230, "ISBN",this);
         addLabel(LblNumero, 80,90, TxtNumero, this);
         addTextField(TxtNumero, 110, 80, 230, "Numero de ejemplar",this);
-        addButton(BtnRegistrar, 120, 120, this);
+        addButton(BtnRegistrar, 120, 120,"Registrar Ejemplar", this);
         addWindowProperties(this, "Registrar ejemplar");
     }
 
