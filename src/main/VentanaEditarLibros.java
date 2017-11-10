@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class VentanaEditarLibros extends InternalWindow implements KeyListener, ActionListener {
     private ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/windowMainIcons/search.png"));
@@ -49,6 +50,7 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
     private JButton BtEliminar = new JButton("Eliminar");
     private JButton BtGuardar = new JButton("Guardar");
     private JButton BtCancelar = new JButton("Cancelar");
+
     public VentanaEditarLibros(){
         this.setSize(1100,600);
         addTitleLabel(TituloV,this);

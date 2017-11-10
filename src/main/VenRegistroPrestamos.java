@@ -4,68 +4,47 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class VenRegistroPrestamos extends InternalWindow implements ActionListener {
-    TextField TxtCodigo = new TextField();
-    TextField TxtISBN = new TextField();
-    JLabel JDesUsuario = new JLabel("Datos del usuario");
-    JLabel JDesPres = new JLabel("Datos del ejemplar");
-    JLabel JCodigo = new JLabel("Código");
-    JLabel JISBN = new JLabel("ISBN");
-    JButton BRegistro = new JButton("Guardar prestamo");
-    JButton BSalir = new JButton("Salir");
-    ImageIcon SalirIma = new ImageIcon(getClass().getResource("/images/exitico.png"));
-    ImageIcon GuardarIma = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
+public class VenRegistroPrestamos extends InternalWindow implements KeyListener, ActionListener {
+    private JTextField TxtCodigo = new JTextField();
+    private JTextField TxtISBN = new JTextField();
+    private JLabel JCodigo = new JLabel("Código");
+    private JLabel JISBN = new JLabel("ISBN");
+    private JButton BRegistro = new JButton("Guardar");
+    private JButton BSalir = new JButton("Salir");
+    ImageIcon ImaSalir = new ImageIcon(getClass().getResource("/images/exitico.png"));
+    ImageIcon ImaGuardar = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
     
-    public VenRegistroPrestamos(){
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(270,300);
-        this.setTitle("Registrar prestamo");
-        this.setLayout(null);
-        this.setResizable(false);
-        this.setMaximizable(true);
-        this.setClosable(true);
-        //this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new java.awt.Color(168, 220, 255));
+    public VenRegistroPrestamos() {
+        this.setSize(300, 300);
 
-        //JDesUsuario.setBounds(10,10,200,25);
-        //JDesUsuario.setFont(new Font("Arial",3,14));
+        addLabel(JCodigo,30,40,TxtCodigo,this);
+        addTextField(TxtCodigo, 100, 40, 150, "Código", this);
+        addLabel(JISBN,30,80,TxtISBN,this);
+        addTextField(TxtISBN, 100, 80, 150, "ISBN", this);
 
-        JCodigo.setBounds(30,30,100,25);
-        TxtCodigo.setBounds(30,50,100,25);
-
-        //JDesPres.setBounds(10,140,200,25);
-        //JDesPres.setFont(new Font("Arial",3,14));
-
-        JISBN.setBounds(30,80,100,25);
-        TxtISBN.setBounds(30,100,150,25);
-
-        BRegistro.setBounds(20,200,200,25);
-        BRegistro.setIcon(GuardarIma);
-        BSalir.setBounds(140,250,100,25);
-        BSalir.addActionListener(this);
-        BSalir.setIcon(SalirIma);
-        //TxtNombre.setBounds();
-        this.add(JDesUsuario);
-        this.add(JDesPres);
-        this.add(TxtCodigo);
-        this.add(TxtISBN);
-        this.add(JCodigo);
-        this.add(JISBN);
-        this.add(BRegistro);
-        this.add(BSalir);
-        this.setVisible(true);
+        addButton(BRegistro,30,150,this);
+        addButton(BSalir,30,190,this);
+        BRegistro.setIcon(ImaGuardar);
+        BSalir.setIcon(ImaSalir);
+        BRegistro.setSize(150,30);
+        BSalir.setSize(150,30);
+        addWindowProperties(this,"Nuevo Prestamo");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==BSalir)
-            dispose();
+        if (e.getSource() == BSalir){
+            this.dispose();
+        }
+
     }
 
     @Override
@@ -85,6 +64,21 @@ public class VenRegistroPrestamos extends InternalWindow implements ActionListen
 
     @Override
     public void cleanForm() {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

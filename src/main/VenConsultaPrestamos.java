@@ -1,92 +1,86 @@
 package main;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class VenConsultaPrestamos extends InternalWindow implements ActionListener {
-    JButton BDevueltos = new JButton("Devueltos");
-    JButton BPendientes = new JButton("Pendientes");
-    JButton BTodos = new JButton("Todos");
-    JButton BSalir = new JButton("Salir");
-    JButton BConUsuario = new JButton();
-    //JButton BAmpliarPrestamo = new JButton("Ampliar Prestamo");
-    JButton BRegistrar = new JButton("Nuevo prestamo");
-    JLabel JPrestamos = new JLabel("Tipo de consulta");
-    JLabel JResultados = new JLabel("Resultado de la busqueda");
-    JLabel JUsuario = new JLabel("CONSULTAR USUARIO");
-    ImageIcon SearchIma = new ImageIcon(getClass().getResource("/images/searchico.png"));
-    ImageIcon SalirIma = new ImageIcon(getClass().getResource("/images/exitico.png"));
-    ImageIcon PendienteIma = new ImageIcon(getClass().getResource("/images/clockico.png"));
-    ImageIcon EntregadoIma = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
-    ImageIcon TodoIma = new ImageIcon(getClass().getResource("/images/allico.png"));
-    TextField TxtBuscar = new TextField();
-    Conexion conexion;
-    String Tipo, Usuario;
+public class VenConsultaPrestamos extends InternalWindow implements KeyListener, ActionListener {
+    //JButtons
+    private JButton BDevueltos = new JButton("Devueltos");
+    private JButton BPendientes = new JButton("Pendientes");
+    private JButton BTodos = new JButton("Todo");
+    private JButton BBuscar = new JButton();
+    private JButton BNuevo = new JButton("Nuevo Prestamo");
+    private JButton BLiquidar = new JButton("Liquidar");
+    //JTextField
+    private JTextField TxtBuscar = new JTextField();
+    //JLabels
+    private JLabel Titulo = new JLabel("Consultar Prestamos");
+    //tabla
+    private JTable Tabla = new JTable();
+    private JScrollPane ScrollP = new JScrollPane(Tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    private Object[][] FilaInicial = new Object[0][3];
+    private Object ColumName[] = new Object[]{"ISBN","Código","Fecha"};
+    private DefaultTableModel Modelo = new DefaultTableModel(FilaInicial,ColumName);
+    //Iconos
+    private ImageIcon ImaBuscar = new ImageIcon(getClass().getResource("/images/searchico.png"));
+    private ImageIcon ImaSalir = new ImageIcon(getClass().getResource("/images/exitico.png"));
+    private ImageIcon ImaPendiente = new ImageIcon(getClass().getResource("/images/clockico.png"));
+    private ImageIcon ImaEntregado = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
+    private ImageIcon ImaTodos = new ImageIcon(getClass().getResource("/images/allico.png"));
+    private ImageIcon ImaNuevoP = new ImageIcon(getClass().getResource("/images/newprestamo.png"));
+    private ImageIcon ImaLiquidar = new ImageIcon(getClass().getResource("/images/money.png"));
 
-    public VenConsultaPrestamos(Conexion conexion, String Tipo, String Usuario){
-        this.Tipo = Tipo;
-        this.conexion = conexion;
-        this.Usuario = Usuario;
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setSize(700,500);
-        this.setTitle("Consultar Prestamos");
-        this.setLayout(null);
-        this.setResizable(false);
-        this.setMaximizable(true);
-        this.setClosable(true);
-        //this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new java.awt.Color(168, 220, 255));
+    public VenConsultaPrestamos(){
+        this.setSize(850,400);
+        addTitleLabel(Titulo,this);
+        Tabla.setModel(Modelo);
+        this.add(Tabla);
+        ScrollP.setBounds(30, 100, 600, 240);
+        ScrollP.setViewportView(Tabla);
+        this.add(ScrollP);
 
-        BDevueltos.setBounds(40,40,120,25);
-        BDevueltos.setIcon(EntregadoIma);
-        BDevueltos.setToolTipText("Consulta los datos de los libros devueltos");
-        BPendientes.setBounds(170,40,120,25);
-        BPendientes.setIcon(PendienteIma);
-        BPendientes.setToolTipText("Consulta los libros pendientes de entrega");
-        BTodos.setBounds(300,40,120,25);
-        BTodos.setIcon(TodoIma);
-        BTodos.setToolTipText("Consulta todos los prestamos");
-        BConUsuario.setBounds(631,40,25,25);
-        BConUsuario.setIcon(SearchIma);
-        BConUsuario.setToolTipText("Consultar prestamos");
-        //BAmpliarPrestamo.setBounds(100,415,150,25);
-        BSalir.setBounds(555,415,100,25);
-        BSalir.setIcon(SalirIma);
-        BSalir.addActionListener(this);
-        if (Tipo.equals("Super Administrador") || Tipo.equals("SuperAdministrador")) {
-            BRegistrar.setBounds(270, 415, 150, 25);
-            BRegistrar.setToolTipText("Registrar un nuevo prestamo");
-            TxtBuscar.setBounds(510,40,120,25);
-        }
+        addTextField(TxtBuscar,30,40,150,"Usuario",this);
+        addButton(BBuscar,180,40,this);
+        BBuscar.setSize(30,30);
+        BBuscar.setIcon(ImaBuscar);
+        addButton(BDevueltos,655,110,this);
+        addButton(BPendientes,655,150,this);
+        addButton(BTodos,655,190,this);
+        addButton(BNuevo,655,270,this);
+        addButton(BLiquidar,655,310,this);
+        BDevueltos.setIcon(ImaEntregado);
+        BPendientes.setIcon(ImaPendiente);
+        BTodos.setIcon(ImaTodos);
+        //BNuevo.setIcon(ImaNuevoP);
+        BLiquidar.setIcon(ImaLiquidar);
 
-        JPrestamos.setBounds(10,10,100,20);
-        JResultados.setBounds(10,70,150,20);
-        JUsuario.setBounds(510,10,150,20);
-
-        this.add(BDevueltos);
-        this.add(BPendientes);
-        this.add(BTodos);
-        this.add(JPrestamos);
-        this.add(JResultados);
-        this.add(JUsuario);
-        this.add(TxtBuscar);
-        this.add(BConUsuario);
-        this.add(BSalir);
-        this.add(BRegistrar);
-        this.setVisible(true);
+        BDevueltos.setSize(150,30);
+        BPendientes.setSize(150,30);
+        BTodos.setSize(150,30);
+        BNuevo.setSize(150,30);
+        BLiquidar.setSize(150,30);
+        addWindowProperties(this,"Consultar Prestamo");
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==BSalir)
-            dispose();
+        if (e.getSource() == BNuevo){
+            VenRegistroPrestamos VRP = new VenRegistroPrestamos();
+            //this.dispose();
+        }else if (e.getSource() == BLiquidar){
+
+        }
     }
 
     @Override
@@ -106,6 +100,21 @@ public class VenConsultaPrestamos extends InternalWindow implements ActionListen
 
     @Override
     public void cleanForm() {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

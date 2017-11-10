@@ -53,6 +53,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
     JMenuItem MenuLibroEditar = new JMenuItem("Editar");
     JMenuItem MenuUsuarioEditar= new JMenuItem("Editar");
     JMenuItem MenuBibliotecaEditar= new JMenuItem("Editar");
+
     /////////////////////Constructor/////////////////
     public WindowMain(Conexion conexion, String Tipo, String Usuario){
         this.Tipo = Tipo;
@@ -174,7 +175,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             //VentanaRegistraLibros VRLibros = new VentanaRegistraLibros();
             //Panel.add(VRLibros);
         }else if (me.getSource() == MenuPrestamoConsultar) {//////////////seccion prestamos
-            VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos(conexion, Tipo, Usuario);
+            VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos();
             Panel.add(VCPrestamos);
         }else if (me.getSource() == MenuPrestamoRegistrar) {
             VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
@@ -184,7 +185,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
         }else if (me.getSource() == MenuUsuarioConsultar){///////////seccion usuarios
 
         }else if (me.getSource() == MenuUsuarioEditar){
-            VentanaUsuarios VRUsuario = new VentanaUsuarios();
+            VenEditarUsuario VRUsuario = new VenEditarUsuario();
             Panel.add(VRUsuario);
         } else if (me.getSource() == MenuBibliotecaConsultar) {/////////////seccion bibliotecas
 
