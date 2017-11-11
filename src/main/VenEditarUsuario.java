@@ -136,7 +136,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 	}
 	private void InsertarUsuario(){
 		try{
-			PreparedStatement GuardarStm = MiConexion.getConexion().prepareCall(" INSERT INTO Personas (Codigo, Nombre, ApPaterno, ApMaterno, Sexo, Correo, Telefono, idCarreras, idUniversidades) VALUES (? , ?, ?, ?, ?, ? ,?, 1, 1)");
+			PreparedStatement GuardarStm = MiConexion.getConexion().prepareCall(" INSERT INTO Personas (Codigo, Nombre, ApPaterno, ApMaterno, Sexo, Correo, Telefono, idCarreras, idUniversidades) VALUES (? , ?, ?, ?, ?, ? ,?, ?, ?)");
 			PreparedStatement GuardarStm2 = MiConexion.getConexion().prepareCall(" INSERT INTO Usuarios (Codigo, Usuario, Pass, idTipos) VALUE (? , ? , ? , 1)");
 			GuardarStm.setInt(1, Integer.parseInt(TxtCodigo.getText()));
 			GuardarStm.setString(2, TxtNombre.getText());
@@ -145,6 +145,8 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			GuardarStm.setString(5, (String)CbSexo.getSelectedItem());
 			GuardarStm.setString(6, TxtCorreo.getText());
 			GuardarStm.setString(7, TxtTelefono.getText());
+			GuardarStm.setInt(8, CbCarrera.getSelectedIndex()+1);
+			GuardarStm.setInt(9, CbUniversidad.getSelectedIndex()+1);
 			GuardarStm2.setInt(1, Integer.parseInt(TxtCodigo.getText()));
 			GuardarStm2.setString(2, TxtUsuario.getText());
 			GuardarStm2.setString(3, TxtPass.getPassword().toString());
