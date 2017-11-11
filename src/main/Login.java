@@ -121,7 +121,7 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
                 }
             }
         }else if (me.getSource() == JBInvitado) {
-            SplashBienv VBienvenida = new SplashBienv(conexion, "Invitado", "Invitado");
+            SplashBienv VBienvenida = new SplashBienv(conexion, "SuperAdministrador", "SuperAdministrador");
             //WindowMain Principal = new WindowMain(conexion,"Invitado", "Invitado");
             this.dispose();
         }

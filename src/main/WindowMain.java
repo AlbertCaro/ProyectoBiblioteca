@@ -192,7 +192,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             VenConsultarUsuario VCUsuarios = new VenConsultarUsuario(conexion);
             Panel.add(VCUsuarios);
         }else if (me.getSource() == MenuUsuarioEditar){
-            VenEditarUsuario VRUsuario = new VenEditarUsuario();
+            VenEditarUsuario VRUsuario = new VenEditarUsuario(conexion);
             Panel.add(VRUsuario);
         } else if (me.getSource() == MenuBibliotecaConsultar) {/////////////seccion bibliotecas
             VenConsultarBiblio VCBiblioteca = new VenConsultarBiblio(conexion);
