@@ -14,7 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class VentanaEditarLibros extends InternalWindow implements KeyListener, ActionListener {
+public class VenEditarLibros extends InternalWindow implements KeyListener, ActionListener {
+    private Conexion MiConexion;
     private ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/windowMainIcons/search.png"));
     private ImageIcon ImgCancel = new ImageIcon(getClass().getResource("/images/cancel-32.png"));
     private ImageIcon ImgSave = new ImageIcon(getClass().getResource("/images/save-32.png"));
@@ -25,7 +26,7 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
     private JTable Tabla = new JTable();
     private JScrollPane ScrollP = new JScrollPane(Tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     private Object[][] FilaInicial = new Object[0][3];
-    private Object ColumName[] = new Object[]{"ISBN","Nombre","Editorial"};
+    private Object ColumName[] = new Object[]{"ISBN","Titulo","Autor","Editorial", "Descripcion"};
     private DefaultTableModel Modelo = new DefaultTableModel(FilaInicial,ColumName);
     //JLabel
     private JLabel LblISBN = new JLabel("ISBN");
@@ -54,12 +55,15 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
     private JButton BtGuardar = new JButton("Guardar");
     private JButton BtCancelar = new JButton("Cancelar");
 
-    public VentanaEditarLibros(){
+    public VenEditarLibros(Conexion MiConexion){
+        this.MiConexion = MiConexion;
         this.setSize(1100,600);
         addLabel(LblCombo,30,10,150,Combo,this);
         addComboBox(Combo,30,40,150,this);
+        llenarComboBox();
         //textfield
         addTextField(TxtBuscar, 190, 40, 120, "Buscar",this);
+        TxtBuscar.setToolTipText("'*' para mostrar todos los resultados");
         Tabla.setModel(Modelo);
         this.add(Tabla);
         ScrollP.setBounds(30, 100, 600, 310);
@@ -90,20 +94,60 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
         BtBuscar.setIcon(ImgSearch);
         addButton(BtAgregar,685,40,"Agregar Ejemplar",this);
         addButton(BtModificar,795,40,"Editar Ejemplar",this);
+        BtModificar.setEnabled(false);
         addButton(BtEliminar,905,40,"",this);
+        BtEliminar.setEnabled(false);
         addButton(BtGuardar,685,450,"Guardar Cambios",this);
+        BtGuardar.setEnabled(false);
         BtGuardar.setSize(100,80);
         BtGuardar.setIcon(ImgSave);
         BtGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BtGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         addButton(BtCancelar,905,450,"Cancelar cambios",this);
+        BtCancelar.setEnabled(false);
         BtCancelar.setSize(100,80);
         BtCancelar.setIcon(ImgCancel);
         BtCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BtCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        inicializarTabla();
+
         addWindowProperties(this,"Edición de Libros");
     }
+
+    private void inicializarTabla() {
+        Tabla = new JTable(Modelo);
+        Tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);//se autoajusta
+        Tabla.getColumnModel().getColumn(0).setPreferredWidth(60);//tamaño de columna inicial
+        Tabla.getColumnModel().getColumn(1).setPreferredWidth(200);
+        Tabla.getColumnModel().getColumn(2).setPreferredWidth(180);
+        Tabla.getColumnModel().getColumn(3).setPreferredWidth(150);
+        Tabla.getColumnModel().getColumn(4).setPreferredWidth(400);
+        Tabla.getTableHeader().setReorderingAllowed(false);//se ordena automaticamente
+        llenarTabla(MiConexion,"SELECT ISBN, Titulo, Autor, Editorial, Descripcion FROM Libros",Modelo,rootPane);
+        this.add(Tabla);
+        ScrollP.setBounds(30, 100, 640, 300);
+        ScrollP.setViewportView(Tabla);
+        this.add(ScrollP);
+    }
+
+    private void llenarComboBox() {
+        for (int i=0; i<ColumName.length; i++){
+            Combo.addItem(ColumName[i].toString());
+        }
+    }
+
+    private void buscarFrase() {
+        limpiarTabla();
+        String SQL = new String("SELECT ISBN, Titulo, Autor, Editorial, Descripcion FROM Libros WHERE " +
+                Combo.getSelectedItem()+" LIKE '%"+TxtBuscar.getText().toString())+"%' order by "+Combo.getSelectedItem();
+        llenarTabla(MiConexion,SQL,Modelo,rootPane);
+    }
+
+    private void limpiarTabla() {
+        Modelo.setRowCount(0);
+    }
+
     @Override
     public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
         return null;
@@ -140,7 +184,16 @@ public class VentanaEditarLibros extends InternalWindow implements KeyListener, 
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
+    public void actionPerformed(ActionEvent me) {
+        if(me.getSource()==BtBuscar){
+            if (TxtBuscar.getText().isEmpty()){
+                JOptionPane.showMessageDialog(rootPane,"El Campo Buscar no debe de estar vacio");
+            }else if (TxtBuscar.getText().toString().equals("*")) {
+                limpiarTabla();
+                llenarTabla(MiConexion,"SELECT ISBN, Titulo, Autor, Editorial, Descripcion FROM Libros",Modelo,rootPane);
+            }else {
+                buscarFrase();
+            }
+        }
     }
 }

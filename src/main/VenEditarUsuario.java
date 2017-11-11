@@ -103,12 +103,10 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		addTextField(TxtCargo, 750, 460, 230, "Cargo",this);
 		addLabel(LblCarrera,660,500, CbCarrera,this);
 		addComboBox(CbCarrera,750,500,230,this);
-		CbCarrera.addItem("");
-		llenarCampoCarre();
+		llenarComboCarrera();
 		addLabel(LblUniversidad,660,540, CbUniversidad,this);
 		addComboBox(CbUniversidad,750,540,230,this);
-		CbUniversidad.addItem("");
-		llenarCampoUni();
+		llenarComboUni();
 
 		addButton(BRegistrar, 665, 580, "",this);
 		addButton(BModificar,780,580, "",this);
@@ -145,8 +143,8 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			GuardarStm.setString(5, (String)CbSexo.getSelectedItem());
 			GuardarStm.setString(6, TxtCorreo.getText());
 			GuardarStm.setString(7, TxtTelefono.getText());
-			GuardarStm.setInt(8, CbCarrera.getSelectedIndex()+1);
-			GuardarStm.setInt(9, CbUniversidad.getSelectedIndex()+1);
+			GuardarStm.setInt(8, obtenerIdComboCarrera());
+			GuardarStm.setInt(9, obtenerIdComboUni());
 			GuardarStm2.setInt(1, Integer.parseInt(TxtCodigo.getText()));
 			GuardarStm2.setString(2, TxtUsuario.getText());
 			GuardarStm2.setString(3, TxtPass.getPassword().toString());
@@ -160,6 +158,38 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			JOptionPane.showMessageDialog(rootPane, "ERROR DE REGISTRO: " + e);
 		}
 	}
+
+	private int obtenerIdComboCarrera() {
+		int idCarrera = 1;
+		try  {
+			PreparedStatement buscarStm = MiConexion.getConexion().prepareCall("SELECT idCarreras FROM Carreras WHERE Carrera = '"+CbCarrera.getSelectedItem().toString()+"'");
+			ResultSet RsBuscar = buscarStm.executeQuery();
+			while (RsBuscar.next()){//mientras haya datos encontrados
+				idCarrera = RsBuscar.getInt(1);
+			}
+			JOptionPane.showMessageDialog(rootPane,"dato: "+idCarrera);
+			return idCarrera;
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(rootPane, "Error: "+e);
+			return idCarrera;
+		}
+	}
+	private int obtenerIdComboUni() {
+		int num = 1;
+		try  {
+			PreparedStatement buscarStm = MiConexion.getConexion().prepareCall("SELECT idUniversidades FROM Universidades WHERE Universidad = '"+CbUniversidad.getSelectedItem().toString()+"'");
+			ResultSet RsBuscar = buscarStm.executeQuery();
+			while (RsBuscar.next()){//mientras haya datos encontrados
+				num = RsBuscar.getInt(1);
+			}
+			JOptionPane.showMessageDialog(rootPane,"dato: "+num);
+			return num;
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(rootPane, "Error: "+e);
+			return num;
+		}
+	}
+
 	private void llenarComboBox(){
 		CbSexo.addItem("Hombre");
 		CbSexo.addItem("Mujer");
@@ -193,7 +223,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 	}
 	private void llenarCampoUni() {
 		try {
-			PreparedStatement buscarStm = MiConexion.getConexion().prepareCall("SELECT idUniversidades , Universidad FROM Universidades");
+			PreparedStatement buscarStm = MiConexion.getConexion().prepareCall("SELECT idUniversidades ,Universidad FROM Universidades");
 			ResultSet RsBuscar = buscarStm.executeQuery();
 			while (RsBuscar.next()){//mientras haya datos encontrados
 				ObtenerId uni = new ObtenerId(RsBuscar.getInt(1),RsBuscar.getString(2));
@@ -201,6 +231,28 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			}
 		} catch (Exception e){
 			JOptionPane.showConfirmDialog(rootPane, "Error: "+e);
+		}
+	}
+	private void llenarComboCarrera(){
+		try  {
+			PreparedStatement buscarStm = MiConexion.getConexion().prepareCall("SELECT Carrera FROM Carreras");
+			ResultSet RsBuscar = buscarStm.executeQuery();
+			while (RsBuscar.next()){//mientras haya datos encontrados
+				CbCarrera.addItem(RsBuscar.getString(1));
+			}
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(rootPane, "Error: "+e);
+		}
+	}
+	private void llenarComboUni(){
+		try  {
+			PreparedStatement buscarStm = MiConexion.getConexion().prepareCall("SELECT Universidad FROM Universidades");
+			ResultSet RsBuscar = buscarStm.executeQuery();
+			while (RsBuscar.next()){//mientras haya datos encontrados
+				CbUniversidad.addItem(RsBuscar.getString(1));
+			}
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(rootPane, "Error: "+e);
 		}
 	}
 	private void llenarCampoCarre() {
