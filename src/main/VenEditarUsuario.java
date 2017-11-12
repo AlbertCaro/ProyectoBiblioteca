@@ -94,25 +94,20 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		addTextField(TxtNombre, 750, 60, 230, "Nombre(s)",this);
 		addTextField(TxtApPaterno, 710, 100, 155, "Apellido paterno",this);
 		addTextField(TxtApMaterno, 870, 100, 155, "Apellido materno",this);
-
 		addLabel(LblSexo, 660,140, CbSexo, this);
 		addComboBox(CbSexo, 750, 140, 250, this);
 		CbSexo.addItem("Seleccionar...");
 		llenarComboBox();
-
 		addLabel(LblCarrera,660,180, CbCarrera,this);
 		addComboBox(CbCarrera,750,180,250,this);
 		CbCarrera.addItem("Seleccionar...");
 		comboBoxCarr();
-
 		addLabel(LblUniversidad,660,220, CbUniversidad,this);
 		addComboBox(CbUniversidad,750,220,250,this);
 		CbUniversidad.addItem("Seleccionar...");
 		comboBoxUniv();
-
 		addLabel(LblCorreo, 660,260, TxtCorreo, this);
 		addTextField(TxtCorreo, 750, 260, 230, "Correo",this);
-
 		addLabel(LblTelefono, 660,300,TxtCorreo, this);
 		addTextField(TxtTelefono, 750, 300, 230, "Telefono",this);
 		TxtTelefono.addKeyListener(new KeyAdapter() {
@@ -126,22 +121,17 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		});
 		addLabel(LblUsuario, 660,340,TxtUsuario, this);
 		addTextField(TxtUsuario, 750, 340, 230, "Usuario",this);
-
 		addLabel(LblPass, 660,380,TxtPass, this);
 		addTextField(TxtPass, 750, 380, 230, "Contraseña",this);
 		addTextField(TxtPassConf, 750, 420, 230, "Confirma contraseña",this);
-
 		addLabel(LblTipo,660,460,null,this);
 		addRadioButton(RbNormalTipo, 755, 460, BgTipo, this);
 		addRadioButton(RbAdminTipo, 865, 460, BgTipo, this);
-
 		addLabel(LblEmpleado,660,500,null,this);
 		addRadioButton(RbEmpleadoSi, 755, 500, BgEmpleado, this);
 		addRadioButton(RbEmpreadoNo, 865, 500, BgEmpleado, this);
-
 		addLabel(LblCargo, 660,540,TxtCargo, this);
 		addTextField(TxtCargo, 750, 540, 230, "Cargo",this);
-
 		addButton(BRegistrar, 665, 580, "",this);
 		addButton(BModificar,780,580, "",this);
 		addButton(BEliminar,895,580,"",this);
