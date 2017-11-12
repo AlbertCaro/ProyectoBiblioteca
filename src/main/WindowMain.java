@@ -176,7 +176,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             }
             Panel.add(VCLibros);
         }else if (me.getSource()== MenuLibroEditar){
-            VentanaEditarLibros VELibros = new VentanaEditarLibros();
+            VenEditarLibros VELibros = new VenEditarLibros(conexion);
             Panel.add(VELibros);
             //VentanaRegistraLibros VRLibros = new VentanaRegistraLibros();
             //Panel.add(VRLibros);
