@@ -40,7 +40,11 @@ public class VenConsultaPrestamos extends InternalWindow implements KeyListener,
     private ImageIcon ImaNuevoP = new ImageIcon(getClass().getResource("/images/newprestamo.png"));
     private ImageIcon ImaLiquidar = new ImageIcon(getClass().getResource("/images/money.png"));
 
-    public VenConsultaPrestamos(){
+    private String Consulta = "";
+    Conexion MiConexion;
+
+    public VenConsultaPrestamos(Conexion MiConexion){
+        this.MiConexion = MiConexion;
         this.setSize(850,400);
         addTitleLabel(Titulo,this);
         Tabla.setModel(Modelo);
@@ -76,11 +80,25 @@ public class VenConsultaPrestamos extends InternalWindow implements KeyListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == BNuevo){
+            this.dispose();
             VenRegistroPrestamos VRP = new VenRegistroPrestamos();
-            //this.dispose();
         }else if (e.getSource() == BLiquidar){
 
         }
+        else if (e.getSource() == BDevueltos){
+
+        }
+        else if (e.getSource() == BPendientes){
+
+        }
+        else if (e.getSource() == BTodos){
+            limpiarTabla();
+            llenarTabla(MiConexion, Consulta , Modelo , rootPane);
+
+        }
+    }
+    private void limpiarTabla() {
+        Modelo.setRowCount(0);
     }
 
     @Override

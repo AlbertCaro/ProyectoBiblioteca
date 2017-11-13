@@ -30,12 +30,12 @@ public class VenRegistroPrestamos extends InternalWindow implements KeyListener,
         addLabel(JISBN,30,80,TxtISBN,this);
         addTextField(TxtISBN, 100, 80, 150, "ISBN", this);
 
-        addButton(BRegistro,30,150,"",this);
-        addButton(BSalir,30,190,"",this);
+        addButton(BRegistro,30,180,"",this);
+        addButton(BSalir,30,220,"",this);
         BRegistro.setIcon(ImaGuardar);
         BSalir.setIcon(ImaSalir);
-        BRegistro.setSize(150,30);
-        BSalir.setSize(150,30);
+        BRegistro.setSize(230,30);
+        BSalir.setSize(230,30);
         addWindowProperties(this,"Nuevo Prestamo");
     }
 

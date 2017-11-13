@@ -127,14 +127,21 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		addLabel(LblTipo,660,460,null,this);
 		addRadioButton(RbNormalTipo, 755, 460, BgTipo, this);
 		addRadioButton(RbAdminTipo, 865, 460, BgTipo, this);
+		RbNormalTipo.setSelected(true);
 		addLabel(LblEmpleado,660,500,null,this);
 		addRadioButton(RbEmpleadoSi, 755, 500, BgEmpleado, this);
 		addRadioButton(RbEmpreadoNo, 865, 500, BgEmpleado, this);
+		RbEmpreadoNo.setSelected(true);
+		BgEmpleado.setSelected(RbEmpreadoNo.getModel(),false);
+
 		addLabel(LblCargo, 660,540,TxtCargo, this);
 		addTextField(TxtCargo, 750, 540, 230, "Cargo",this);
-		addButton(BRegistrar, 665, 580, "",this);
-		addButton(BModificar,780,580, "",this);
-		addButton(BEliminar,895,580,"",this);
+		TxtCargo.setEnabled(false);
+
+		addButton(BRegistrar, 665, 580, "Registrar un nuevo usuario",this);
+		addButton(BModificar,780,580, "Modificar o actualizar información de un usuario",this);
+		BModificar.setEnabled(false);
+		addButton(BEliminar,895,580,"Eliminar Usuario",this);
         addButton(BBuscar,180,40,"",this);
         addButton(BLimpiar,450,40,"Limpia los campos",this);
         BLimpiar.setSize(150,30);
@@ -211,6 +218,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		}
 		else if (e.getSource() == BLimpiar){
 			limpiarCampos();
+			BModificar.setEnabled(false);
 			habilitarTextF();
 
 		}
@@ -247,6 +255,12 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			GuardarStm2.setInt(1, Integer.parseInt(TxtCodigo.getText()));
 			GuardarStm2.setString(2, TxtUsuario.getText());
 			GuardarStm2.setString(3, md5(new String(TxtPass.getPassword())));
+			GuardarStm2.setString(4,BgTipo.getSelection().getActionCommand());
+			if (BgEmpleado == null){
+				PreparedStatement GuardarStm3 = MiConexion.getConexion().prepareCall(" INSERT INTO Empleado (Cargo, Codigo)  VALUE (? , ?)");
+				GuardarStm3.setInt(2, Integer.parseInt(TxtCodigo.getText()));
+				GuardarStm3.executeUpdate();
+			}
 
 			GuardarStm.executeUpdate();
 			GuardarStm2.executeUpdate();
@@ -431,6 +445,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		CbSexo.setSelectedItem(Modelo.getValueAt(filaSeleccionada,8));
 		CbCarrera.setSelectedItem(Modelo.getValueAt(filaSeleccionada,9));
 		CbUniversidad.setSelectedItem(Modelo.getValueAt(filaSeleccionada,10));
+		BModificar.setEnabled(true);
 		deshabilitarTextF();
 	}
 	public void deshabilitarTextF(){
@@ -446,6 +461,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		CbSexo.setEnabled(false);
 		CbCarrera.setEnabled(false);
 		CbUniversidad.setEnabled(false);
+		BRegistrar.setEnabled(false);
 
 	}
 	public void habilitarTextF(){
@@ -463,6 +479,8 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		CbCarrera.setBackground(Color.white);
 		CbUniversidad.setEnabled(true);
 		CbUniversidad.setBackground(Color.white);
+		BRegistrar.setEnabled(true);
+		//BModificar.setEnabled(true);
 	}
 
 	@Override
