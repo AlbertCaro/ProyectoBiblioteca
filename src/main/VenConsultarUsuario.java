@@ -24,7 +24,7 @@ public class VenConsultarUsuario extends InternalWindow implements ActionListene
     private JTable Tabla = null;
     private JScrollPane ScrollP = new JScrollPane(Tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     private Object[][] FilaInicial = new Object[0][8];
-    private Object ColumName[] = new Object[]{"Codigo","Usuario", "Tipo","Nombre","A. Paterno","A. Materno", "Correo", "Telefono"};
+    private Object ColumName[] = new Object[]{"Codigo","Usuario", "Tipo","Nombre","ApPaterno","ApMaterno", "Correo", "Telefono"};
     private DefaultTableModel Modelo= new DefaultTableModel(FilaInicial, ColumName);
     public VenConsultarUsuario(Conexion MiConexion){
         this.MiConexion = MiConexion;
