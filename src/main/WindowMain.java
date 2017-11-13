@@ -3,6 +3,8 @@ Ventana principal del software
  */
 package main;
 
+import javafx.scene.layout.Pane;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -198,8 +200,8 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             VenConsultarBiblio VCBiblioteca = new VenConsultarBiblio(conexion);
             Panel.add(VCBiblioteca);
         }else if (me.getSource() == MenuBibliotecaEditar){
-            VentanaBibliotecas VRBiblioteca = new VentanaBibliotecas();
-            Panel.add(VRBiblioteca);
+            VenEditarBiblio VEBiblio = new VenEditarBiblio(conexion);
+            Panel.add(VEBiblio);
         } else if (me.getSource()==MenuArchioLogOut){
             Login vlogin = new Login(conexion);
             this.dispose();
