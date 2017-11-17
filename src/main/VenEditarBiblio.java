@@ -2,17 +2,14 @@ package main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class VenEditarBiblio extends InternalWindow implements KeyListener, ActionListener {
+public class VenEditarBiblio extends InternalWindow implements KeyListener, ActionListener, MouseListener {
     Conexion MiConexion;
     private int id;
     private JButton BtBuscar = new JButton();
@@ -108,7 +105,7 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
         BtCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         //tabla
         inicializarTabla();
-
+        Tabla.addMouseListener(this);
         addWindowProperties(this,"Consultar Bilbioteca");
     }
 
@@ -141,12 +138,17 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
                 buscarFrase();
             }
         }else if (me.getSource()==BtModificar){
+            BtEliminar.setEnabled(false);
+            //modificar(this.id);
             llenarTextField();
         }else if (me.getSource()==BtGuardar){
-            BtEliminar.setEnabled(false);
             modificar(this.id);
+            BtCancelar.setEnabled(false);
+            BtGuardar.setEnabled(false);
         }else if (me.getSource()==BtCancelar){
             limpiarCampos();
+            BtCancelar.setEnabled(false);
+            BtGuardar.setEnabled(false);
         }else if (me.getSource()==BtEliminar){
             eliminar();
         }else if (me.getSource()==BtAgregar){
@@ -170,7 +172,7 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
                 EliminarStm.setString(4, TxtEstados.getText().toString());
                 EliminarStm.setString(5, TxtMunicipio.getText().toString());
                 EliminarStm.setString(6, TxtColonia.getText().toString());
-                EliminarStm.setInt(7, Integer.parseInt(TxTNombre.getText().toString()));
+                EliminarStm.setInt(7, Integer.parseInt(TxtCP.getText().toString()));
                 EliminarStm.executeUpdate();
                 JOptionPane.showMessageDialog(rootPane, "Biblioteca agregada correctamente");
                 limpiarCampos();
@@ -184,18 +186,26 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
 
     private void eliminar() {
         int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
-        TxTNombre.setText(Modelo.getValueAt(filaSeleccionada,1).toString());
-        try{
-            PreparedStatement EliminarStm = MiConexion.getConexion().prepareCall("DELETE FROM Bibliotecas WHERE idBibliotecas=?");
-            EliminarStm.setInt(1, Integer.parseInt(Modelo.getValueAt(filaSeleccionada,0).toString()));
-            EliminarStm.executeUpdate();
-            JOptionPane.showMessageDialog(rootPane, "Biblioteca borrada correctamente");
-            limpiarCampos();
-            limpiarTabla();
-            inicializarTabla();
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(rootPane,"Error: "+e);
-        }
+        if (filaSeleccionada>=0) {
+            id = Integer.parseInt(Modelo.getValueAt(filaSeleccionada, 0).toString());
+            if (JOptionPane.showConfirmDialog(rootPane,"¿Realmente quiere borrar la biblioteca con el ID: "+id+"?", "Confirmar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)==0) {
+                try {
+                    PreparedStatement EliminarStm1 = MiConexion.getConexion().prepareCall("DELETE FROM EjemplaresXBibliotecas WHERE idBibliotecas=?");
+                    EliminarStm1.setInt(1, id);
+                    PreparedStatement EliminarStm = MiConexion.getConexion().prepareCall("DELETE FROM Bibliotecas WHERE idBibliotecas=?");
+                    EliminarStm.setInt(1, id);
+                    EliminarStm1.executeUpdate();
+                    EliminarStm.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Biblioteca borrada correctamente");
+                    limpiarCampos();
+                    limpiarTabla();
+                    inicializarTabla();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(rootPane, "Error: " + e);
+                }
+            }
+        }else
+            JOptionPane.showMessageDialog(rootPane,"seleccione la fila de la biblioteca que quiere Eliminar");
     }
 
     private void modificar(int id) {
@@ -232,21 +242,20 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
     }
     private void llenarTextField() {
         int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
-        if (filaSeleccionada>=0){
-            String ID = new String(Modelo.getValueAt(filaSeleccionada,0).toString());
+        if (filaSeleccionada>=0) {
+            String ID = new String(Modelo.getValueAt(filaSeleccionada, 0).toString());
             id = Integer.parseInt(ID);
-            TxTNombre.setText(Modelo.getValueAt(filaSeleccionada,1).toString());
-            TxtCalle.setText(Modelo.getValueAt(filaSeleccionada,2).toString());
-            TxtNumero.setText(Modelo.getValueAt(filaSeleccionada,3).toString());
-            TxtEstados.setText(Modelo.getValueAt(filaSeleccionada,4).toString());
-            TxtMunicipio.setText(Modelo.getValueAt(filaSeleccionada,5).toString());
-            TxtColonia.setText(Modelo.getValueAt(filaSeleccionada,6).toString());
-            TxtCP.setText(Modelo.getValueAt(filaSeleccionada,7).toString());
+            TxTNombre.setText(Modelo.getValueAt(filaSeleccionada, 1).toString());
+            TxtCalle.setText(Modelo.getValueAt(filaSeleccionada, 2).toString());
+            TxtNumero.setText(Modelo.getValueAt(filaSeleccionada, 3).toString());
+            TxtEstados.setText(Modelo.getValueAt(filaSeleccionada, 4).toString());
+            TxtMunicipio.setText(Modelo.getValueAt(filaSeleccionada, 5).toString());
+            TxtColonia.setText(Modelo.getValueAt(filaSeleccionada, 6).toString());
+            TxtCP.setText(Modelo.getValueAt(filaSeleccionada, 7).toString());
             BtGuardar.setEnabled(true);
             BtCancelar.setEnabled(true);
-        }else{
-            JOptionPane.showMessageDialog(rootPane,"No hay fila seleccionada");
-        }
+        }else
+            JOptionPane.showMessageDialog(rootPane,"seleccione la fila de la biblioteca que quiere modificar");
     }
 
     private void buscarFrase() {
@@ -296,6 +305,34 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
 
     @Override
     public void cleanForm() {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        /**if (mouseEvent.getSource()==Tabla){
+            llenarTextField();
+            BtModificar.setEnabled(true);
+        }**/
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
 
     }
 }

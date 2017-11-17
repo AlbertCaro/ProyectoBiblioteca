@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 public class VenEditarLibros extends InternalWindow implements KeyListener, ActionListener {
     private Conexion MiConexion;
+    private String ISBN;
     private ImageIcon ImgSearch = new ImageIcon(getClass().getResource("/images/windowMainIcons/search.png"));
     private ImageIcon ImgCancel = new ImageIcon(getClass().getResource("/images/cancel-32.png"));
     private ImageIcon ImgSave = new ImageIcon(getClass().getResource("/images/save-32.png"));
@@ -29,20 +30,21 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
     private Object ColumName[] = new Object[]{"ISBN","Titulo","Autor","Editorial", "Descripcion"};
     private DefaultTableModel Modelo = new DefaultTableModel(FilaInicial,ColumName);
     //JLabel
-    private JLabel LblISBN = new JLabel("ISBN");
-    private JLabel LblTitulo = new JLabel("Titulo");
-    private JLabel LblAutor = new JLabel("Autor");
-    private JLabel LblDescripcion = new JLabel("Descripcion");
-    private JLabel LblPaginas = new JLabel("Paginas");
-    private JLabel LblEditorial = new JLabel("Editorial");
-    private JLabel LblEdicion = new JLabel("Edicion");
-    private JLabel LblCosto = new JLabel("Costo");
+    private JLabel LblISBN = new JLabel("ISBN:");
+    private JLabel LblTitulo = new JLabel("Titulo:");
+    private JLabel LblAutor = new JLabel("Autor:");
+    private JLabel LblDescripcion = new JLabel("Descripcion:");
+    private JLabel LblPaginas = new JLabel("Paginas:");
+    private JLabel LblEditorial = new JLabel("Editorial:");
+    private JLabel LblEdicion = new JLabel("Edicion:");
+    private JLabel LblCosto = new JLabel("Costo $:");
     //textField
     private JTextField TxtBuscar = new JTextField();
     private JTextField TxtISBN = new JTextField();
     private JTextField TxtTitulo = new JTextField();
     private JTextField TxtAutor = new JTextField();
     private JTextField TxtDescripcion = new JTextField();
+    private JScrollPane JPDescripcion = new JScrollPane(TxtDescripcion);
     private JTextField TxtPaginas = new JTextField();
     private JTextField TxtEditorial = new JTextField();
     private JTextField TxtEdicion = new JTextField();
@@ -80,6 +82,8 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
         addTextField(TxtAutor, 790, 180, 230, "Autor",this);
         addLabel(LblDescripcion, 680,220, TxtDescripcion, this);
         addTextField(TxtDescripcion, 790, 220, 230, "Descripcion",this);
+        JPDescripcion.setBounds(790,220,230,30);
+        this.add(JPDescripcion);
         addLabel(LblPaginas, 680,260, TxtPaginas, this);
         addTextField(TxtPaginas, 790, 260, 230, "Paginas",this);
         addLabel(LblEditorial, 680,300, TxtEditorial, this);
@@ -94,9 +98,9 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
         BtBuscar.setIcon(ImgSearch);
         addButton(BtAgregar,685,40,"Agregar Ejemplar",this);
         addButton(BtModificar,795,40,"Editar Ejemplar",this);
-        BtModificar.setEnabled(false);
+        BtModificar.setEnabled(true);
         addButton(BtEliminar,905,40,"",this);
-        BtEliminar.setEnabled(false);
+        BtEliminar.setEnabled(true);
         addButton(BtGuardar,685,450,"Guardar Cambios",this);
         BtGuardar.setEnabled(false);
         BtGuardar.setSize(100,80);
@@ -194,6 +198,146 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
             }else {
                 buscarFrase();
             }
+        } else if (me.getSource()==BtModificar){
+            BtEliminar.setEnabled(false);
+            BtAgregar.setEnabled(false);
+            TxtISBN.setEnabled(false);
+            TxtISBN.setForeground(new java.awt.Color(76, 72, 66));
+            llenarTextFields();
+        }else if (me.getSource()==BtGuardar){
+            BtEliminar.setEnabled(true);
+            BtAgregar.setEnabled(true);
+            modificar();
+            BtCancelar.setEnabled(false);
+            BtGuardar.setEnabled(false);
+            limpiarCampos();
+            TxtISBN.setEnabled(true);
+            TxtISBN.setForeground(Color.BLACK);
+            ISBN = "";
+        }else if (me.getSource()==BtCancelar){
+            limpiarCampos();
+            BtAgregar.setEnabled(true);
+            TxtISBN.setEnabled(true);
+            TxtISBN.setForeground(Color.BLACK);
+            BtEliminar.setEnabled(true);
+            BtCancelar.setEnabled(false);
+            BtGuardar.setEnabled(false);
+        }else if (me.getSource()==BtEliminar){
+            eliminar();
+        }else if (me.getSource()==BtAgregar){
+            if (TxtISBN.getText().toString().isEmpty()){
+                JOptionPane.showMessageDialog(rootPane, "El campo ISBN no debe estar vacio");
+            }else
+                agregar();
+        }
+    }
+
+    private void agregar() {
+        try{
+            if (TxtISBN.getText().isEmpty() ||TxtTitulo.getText().isEmpty()|| TxtAutor.getText().isEmpty() || TxtDescripcion.getText().isEmpty()|| TxtPaginas.getText().isEmpty()
+                    || TxtEditorial.getText().isEmpty()|| TxtEdicion.getText().isEmpty() || TxtCosto.getText().isEmpty()){
+                JOptionPane.showMessageDialog(rootPane, "Los campos no deben de estar vacios");
+            }else {
+                PreparedStatement AgregarStm = MiConexion.getConexion().prepareCall("INSERT INTO Libros (ISBN, Titulo, Autor, Descripcion, Paginas, Editorial, Edicion, Costo) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ");
+                AgregarStm.setString(1, TxtISBN.getText().toString());
+                AgregarStm.setString(2, TxtTitulo.getText().toString());
+                AgregarStm.setString(3, TxtAutor.getText().toString());
+                AgregarStm.setString(4, TxtDescripcion.getText().toString());
+                AgregarStm.setInt(5, Integer.parseInt(TxtPaginas.getText().toString()));
+                AgregarStm.setString(6, TxtEditorial.getText().toString());
+                AgregarStm.setString(7, TxtEdicion.getText().toString());
+                AgregarStm.setFloat(8, Float.parseFloat(TxtCosto.getText().toString()));
+                AgregarStm.executeUpdate();
+                JOptionPane.showMessageDialog(rootPane, "Libro agregado correctamente");
+                limpiarCampos();
+                limpiarTabla();
+                inicializarTabla();
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(rootPane,"Error: "+e);
+        }
+    }
+
+    private void eliminar() {
+        int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
+        if (filaSeleccionada>=0) {
+            ISBN = Modelo.getValueAt(filaSeleccionada, 0).toString();
+            //retorna cero si el usuario acepta
+            if (JOptionPane.showConfirmDialog(rootPane,"¿Realmente quiere borrar el libro con el ISBN: "+ISBN+"?", "Confirmar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)==0){
+                try {
+                    PreparedStatement EliminarStm = MiConexion.getConexion().prepareCall("DELETE FROM Libros WHERE ISBN=?");
+                    EliminarStm.setString(1, ISBN);
+                    EliminarStm.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Libro borrado correctamente");
+                    limpiarCampos();
+                    limpiarTabla();
+                    inicializarTabla();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(rootPane, "Error: " + e);
+                }
+            }
+        }else
+            JOptionPane.showMessageDialog(rootPane,"seleccione la fila del libro que quiere Eliminar");
+    }
+
+    private void limpiarCampos() {
+        TxtISBN.setText("");
+        TxtTitulo.setText("");
+        TxtAutor.setText("");
+        TxtEditorial.setText("");
+        TxtDescripcion.setText("");
+        TxtCosto.setText("");
+        TxtEdicion.setText("");
+        TxtPaginas.setText("");
+    }
+
+    private void llenarTextFields() {
+        int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
+        BtGuardar.setEnabled(true);
+        BtCancelar.setEnabled(true);
+        if (filaSeleccionada>=0) {
+            ISBN = new String(Modelo.getValueAt(filaSeleccionada, 0).toString());
+            try{
+                PreparedStatement BuscarStm = MiConexion.getConexion().prepareCall("SELECT ISBN, Titulo, Autor, Descripcion, Paginas, Editorial, Edicion, Costo FROM Libros WHERE ISBN=?");
+                BuscarStm.setString(1, ISBN);
+                ResultSet RsConsulta = BuscarStm.executeQuery();
+                while (RsConsulta.next()) {
+                    TxtISBN.setText(RsConsulta.getObject("ISBN").toString());
+                    TxtTitulo.setText(RsConsulta.getObject("Titulo").toString());
+                    TxtAutor.setText(RsConsulta.getObject("Autor").toString());
+                    TxtDescripcion.setText(RsConsulta.getObject("Descripcion").toString());
+                    TxtPaginas.setText(RsConsulta.getObject("Paginas").toString());
+                    TxtEditorial.setText(RsConsulta.getObject("Editorial").toString());
+                    TxtEdicion.setText(RsConsulta.getObject("Edicion").toString());
+                    TxtCosto.setText(RsConsulta.getObject("Costo").toString());
+                }
+            }catch (Exception e){
+                JOptionPane.showMessageDialog(rootPane,"Error: "+e);
+            }
+        }else
+            JOptionPane.showMessageDialog(rootPane,"seleccione la fila del libro que quiere modificar");
+    }
+    private void modificar() {
+        try {
+            PreparedStatement ModificarStm = MiConexion.getConexion().prepareCall("UPDATE Libros SET Titulo=?, Autor=?, Descripcion=?, Paginas=?, " +
+                    "Editorial=?, Edicion=?, Costo=? WHERE ISBN = ?");
+            ModificarStm.setString(1, TxtTitulo.getText());
+            ModificarStm.setString(2, TxtAutor.getText());
+            ModificarStm.setString(3,TxtDescripcion.getText());
+            ModificarStm.setInt(4, Integer.parseInt(TxtPaginas.getText()));
+            ModificarStm.setString(5,TxtEditorial.getText());
+            ModificarStm.setString(6,TxtEdicion.getText());
+            ModificarStm.setFloat(7, Float.parseFloat(TxtCosto.getText()));
+            ModificarStm.setString(8,ISBN);
+            ModificarStm.executeUpdate();
+            JOptionPane.showMessageDialog(rootPane, "Libro modificado correctamente");
+            limpiarCampos();
+            limpiarTabla();
+            inicializarTabla();
+            BtCancelar.setEnabled(false);
+            BtGuardar.setEnabled(false);
+        } catch ( NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, "Error: "+e);//mensaje de error
         }
     }
 }
