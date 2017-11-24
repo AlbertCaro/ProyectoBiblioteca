@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
@@ -156,14 +157,7 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
     @Override
     public void actionPerformed(ActionEvent me) {
         if(me.getSource()==BtBuscar){
-            if (TxTBuscar.getText().isEmpty()){
-                JOptionPane.showMessageDialog(rootPane,"El Campo Buscar no debe de estar vacio");
-            } else if (TxTBuscar.getText().toString().equals("*")) {
-                limpiarTabla();
-                llenarTabla(MiConexion,"SELECT * FROM Bibliotecas",Modelo,rootPane);
-            } else {
-                buscarFrase();
-            }
+            buscarBiblio();
         } else if (me.getSource()==BtModificar){
             for (JTextField textField : textFields) {
                 colorComponent(textField);
@@ -367,10 +361,46 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent) {
-
+    public void keyPressed(KeyEvent e) {
+        if (e.getSource()==TxTBuscar){
+            TxTBuscar.setBackground(Color.white);
+            TxTBuscar.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            if (e.getKeyChar()==e.VK_ENTER)
+                buscarBiblio();
+        }else if (e.getSource()==TxTNombre){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtCalle.requestFocus();
+            }
+        }else if (e.getSource()==TxtCalle){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtNumero.requestFocus();
+            }
+        }else if (e.getSource()==TxtNumero){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtEstados.requestFocus();
+            }
+        }else if (e.getSource()==TxtEstados){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtMunicipio.requestFocus();
+            }
+        }else if (e.getSource()==TxtMunicipio){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtColonia.requestFocus();
+            }
+        }else if (e.getSource()==TxtColonia){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtCP.requestFocus();
+            }
+        }
     }
-
+    private void buscarBiblio() {
+        if (TxTBuscar.getText().isEmpty()){
+            limpiarTabla();
+            llenarTabla(MiConexion,"SELECT * FROM Bibliotecas",Modelo,rootPane);
+        }else {
+            buscarFrase();
+        }
+    }
     @Override
     public void keyReleased(KeyEvent keyEvent) {
 

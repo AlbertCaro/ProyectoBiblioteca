@@ -226,6 +226,10 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
                     keyEvent.consume();
             } else
                 keyEvent.consume();
+        } else if (keyEvent.getSource()==TxtEditorial){
+            colorComponent(TxtEditorial);
+            if (TxtEditorial.getText().length() == 45)
+                keyEvent.consume();
         } else if (keyEvent.getSource() == TxtEdicion) {
             colorComponent(TxtEdicion);
             if (TxtEdicion.getText().length() == 45)
@@ -238,32 +242,66 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
                     punto = true;
                 TxtCosto.setBackground(Color.WHITE);
                 TxtCosto.setForeground(Color.BLACK);
+                TxtCosto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             } else
                 keyEvent.consume();
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent) {
-
+    public void keyPressed(KeyEvent e) {
+        if (e.getSource()==TxtBuscar){
+            TxtBuscar.setBackground(Color.white);
+            TxtBuscar.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            if (e.getKeyChar()==e.VK_ENTER)
+                buscarLibro();
+        }else if (e.getSource()==TxtISBN){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtTitulo.requestFocus();
+            }
+        }else if (e.getSource()==TxtTitulo){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtAutor.requestFocus();
+            }
+        }else if (e.getSource()==TxtAutor){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtDescripcion.requestFocus();
+            }
+        }else if (e.getSource()==TxtDescripcion){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtPaginas.requestFocus();
+            }
+        }else if (e.getSource()==TxtPaginas){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtEditorial.requestFocus();
+            }
+        }else if (e.getSource()==TxtEditorial){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtEdicion.requestFocus();
+            }
+        }else if (e.getSource()==TxtEdicion){
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtCosto.requestFocus();
+            }
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
 
     }
-
+    private void buscarLibro() {
+        if (TxtBuscar.getText().isEmpty()){
+            limpiarTabla();
+            llenarTabla(MiConexion,"SELECT ISBN, Titulo, Autor, Editorial, Descripcion FROM Libros",Modelo,rootPane);
+        }else {
+            buscarFrase();
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent me) {
         if(me.getSource()==BtBuscar){
-            if (TxtBuscar.getText().isEmpty()){
-                JOptionPane.showMessageDialog(rootPane,"El Campo Buscar no debe de estar vacio");
-            }else if (TxtBuscar.getText().toString().equals("*")) {
-                limpiarTabla();
-                llenarTabla(MiConexion,"SELECT ISBN, Titulo, Autor, Editorial, Descripcion FROM Libros",Modelo,rootPane);
-            }else {
-                buscarFrase();
-            }
+            buscarLibro();
         } else if (me.getSource()==BtModificar){
             BtEliminar.setEnabled(false);
             BtAgregar.setEnabled(false);
@@ -305,6 +343,7 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
                  JOptionPane.showMessageDialog(rootPane, "Ha dejado campos vacíos.");
         }
     }
+
 
     private void agregar() {
         try{
