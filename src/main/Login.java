@@ -98,6 +98,14 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     public void actionPerformed(ActionEvent me) {
         if (me.getSource()== JBLogin) {
             if (JTFUser.getText().isEmpty() || JPFPass.getPassword().length==0) {
+                if (JTFUser.getText().isEmpty()) {
+                    JTFUser.setBackground(Color.pink);
+                    JTFUser.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                }
+                if (JPFPass.getPassword().length == 0) {
+                    JPFPass.setBackground(Color.pink);
+                    JPFPass.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                }
                 JOptionPane.showMessageDialog(rootPane, "Los campos no deben de estar vacios");
             } else {
                 try {
@@ -165,9 +173,13 @@ public class Login extends Window implements ActionListener, MouseListener, KeyL
     @Override
     public void keyPressed(KeyEvent ke) {//hacemos que se des place al siguiente JTextField cada que apretemos la tecla enter
         if (ke.getSource()==JTFUser){
+            JTFUser.setBackground(Color.white);
+            JTFUser.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             if (ke.getKeyChar()== ke.VK_ENTER)
                 JPFPass.requestFocus();
         }else if (ke.getSource()==JPFPass){
+            JPFPass.setBackground(Color.white);
+            JPFPass.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             if (ke.getKeyChar()==ke.VK_ENTER)
                 JBLogin.requestFocus();
         }
