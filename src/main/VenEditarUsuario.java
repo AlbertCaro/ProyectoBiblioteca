@@ -79,21 +79,20 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
         addTextField(TxtBuscar,30, 40,150,"Buscar",this);
         addComboBox(CbCombo,215,40,150,this);
         llenarComboBox2();;
+
 		addLabel(LblCodigo, 660,20, TxtCodigo, this);
 		addTextField(TxtCodigo, 750, 20, 230, "Código",this);
 		addLabel(LblNombre, 660,60, TxtNombre, this);
-		TxtCodigo.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-					e.consume();
-				}
-			}
-		});
 		addTextField(TxtNombre, 750, 60, 230, "Nombre(s)",this);
 		addTextField(TxtApPaterno, 710, 100, 155, "Apellido paterno",this);
 		addTextField(TxtApMaterno, 870, 100, 155, "Apellido materno",this);
+
+		permitirNumero(TxtCodigo);
+		permitirLetra(TxtNombre);
+		permitirLetra(TxtApPaterno);
+		permitirLetra(TxtApMaterno);
+		permitirNumero(TxtTelefono);
+
 		addLabel(LblSexo, 660,140, CbSexo, this);
 		addComboBox(CbSexo, 750, 140, 250, this);
 		CbSexo.addItem("Seleccionar...");
@@ -110,15 +109,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		addTextField(TxtCorreo, 750, 260, 230, "Correo",this);
 		addLabel(LblTelefono, 660,300,TxtCorreo, this);
 		addTextField(TxtTelefono, 750, 300, 230, "Telefono",this);
-		TxtTelefono.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-					e.consume();
-				}
-			}
-		});
+
 		addLabel(LblUsuario, 660,340,TxtUsuario, this);
 		addTextField(TxtUsuario, 750, 340, 230, "Usuario",this);
 		addLabel(LblPass, 660,380,TxtPass, this);
@@ -132,10 +123,10 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		addRadioButton(RbEmpleadoSi, 755, 500, BgEmpleado, this);
 		addRadioButton(RbEmpreadoNo, 865, 500, BgEmpleado, this);
 		RbEmpreadoNo.setSelected(true);
-		BgEmpleado.setSelected(RbEmpreadoNo.getModel(),false);
 
-		addLabel(LblCargo, 660,540,TxtCargo, this);
+		addLabel(LblCargo, 660,540, TxtCargo, this);
 		addTextField(TxtCargo, 750, 540, 230, "Cargo",this);
+		TxtCargo.setBackground(Color.lightGray);
 		TxtCargo.setEnabled(false);
 
 		addButton(BRegistrar, 665, 580, "Registrar un nuevo usuario",this);
@@ -149,16 +140,84 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
         BBuscar.setIcon(ImgSearch);
         Tabla.addMouseListener(this);
 		addWindowProperties(this, "Administrar usuarios");
+		RbEmpleadoSi.addActionListener(this);
+		RbEmpreadoNo.addActionListener(this);
+
 	}
-	
+	private void permitirLetra(JTextField TxtField){
+		TxtField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+					e.consume();
+				}
+			}
+		});
+	}
+	private void permitirNumero(JTextField TxtField){
+		TxtField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+					e.consume();
+				}
+			}
+		});
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == BRegistrar) {
-            if (TxtCodigo.getText().isEmpty() || TxtNombre.getText().isEmpty() || TxtApPaterno.getText().isEmpty() || TxtApMaterno.getText().isEmpty() || CbSexo.getSelectedItem().equals("Seleccionar...") ||
-                    TxtCorreo.getText().isEmpty() || TxtTelefono.getText().isEmpty() || TxtUsuario.getText().isEmpty() || TxtPass.getPassword().length == 0 ||
-                    TxtPassConf.getPassword().length == 0 || TxtCargo.getText().isEmpty() || CbCarrera.getSelectedItem().equals("Seleccionar...") || CbUniversidad.getSelectedItem().equals("Seleccionar...")) {
-                JOptionPane.showMessageDialog(rootPane, "Aún quedan campos obligatorios vacíos.","Error de registro",1);
-            }
+			if (TxtCodigo.getText().isEmpty() || TxtNombre.getText().isEmpty() || TxtApPaterno.getText().isEmpty() || TxtApMaterno.getText().isEmpty() || CbSexo.getSelectedItem().equals("Seleccionar...") ||
+					TxtCorreo.getText().isEmpty() || TxtTelefono.getText().isEmpty() || TxtUsuario.getText().isEmpty() || TxtPass.getPassword().length == 0 ||
+					TxtPassConf.getPassword().length == 0 || CbCarrera.getSelectedItem().equals("Seleccionar...") || CbUniversidad.getSelectedItem().equals("Seleccionar...")) {
+
+				if (TxtCodigo.getText().isEmpty()) {
+					TxtCodigo.setBackground(Color.pink);
+					TxtCodigo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtNombre.getText().isEmpty()) {
+					TxtNombre.setBackground(Color.pink);
+					TxtNombre.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtApPaterno.getText().isEmpty()){
+					TxtApPaterno.setBackground(Color.pink);
+					TxtApPaterno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtApMaterno.getText().isEmpty()) {
+					TxtApMaterno.setBackground(Color.pink);
+					TxtApMaterno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (CbSexo.getSelectedItem().equals("Seleccionar..."))
+					CbSexo.setBackground(Color.pink);
+				if (CbCarrera.getSelectedItem().equals("Seleccionar..."))
+					CbCarrera.setBackground(Color.pink);
+				if (CbUniversidad.getSelectedItem().equals("Seleccionar..."))
+					CbUniversidad.setBackground(Color.pink);
+				if (TxtCorreo.getText().isEmpty()) {
+					TxtCorreo.setBackground(Color.pink);
+					TxtCorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtTelefono.getText().isEmpty()) {
+					TxtTelefono.setBackground(Color.pink);
+					TxtTelefono.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtUsuario.getText().isEmpty()) {
+					TxtUsuario.setBackground(Color.pink);
+					TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtPass.getPassword().length == 0) {
+					TxtPass.setBackground(Color.pink);
+					TxtPass.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				if (TxtPassConf.getPassword().length == 0) {
+					TxtPassConf.setBackground(Color.pink);
+					TxtPassConf.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				}
+				JOptionPane.showMessageDialog(rootPane, "Aún quedan campos obligatorios vacíos.","Error de registro",1);
+			}
 			else if (TxtPass.getPassword().length < 5 ) {
 				JOptionPane.showMessageDialog(rootPane, "Seguridad de la contraseña baja.");
 			}
@@ -166,9 +225,24 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 				agregarUsuario();
 				buscarUsuario();
 			}
-			else
+			else{
 				JOptionPane.showMessageDialog(rootPane,"Las contraseñas no coinciden.");
+				TxtPass.setBackground(new Color(234, 255, 100));
+				TxtPassConf.setBackground(new Color(234, 255, 100));
+			}
 		}
+		else if (e.getSource() == RbEmpleadoSi) {
+			if ((RbEmpleadoSi).isSelected())
+				TxtCargo.setBackground(Color.white);
+				TxtCargo.setEnabled(true);
+		}
+		else if (e.getSource() == RbEmpreadoNo) {
+			if ((RbEmpreadoNo).isSelected())
+				TxtCargo.setBackground(Color.lightGray);
+				TxtCargo.setEnabled(false);
+				TxtCargo.setText("");
+		}
+
 		else if (e.getSource() == BEliminar) {
 			if (TxtCodigo.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(rootPane, "Cuadro de texto vacío.\nPor favor proporcione algún dato.");
@@ -203,6 +277,8 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			}
 			else {
 				JOptionPane.showMessageDialog(rootPane, "Las contraseñas no coinciden.");
+				TxtPass.setBackground(new Color(234, 255, 100));
+				TxtPassConf.setBackground(new Color(234, 255, 100));
 			}
 		}
 		else if (e.getSource() == BBuscar){
@@ -216,12 +292,19 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 				buscarUsuario();
 			}
 		}
+
 		else if (e.getSource() == BLimpiar){
 			limpiarCampos();
 			BModificar.setEnabled(false);
 			habilitarTextF();
 
 		}
+		else if (e.getSource() == CbSexo)
+			CbSexo.setBackground(Color.white);
+		else if (e.getSource() == CbCarrera)
+			CbCarrera.setBackground(Color.white);
+		else if (e.getSource() == CbUniversidad)
+			CbUniversidad.setBackground(Color.white);
 	}
 	private boolean validarContrasena(char[] j1,char[] j2) {
 		boolean valor = true;
@@ -239,6 +322,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		}
 		return valor;
 	}
+
 	private void agregarUsuario(){
 		try{
 			PreparedStatement GuardarStm = MiConexion.getConexion().prepareCall(" INSERT INTO Personas (Codigo, Nombre, ApPaterno, ApMaterno, Sexo, Correo, Telefono, idCarreras, idUniversidades) VALUES (? , ?, ?, ?, ?, ? ,?, ?, ?)");
@@ -250,17 +334,18 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			GuardarStm.setString(5, (String)CbSexo.getSelectedItem());
 			GuardarStm.setString(6, TxtCorreo.getText());
 			GuardarStm.setString(7, TxtTelefono.getText());
-			GuardarStm.setInt(8, CbCarrera.getSelectedIndex()+1);
-			GuardarStm.setInt(9, CbUniversidad.getSelectedIndex()+1);
+			GuardarStm.setInt(8, CbCarrera.getSelectedIndex());
+			GuardarStm.setInt(9, CbUniversidad.getSelectedIndex());
 			GuardarStm2.setInt(1, Integer.parseInt(TxtCodigo.getText()));
 			GuardarStm2.setString(2, TxtUsuario.getText());
 			GuardarStm2.setString(3, md5(new String(TxtPass.getPassword())));
-			GuardarStm2.setString(4,BgTipo.getSelection().getActionCommand());
-			if (BgEmpleado == null){
-				PreparedStatement GuardarStm3 = MiConexion.getConexion().prepareCall(" INSERT INTO Empleado (Cargo, Codigo)  VALUE (? , ?)");
+			if (RbEmpleadoSi.isSelected()){
+				PreparedStatement GuardarStm3 = MiConexion.getConexion().prepareCall(" INSERT INTO Empleado (Codigo, Cargo)  VALUE (? , ?)");
 				GuardarStm3.setInt(2, Integer.parseInt(TxtCodigo.getText()));
+				GuardarStm3.setString(1, TxtCargo.getText());
 				GuardarStm3.executeUpdate();
 			}
+
 
 			GuardarStm.executeUpdate();
 			GuardarStm2.executeUpdate();
@@ -273,11 +358,14 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 	}
 	private void actualizarUsuario(){
 		try{
-			PreparedStatement ModificarStm = MiConexion.getConexion().prepareCall("UPDATE Personas SET Correo = ?, Telefono = ? WHERE codigo = "+TxtCodigo.getText());
+			PreparedStatement ModificarStm = MiConexion.getConexion().prepareCall("UPDATE Personas SET idCarreras = ?, idUniversidades = ?, Correo = ?, Telefono = ? WHERE codigo = "+TxtCodigo.getText());
 			PreparedStatement ModificarStm2 = MiConexion.getConexion().prepareCall("UPDATE Usuarios SET Usuario = ?, Pass = ? WHERE codigo = "+TxtCodigo.getText());
 
-			ModificarStm.setString(1, TxtCorreo.getText());
-			ModificarStm.setString(2, TxtTelefono.getText());
+
+			ModificarStm.setInt(1, CbCarrera.getSelectedIndex());
+			ModificarStm.setInt(2, CbUniversidad.getSelectedIndex());
+			ModificarStm.setString(3, TxtCorreo.getText());
+			ModificarStm.setString(4, TxtTelefono.getText());
 
 			ModificarStm2.setString(1, TxtUsuario.getText());
 			ModificarStm2.setString(2, md5(new String(TxtPass.getPassword())));
@@ -383,22 +471,82 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 			if (e.getKeyChar()==e.VK_ENTER)
 				buscarUsuario();
 		}
-		else if (e.getSource() == BModificar) {
-			if (e.getKeyChar() == e.VK_ENTER) {
-
-			}
-		}
-		else if (e.getSource()== BEliminar){
+		else if (e.getSource()== TxtCodigo){
+			TxtCodigo.setBackground(Color.white);
+			TxtCodigo.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 			if (e.getKeyChar()==e.VK_ENTER) {
-				int opc = JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de eliminar toda la información de " + TxtCodigo.getText() + "?", "CONFIRMAR...", 0, 1);
-				if (opc == 0) {
-					eliminarUsuario();
-				}
+				TxtNombre.requestFocus();
 			}
 		}
-		else if (e.getSource() == TxtNombre){
-			if (e.getKeyChar()==e.VK_ENTER)
+		else if (e.getSource()== TxtNombre){
+			TxtNombre.setBackground(Color.white);
+			TxtNombre.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
 				TxtApPaterno.requestFocus();
+			}
+		}
+		else if (e.getSource() == TxtApPaterno){
+			TxtApPaterno.setBackground(Color.white);
+			TxtApPaterno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER)
+				TxtApMaterno.requestFocus();
+		}
+		else if (e.getSource()== TxtApMaterno){
+			TxtApMaterno.setBackground(Color.white);
+			TxtApMaterno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
+				CbSexo.requestFocus();
+			}
+		}
+		else if (e.getSource()== CbSexo){
+			if (e.getKeyChar()==e.VK_ENTER) {
+				CbCarrera.requestFocus();
+			}
+		}
+		else if (e.getSource()== CbCarrera){
+			if (e.getKeyChar()==e.VK_ENTER) {
+				CbUniversidad.requestFocus();
+			}
+		}
+		else if (e.getSource()== CbUniversidad){
+			if (e.getKeyChar()==e.VK_ENTER) {
+				TxtCorreo.requestFocus();
+			}
+		}
+		else if (e.getSource()== TxtCorreo){
+			TxtCorreo.setBackground(Color.white);
+			TxtCorreo.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
+				TxtTelefono.requestFocus();
+			}
+		}
+		else if (e.getSource()== TxtTelefono){
+			TxtTelefono.setBackground(Color.white);
+			TxtTelefono.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
+				TxtUsuario.requestFocus();
+			}
+		}
+		else if (e.getSource()== TxtUsuario){
+			TxtUsuario.setBackground(Color.white);
+			TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
+				TxtPass.requestFocus();
+			}
+		}
+		else if (e.getSource()== TxtPass){
+			TxtPass.setBackground(Color.white);
+			TxtPass.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
+				TxtPassConf.requestFocus();
+			}
+		}
+		else if (e.getSource()== TxtPassConf){
+			TxtPassConf.setBackground(Color.white);
+			TxtPassConf.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			if (e.getKeyChar()==e.VK_ENTER) {
+				TxtNombre.requestFocus();
+			}
 		}
 	}
 	
@@ -431,9 +579,7 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 	public void cleanForm() {
 
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
+	private void obtenerDatosTabla(){
 		int filaSeleccionada = Tabla.getSelectedRow();
 		TxtCodigo.setText(Modelo.getValueAt(filaSeleccionada,0).toString());
 		TxtUsuario.setText(Modelo.getValueAt(filaSeleccionada,1).toString());
@@ -445,22 +591,29 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		CbSexo.setSelectedItem(Modelo.getValueAt(filaSeleccionada,8));
 		CbCarrera.setSelectedItem(Modelo.getValueAt(filaSeleccionada,9));
 		CbUniversidad.setSelectedItem(Modelo.getValueAt(filaSeleccionada,10));
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		obtenerDatosTabla();
 		BModificar.setEnabled(true);
 		deshabilitarTextF();
 	}
 	public void deshabilitarTextF(){
 		TxtCodigo.setEnabled(false);
-		//TxtCodigo.setFont(new Font("Arial", Font.ITALIC,12));
 		TxtCodigo.setDisabledTextColor(Color.blue);
+		TxtCodigo.setBackground(Color.lightGray);
 		TxtNombre.setEnabled(false);
 		TxtNombre.setDisabledTextColor(Color.blue);
+		TxtNombre.setBackground(Color.lightGray);
 		TxtApPaterno.setEnabled(false);
 		TxtApPaterno.setDisabledTextColor(Color.blue);
+		TxtApPaterno.setBackground(Color.lightGray);
 		TxtApMaterno.setEnabled(false);
 		TxtApMaterno.setDisabledTextColor(Color.blue);
+		TxtApMaterno.setBackground(Color.lightGray);
 		CbSexo.setEnabled(false);
-		CbCarrera.setEnabled(false);
-		CbUniversidad.setEnabled(false);
+		CbSexo.setBackground(Color.lightGray);
 		BRegistrar.setEnabled(false);
 
 	}
@@ -475,17 +628,29 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		TxtApMaterno.setBackground(Color.white);
 		CbSexo.setEnabled(true);
 		CbSexo.setBackground(Color.white);
-		CbCarrera.setEnabled(true);
 		CbCarrera.setBackground(Color.white);
-		CbUniversidad.setEnabled(true);
 		CbUniversidad.setBackground(Color.white);
+		TxtCorreo.setBackground(Color.white);
+		TxtTelefono.setBackground(Color.white);
+		TxtUsuario.setBackground(Color.white);
+		TxtPass.setBackground(Color.white);
+		TxtPassConf.setBackground(Color.white);
+		TxtCodigo.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtNombre.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtApPaterno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtApMaterno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtCorreo.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtTelefono.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtPass.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		TxtPassConf.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+
 		BRegistrar.setEnabled(true);
-		//BModificar.setEnabled(true);
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 	}
 
 	@Override

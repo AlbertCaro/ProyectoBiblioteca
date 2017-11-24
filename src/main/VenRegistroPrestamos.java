@@ -12,6 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+
+
 public class VenRegistroPrestamos extends InternalWindow implements KeyListener, ActionListener {
     private JTextField TxtCodigo = new JTextField();
     private JTextField TxtISBN = new JTextField();
@@ -21,10 +29,11 @@ public class VenRegistroPrestamos extends InternalWindow implements KeyListener,
     private JButton BSalir = new JButton("Salir");
     ImageIcon ImaSalir = new ImageIcon(getClass().getResource("/images/exitico.png"));
     ImageIcon ImaGuardar = new ImageIcon(getClass().getResource("/images/deliveryico.png"));
-    
-    public VenRegistroPrestamos() {
-        this.setSize(300, 300);
+    Conexion MiConexion;
 
+    public VenRegistroPrestamos(Conexion MiConexion) {
+        this.MiConexion = MiConexion;
+        this.setSize(300, 300);
         addLabel(JCodigo,30,40,TxtCodigo,this);
         addTextField(TxtCodigo, 100, 40, 150, "Código", this);
         addLabel(JISBN,30,80,TxtISBN,this);
@@ -44,9 +53,22 @@ public class VenRegistroPrestamos extends InternalWindow implements KeyListener,
         if (e.getSource() == BSalir){
             this.dispose();
         }
+        else if (e.getSource() == BRegistro){
+
+        }
 
     }
-
+    private void registrarPrestamo(){
+        try {
+            //PreparedStatement GuardarStm = MiConexion.getConexion().prepareCall(" INSERT INTO Prestamos (fecha,)");
+            //PreparedStatement GuardarStm2 = MiConexion.getConexion().prepareCall(" INSERT INTO Usuarios (Codigo, Usuario, Pass, idTipos) VALUE (? , ? , ? , 1)");
+            //GuardarStm.setInt(1, Integer.parseInt(TxtCodigo.getText());
+            //GuardarStm.setInt(2, Integer.parseInt(TxtISBN.getText());
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(rootPane,"Error: "+e);
+        }
+    }
     @Override
     public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
         return null;

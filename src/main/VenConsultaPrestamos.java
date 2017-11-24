@@ -29,7 +29,7 @@ public class VenConsultaPrestamos extends InternalWindow implements KeyListener,
     private JTable Tabla = new JTable();
     private JScrollPane ScrollP = new JScrollPane(Tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     private Object[][] FilaInicial = new Object[0][3];
-    private Object ColumName[] = new Object[]{"ISBN","Código","Fecha"};
+    private Object ColumName[] = new Object[]{"Código","Nombre","APaterno","Titulo","FechaEntrega"};
     private DefaultTableModel Modelo = new DefaultTableModel(FilaInicial,ColumName);
     //Iconos
     private ImageIcon ImaBuscar = new ImageIcon(getClass().getResource("/images/searchico.png"));
@@ -40,7 +40,7 @@ public class VenConsultaPrestamos extends InternalWindow implements KeyListener,
     private ImageIcon ImaNuevoP = new ImageIcon(getClass().getResource("/images/newprestamo.png"));
     private ImageIcon ImaLiquidar = new ImageIcon(getClass().getResource("/images/money.png"));
 
-    private String Consulta = "";
+    private String Consulta = "SELECT Personas.Codigo, Personas.Nombre, Personas.ApPaterno, Libros.Titulo, FechaLimite FROM Personas INNER JOIN Empleado ON Personas.Codigo = Empleado.Codigo INNER JOIN Usuarios ON Personas.Codigo = Usuarios.Codigo INNER JOIN Prestamos ON Personas.Codigo = Prestamos.Codigo INNER JOIN PrestamosXEjemplares ON Prestamos.idPrestamos = PrestamosXEjemplares.idPrestamos INNER JOIN Ejemplares ON PrestamosXEjemplares.idEjemplares = Ejemplares.idEjemplares INNER JOIN Libros ON Ejemplares.ISBN = Libros.ISBN";
     Conexion MiConexion;
 
     public VenConsultaPrestamos(Conexion MiConexion){
@@ -79,17 +79,13 @@ public class VenConsultaPrestamos extends InternalWindow implements KeyListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == BNuevo){
-            this.dispose();
-            VenRegistroPrestamos VRP = new VenRegistroPrestamos();
-        }else if (e.getSource() == BLiquidar){
-
-        }
-        else if (e.getSource() == BDevueltos){
-
+        if (e.getSource() == BDevueltos){
+            limpiarTabla();
+            llenarTabla(MiConexion, Consulta , Modelo , rootPane);
         }
         else if (e.getSource() == BPendientes){
-
+            limpiarTabla();
+            llenarTabla(MiConexion, Consulta , Modelo , rootPane);
         }
         else if (e.getSource() == BTodos){
             limpiarTabla();

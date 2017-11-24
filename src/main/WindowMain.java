@@ -186,7 +186,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             VenConsultaPrestamos VCPrestamos = new VenConsultaPrestamos(conexion);
             Panel.add(VCPrestamos);
         }else if (me.getSource() == MenuPrestamoRegistrar) {
-            VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos();
+            VenRegistroPrestamos VRPrestamos = new VenRegistroPrestamos(conexion);
             Panel.add(VRPrestamos);
         }else if (me.getSource() == MenuPrestamoLiquidar) {
 
