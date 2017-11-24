@@ -54,7 +54,14 @@ public class VenRegistroPrestamos extends InternalWindow implements KeyListener,
             this.dispose();
         }
         else if (e.getSource() == BRegistro){
-
+            if (TxtCodigo.getText().isEmpty()) {
+                TxtCodigo.setBackground(Color.pink);
+                TxtCodigo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            }
+            if (TxtISBN.getText().isEmpty()) {
+                TxtISBN.setBackground(Color.pink);
+                TxtISBN.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+            }
         }
 
     }
@@ -96,7 +103,20 @@ public class VenRegistroPrestamos extends InternalWindow implements KeyListener,
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getSource()== TxtCodigo){
+            TxtCodigo.setBackground(Color.white);
+            TxtCodigo.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            if (e.getKeyChar()==e.VK_ENTER) {
+                TxtISBN.requestFocus();
+            }
+        }
+        else if (e.getSource()== TxtISBN){
+            TxtISBN.setBackground(Color.white);
+            TxtISBN.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            if (e.getKeyChar()==e.VK_ENTER) {
+                BRegistro.requestFocus();
+            }
+        }
     }
 
     @Override
