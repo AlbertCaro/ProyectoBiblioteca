@@ -54,6 +54,8 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
     private JButton BtEliminar = new JButton("Eliminar");
     private JButton BtGuardar = new JButton("Guardar");
     private JButton BtCancelar = new JButton("Cancelar");
+    private ArrayList<JTextField> textFields = new ArrayList<>();
+
     public VenEditarBiblio(Conexion MiConexion){
         this.MiConexion = MiConexion;
         this.setSize(1100,600);
@@ -105,8 +107,31 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
         BtCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         //tabla
         inicializarTabla();
+        llenarArrayList();
         Tabla.addMouseListener(this);
         addWindowProperties(this,"Consultar Bilbioteca");
+    }
+
+    private void llenarArrayList() {
+        textFields.add(TxTNombre);
+        textFields.add(TxtCalle);
+        textFields.add(TxtNumero);
+        textFields.add(TxtEstados);
+        textFields.add(TxtMunicipio);
+        textFields.add(TxtColonia);
+        textFields.add(TxtCP);
+    }
+
+    private boolean validarCampos() {
+        boolean result = true;
+
+        for (JTextField textField : textFields) {
+            if (textField.getText().isEmpty()) {
+                colorVoidComponents(textField);
+                result = false;
+            }
+        }
+        return result;
     }
 
     private void inicializarTabla() {
@@ -121,41 +146,53 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
         ScrollP.setViewportView(Tabla);
         this.add(ScrollP);
     }
+
     private void llenarComboBox(Object[] ArrayObject, JComboBox Combo) {
         for (int i=0; i<ArrayObject.length; i++){
             Combo.addItem(ArrayObject[i].toString());
         }
     }
+
     @Override
     public void actionPerformed(ActionEvent me) {
         if(me.getSource()==BtBuscar){
             if (TxTBuscar.getText().isEmpty()){
                 JOptionPane.showMessageDialog(rootPane,"El Campo Buscar no debe de estar vacio");
-            }else if (TxTBuscar.getText().toString().equals("*")) {
+            } else if (TxTBuscar.getText().toString().equals("*")) {
                 limpiarTabla();
                 llenarTabla(MiConexion,"SELECT * FROM Bibliotecas",Modelo,rootPane);
-            }else {
+            } else {
                 buscarFrase();
             }
-        }else if (me.getSource()==BtModificar){
-            BtEliminar.setEnabled(false);
-            //modificar(this.id);
-            llenarTextField();
-        }else if (me.getSource()==BtGuardar){
+        } else if (me.getSource()==BtModificar){
+            if (validarCampos()) {
+                BtEliminar.setEnabled(false);
+                BtAgregar.setEnabled(false);
+                BtGuardar.setEnabled(true);
+                BtCancelar.setEnabled(true);
+                //modificar(this.id);
+                llenarTextField();
+            }
+        } else if (me.getSource()==BtGuardar){
             modificar(this.id);
+            BtAgregar.setEnabled(true);
+            BtAgregar.setEnabled(true);
             BtCancelar.setEnabled(false);
             BtGuardar.setEnabled(false);
-        }else if (me.getSource()==BtCancelar){
+        } else if (me.getSource()==BtCancelar){
             limpiarCampos();
+            BtAgregar.setEnabled(true);
+            BtEliminar.setEnabled(true);
             BtCancelar.setEnabled(false);
             BtGuardar.setEnabled(false);
-        }else if (me.getSource()==BtEliminar){
+            validarCampos();
+        } else if (me.getSource()==BtEliminar){
             eliminar();
-        }else if (me.getSource()==BtAgregar){
-            if (TxTNombre.getText().toString().isEmpty()){
-                JOptionPane.showMessageDialog(rootPane, "El campo Nombre no debe estar vacio");
-            }else
+        } else if (me.getSource()==BtAgregar){
+            if (validarCampos())
                 agregar();
+            else
+                JOptionPane.showMessageDialog(rootPane, "Ha dejado campos vacíos.");
         }
     }
 
@@ -270,12 +307,48 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
             llenarTabla(MiConexion,SQL,Modelo,rootPane);
         }
     }
+
     private void limpiarTabla() {
         Modelo.setRowCount(0);
     }
+
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-
+        if (keyEvent.getSource() == TxTNombre) {
+            colorComponent(TxTNombre);
+            if (TxtNumero.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtCalle) {
+            colorComponent(TxtCalle);
+            if (TxtCalle.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtNumero) {
+            colorComponent(TxtNumero);
+            if (keyEvent.getKeyChar() >= '0' && keyEvent.getKeyChar() <= '9') {
+                if (TxtNumero.getText().length() == 11)
+                    keyEvent.consume();
+            } else
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtEstados) {
+            colorComponent(TxtEstados);
+            if (TxtEstados.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtMunicipio) {
+            colorComponent(TxtMunicipio);
+            if (TxtMunicipio.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtColonia) {
+            colorComponent(TxtColonia);
+            if (TxtMunicipio.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtCP) {
+            colorComponent(TxtCP);
+            if (keyEvent.getKeyChar() >= '0' && keyEvent.getKeyChar() <= '9') {
+                if (TxtCP.getText().length() == 11)
+                    keyEvent.consume();
+            } else
+                keyEvent.consume();
+        }
     }
 
     @Override
