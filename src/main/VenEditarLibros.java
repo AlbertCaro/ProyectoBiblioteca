@@ -57,6 +57,10 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
     private JButton BtGuardar = new JButton("Guardar");
     private JButton BtCancelar = new JButton("Cancelar");
 
+    private boolean punto = false;
+
+    private ArrayList<JTextField> TextFields = new ArrayList<>();
+
     public VenEditarLibros(Conexion MiConexion){
         this.MiConexion = MiConexion;
         this.setSize(1100,600);
@@ -115,8 +119,20 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
         BtCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         inicializarTabla();
+        llenaArrayList();
 
         addWindowProperties(this,"Edición de Libros");
+    }
+
+    private void llenaArrayList() {
+        TextFields.add(TxtISBN);
+        TextFields.add(TxtTitulo);
+        TextFields.add(TxtAutor);
+        TextFields.add(TxtDescripcion);
+        TextFields.add(TxtPaginas);
+        TextFields.add(TxtEditorial);
+        TextFields.add(TxtEdicion);
+        TextFields.add(TxtCosto);
     }
 
     private void inicializarTabla() {
@@ -152,6 +168,18 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
         Modelo.setRowCount(0);
     }
 
+    private boolean validaCampos() {
+        boolean result = true;
+
+        for (JTextField textField : TextFields) {
+            if (textField.getText().isEmpty()) {
+                colorVoidComponents(textField);
+                result = false;
+            }
+        }
+        return result;
+    }
+
     @Override
     public PreparedStatement addStatementParams(PreparedStatement statement, int type) throws NoSuchAlgorithmException, SQLException {
         return null;
@@ -174,7 +202,45 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-
+        if (keyEvent.getSource() == TxtISBN) {
+            colorComponent(TxtISBN);
+            if (TxtISBN.getText().length() == 30)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtTitulo) {
+            colorComponent(TxtTitulo);
+            if (TxtTitulo.getText().length() == 110)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtAutor) {
+            colorComponent(TxtAutor);
+            if (TxtAutor.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtDescripcion) {
+            colorComponent(TxtDescripcion);
+            if (TxtDescripcion.getText().length() == 700)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtPaginas) {
+            if (TxtPaginas.getText().length() == 11) {
+                if (keyEvent.getKeyChar() >= '0' && keyEvent.getKeyChar() <= '9')
+                    colorComponent(TxtPaginas);
+                else
+                    keyEvent.consume();
+            } else
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtEdicion) {
+            colorComponent(TxtEdicion);
+            if (TxtEdicion.getText().length() == 45)
+                keyEvent.consume();
+        } else if (keyEvent.getSource() == TxtCosto) {
+            if (TxtCosto.getText().indexOf('.') == -1)
+                punto = false;
+            if (keyEvent.getKeyChar() >= '0' && keyEvent.getKeyChar() <= '9' || (keyEvent.getKeyChar() == '.' && !punto)) {
+                if (keyEvent.getKeyChar() == '.')
+                    punto = true;
+                TxtCosto.setBackground(Color.WHITE);
+                TxtCosto.setForeground(Color.BLACK);
+            } else
+                keyEvent.consume();
+        }
     }
 
     @Override
@@ -205,15 +271,20 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
             TxtISBN.setForeground(new java.awt.Color(76, 72, 66));
             llenarTextFields();
         }else if (me.getSource()==BtGuardar){
-            BtEliminar.setEnabled(true);
-            BtAgregar.setEnabled(true);
-            modificar();
-            BtCancelar.setEnabled(false);
-            BtGuardar.setEnabled(false);
-            limpiarCampos();
-            TxtISBN.setEnabled(true);
-            TxtISBN.setForeground(Color.BLACK);
-            ISBN = "";
+            if (validaCampos()) {
+                BtEliminar.setEnabled(true);
+                BtAgregar.setEnabled(true);
+                modificar();
+                BtCancelar.setEnabled(false);
+                BtGuardar.setEnabled(false);
+                limpiarCampos();
+                TxtISBN.setEnabled(true);
+                TxtISBN.setForeground(Color.BLACK);
+                ISBN = "";
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Ha dejado campos vacíos.");
+            }
+
         }else if (me.getSource()==BtCancelar){
             limpiarCampos();
             BtAgregar.setEnabled(true);
@@ -222,13 +293,16 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
             BtEliminar.setEnabled(true);
             BtCancelar.setEnabled(false);
             BtGuardar.setEnabled(false);
+            for (JTextField textField : TextFields) {
+                colorComponent(textField);
+            }
         }else if (me.getSource()==BtEliminar){
             eliminar();
         }else if (me.getSource()==BtAgregar){
-            if (TxtISBN.getText().toString().isEmpty()){
-                JOptionPane.showMessageDialog(rootPane, "El campo ISBN no debe estar vacio");
-            }else
+             if (validaCampos())
                 agregar();
+             else
+                 JOptionPane.showMessageDialog(rootPane, "Ha dejado campos vacíos.");
         }
     }
 
@@ -237,7 +311,7 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
             if (TxtISBN.getText().isEmpty() ||TxtTitulo.getText().isEmpty()|| TxtAutor.getText().isEmpty() || TxtDescripcion.getText().isEmpty()|| TxtPaginas.getText().isEmpty()
                     || TxtEditorial.getText().isEmpty()|| TxtEdicion.getText().isEmpty() || TxtCosto.getText().isEmpty()){
                 JOptionPane.showMessageDialog(rootPane, "Los campos no deben de estar vacios");
-            }else {
+            } else {
                 PreparedStatement AgregarStm = MiConexion.getConexion().prepareCall("INSERT INTO Libros (ISBN, Titulo, Autor, Descripcion, Paginas, Editorial, Edicion, Costo) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ");
                 AgregarStm.setString(1, TxtISBN.getText().toString());
                 AgregarStm.setString(2, TxtTitulo.getText().toString());
@@ -260,6 +334,9 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
 
     private void eliminar() {
         int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
+        for (JTextField textField : TextFields) {
+            colorComponent(textField);
+        }
         if (filaSeleccionada>=0) {
             ISBN = Modelo.getValueAt(filaSeleccionada, 0).toString();
             //retorna cero si el usuario acepta
@@ -295,6 +372,9 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
         int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
         BtGuardar.setEnabled(true);
         BtCancelar.setEnabled(true);
+        for (JTextField textField : TextFields) {
+            colorComponent(textField);
+        }
         if (filaSeleccionada>=0) {
             ISBN = new String(Modelo.getValueAt(filaSeleccionada, 0).toString());
             try{
