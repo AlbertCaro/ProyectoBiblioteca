@@ -219,7 +219,7 @@ public class VenEditarLibros extends InternalWindow implements KeyListener, Acti
             if (TxtDescripcion.getText().length() == 700)
                 keyEvent.consume();
         } else if (keyEvent.getSource() == TxtPaginas) {
-            if (TxtPaginas.getText().length() == 11) {
+            if (TxtPaginas.getText().length() <= 11) {
                 if (keyEvent.getKeyChar() >= '0' && keyEvent.getKeyChar() <= '9')
                     colorComponent(TxtPaginas);
                 else

@@ -165,29 +165,38 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
                 buscarFrase();
             }
         } else if (me.getSource()==BtModificar){
-            if (validarCampos()) {
-                BtEliminar.setEnabled(false);
-                BtAgregar.setEnabled(false);
-                BtGuardar.setEnabled(true);
-                BtCancelar.setEnabled(true);
-                //modificar(this.id);
-                llenarTextField();
+            for (JTextField textField : textFields) {
+                colorComponent(textField);
             }
+            BtEliminar.setEnabled(false);
+            BtAgregar.setEnabled(false);
+            BtGuardar.setEnabled(true);
+            BtCancelar.setEnabled(true);
+            //modificar(this.id);
+            llenarTextField();
         } else if (me.getSource()==BtGuardar){
             modificar(this.id);
             BtAgregar.setEnabled(true);
             BtAgregar.setEnabled(true);
             BtCancelar.setEnabled(false);
             BtGuardar.setEnabled(false);
+            for (JTextField textField : textFields) {
+                colorComponent(textField);
+            }
         } else if (me.getSource()==BtCancelar){
             limpiarCampos();
             BtAgregar.setEnabled(true);
             BtEliminar.setEnabled(true);
             BtCancelar.setEnabled(false);
             BtGuardar.setEnabled(false);
-            validarCampos();
+            for (JTextField textField : textFields) {
+                colorComponent(textField);
+            }
         } else if (me.getSource()==BtEliminar){
             eliminar();
+            for (JTextField textField : textFields) {
+                colorComponent(textField);
+            }
         } else if (me.getSource()==BtAgregar){
             if (validarCampos())
                 agregar();
@@ -222,6 +231,9 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
     }
 
     private void eliminar() {
+        for (JTextField textField : textFields) {
+            colorComponent(textField);
+        }
         int filaSeleccionada = Tabla.getSelectedRow();//toma la fila seleccionada
         if (filaSeleccionada>=0) {
             id = Integer.parseInt(Modelo.getValueAt(filaSeleccionada, 0).toString());
@@ -246,6 +258,9 @@ public class VenEditarBiblio extends InternalWindow implements KeyListener, Acti
     }
 
     private void modificar(int id) {
+        for (JTextField textField : textFields) {
+            colorComponent(textField);
+        }
         try {
             int ID = id;
             PreparedStatement ModificarStm = MiConexion.getConexion().prepareCall("UPDATE Bibliotecas SET Nombre=?, Calle=?, Numero=?, Estado=?, Municipio=?, Colonia=?, CP=? WHERE idBibliotecas = ?");
