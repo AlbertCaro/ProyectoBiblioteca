@@ -143,7 +143,7 @@ public class WindowMain extends JFrame implements ActionListener, MouseListener{
             BarraMenu.add(MenuPrestamos);
             MenuPrestamos.add(MenuPrestamoConsultar);
             MenuPrestamos.add(MenuPrestamoRegistrar);
-            MenuPrestamos.add(MenuPrestamoLiquidar);
+            //MenuPrestamos.add(MenuPrestamoLiquidar);
             //accesos usuarios
             BarraMenu.add(MenuUsuarios);
             MenuUsuarios.add(MenuUsuarioConsultar);

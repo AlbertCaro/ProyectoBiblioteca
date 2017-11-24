@@ -60,13 +60,13 @@ public class VenConsultaPrestamos extends InternalWindow implements KeyListener,
         addButton(BDevueltos,655,110,"Consulta los libros devueltos",this);
         addButton(BPendientes,655,150,"Consulta los libros aun por entregar",this);
         addButton(BTodos,655,190,"Consulta general de todos los prestamos",this);
-        addButton(BNuevo,655,270,"Registrar un nuevo prestamo",this);
-        addButton(BLiquidar,655,310,"",this);
+        //addButton(BNuevo,655,270,"Registrar un nuevo prestamo",this);
+        //addButton(BLiquidar,655,310,"",this);
         BDevueltos.setIcon(ImaEntregado);
         BPendientes.setIcon(ImaPendiente);
         BTodos.setIcon(ImaTodos);
         //BNuevo.setIcon(ImaNuevoP);
-        BLiquidar.setIcon(ImaLiquidar);
+        //BLiquidar.setIcon(ImaLiquidar);
 
         BDevueltos.setSize(150,30);
         BPendientes.setSize(150,30);

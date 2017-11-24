@@ -283,6 +283,8 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		}
 		else if (e.getSource() == BBuscar){
 			if (TxtBuscar.getText().isEmpty()){
+				TxtBuscar.setBackground(Color.pink);
+				TxtBuscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 				JOptionPane.showMessageDialog(rootPane,"Cuadro de texto vacío");
 				TxtBuscar.requestFocus();
 			}else if (TxtBuscar.getText().toString().equals("*")) {
@@ -322,7 +324,6 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 		}
 		return valor;
 	}
-
 	private void agregarUsuario(){
 		try{
 			PreparedStatement GuardarStm = MiConexion.getConexion().prepareCall(" INSERT INTO Personas (Codigo, Nombre, ApPaterno, ApMaterno, Sexo, Correo, Telefono, idCarreras, idUniversidades) VALUES (? , ?, ?, ?, ?, ? ,?, ?, ?)");
@@ -468,6 +469,8 @@ public class VenEditarUsuario extends InternalWindow implements KeyListener, Act
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getSource() == TxtBuscar){
+			TxtBuscar.setBackground(Color.white);
+			TxtBuscar.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 			if (e.getKeyChar()==e.VK_ENTER)
 				buscarUsuario();
 		}
